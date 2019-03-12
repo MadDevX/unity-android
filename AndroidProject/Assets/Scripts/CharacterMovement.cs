@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class CharacterMovement : MonoBehaviour
+public class CharacterMovement : NetworkBehaviour
 {
     public float movementSpeed = 2.0f;
 
@@ -18,6 +19,8 @@ public class CharacterMovement : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (!isLocalPlayer) return;
+
         Move();
     }
 
@@ -25,6 +28,5 @@ public class CharacterMovement : MonoBehaviour
     {
         var currentVelocity = new Vector2(Horizontal, Vertical).normalized * movementSpeed;
         _rigidbody2D.MovePosition(_rigidbody2D.position + currentVelocity * Time.fixedDeltaTime);
-        //transform.position += currentVelocity * Time.deltaTime;
     }
 }
