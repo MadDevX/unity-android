@@ -14,7 +14,7 @@ public class CharacterMovement : NetworkBehaviour
 
     void Start()
     {
-        _rigidbody2D = GetComponent<Rigidbody2D>();
+        _rigidbody2D = gameObject.GetComponent<Rigidbody2D>();
     }
 
     void FixedUpdate()
