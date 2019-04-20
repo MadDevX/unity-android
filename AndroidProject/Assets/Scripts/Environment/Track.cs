@@ -9,6 +9,8 @@ public class Track : MonoBehaviour
     public Tilemap tilemapBase;
     public Tilemap tilemapInteractable;
     public List<Lane> lanes;
+    public Lane borderLeft;
+    public Lane borderRight;
     public int laneLength;
     public Vector3Int baseVector;
     private Vector3Int offsetVector = new Vector3Int();
@@ -16,18 +18,22 @@ public class Track : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        offsetVector.Set(baseVector.x, baseVector.y, baseVector.z);
         tilemapBase.ClearAllTiles();
-        for(int i = 0; i < lanes.Count; i++)
-        {
-            offsetVector.x += i;
-            lanes[i].CreateLane(tilemapBase, offsetVector, laneLength);
-        }
+
+        DrawLanes();
     }
 
-    // Update is called once per frame
-    void Update()
+    void DrawLanes()
     {
-        
+        offsetVector.Set(baseVector.x, baseVector.y, baseVector.z);
+
+        offsetVector.x += borderLeft.DrawLane(tilemapBase, offsetVector, laneLength);
+
+        foreach (var lane in lanes)
+        {
+            offsetVector.x += lane.DrawLane(tilemapBase, offsetVector, laneLength);
+        }
+
+        offsetVector.x += borderRight.DrawLane(tilemapBase, offsetVector, laneLength);
     }
 }

@@ -5,14 +5,23 @@ using UnityEngine.Tilemaps;
 
 public class Lane : MonoBehaviour
 {
-    public TileBase tile;
+    public int width;
+    public TileQueue tileQueue;
 
-    public void CreateLane(Tilemap tilemap, Vector3Int position, int laneLength)
+    public int DrawLane(Tilemap tilemap, Vector3Int position, int laneLength)
     {
-        for(int i = 0; i < laneLength; i++)
+        for(int y = 0; y < laneLength; y++)
         {
-            tilemap.SetTile(position, tile);
+            var tempPos = position;
+            for(int x = 0; x < width; x++)
+            {
+                tilemap.SetTile(tempPos, tileQueue.PopTile());
+                tempPos.x++;
+            }
             position.y++;
         }
+
+        return width;
     }
+
 }
