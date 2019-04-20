@@ -12,10 +12,15 @@ public class TileQueue
 
     public TileBase PopTile()
     {
+        if(tiles.Length == 0)
+        {
+            Debug.LogError("TileQueue is empty and PopTile() cannot be invoked.");
+            return null;
+        }
         switch(tilingMode)
         {
             case TilingMode.Random:
-                return tiles[Random.Range(0, tiles.Length)];
+                return tiles[Random.Range(0, tiles.Length-1)];
             case TilingMode.Sequential:
                 int retInd = currentIndex;
                 currentIndex = (currentIndex + 1) % tiles.Length;

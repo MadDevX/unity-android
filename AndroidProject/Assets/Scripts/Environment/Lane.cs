@@ -6,16 +6,22 @@ using UnityEngine.Tilemaps;
 public class Lane : MonoBehaviour
 {
     public int width;
-    public TileQueue tileQueue;
+    public TileQueue backgroundTiles;
 
-    public int DrawLane(Tilemap tilemap, Vector3Int position, int laneLength)
+    public int SetupLane(Tilemap background, Tilemap interactable, Vector3Int position, int laneLength)
+    {
+        DrawLane(background, position, laneLength);
+        return width;
+    }
+
+    private int DrawLane(Tilemap tilemap, Vector3Int position, int laneLength)
     {
         for(int y = 0; y < laneLength; y++)
         {
             var tempPos = position;
             for(int x = 0; x < width; x++)
             {
-                tilemap.SetTile(tempPos, tileQueue.PopTile());
+                tilemap.SetTile(tempPos, backgroundTiles.PopTile());
                 tempPos.x++;
             }
             position.y++;
