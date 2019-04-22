@@ -7,7 +7,7 @@ public class RaceLane : Lane
 {
     [Range(0.0f, 1.0f)]
     public float spawnChance;
-    public List<TileEntry> interactableTiles;
+    public List<TileEntry> interactables;
 
     /// <summary>
     /// Draws background tiles and generates obstacles
@@ -37,7 +37,7 @@ public class RaceLane : Lane
             {
                 if (CanSpawn((Vector2Int)tempPos, blockedTilesY, minYDistanceBetweenObstacles) && Random.value < spawnChance && currentOffset >= obstacleSpawnOffset)
                 {
-                    colliderTilemap.SetTile(tempPos, RandomizedSet<TileEntry>.Generate(interactableTiles).tile);
+                    colliderTilemap.SetTile(tempPos, RandomizedSet<TileEntry>.Generate(interactables).tile);
                     blockedTilesY.Add((Vector2Int)tempPos);
                     currentOffset = 0;
                 }

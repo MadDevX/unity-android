@@ -52,5 +52,9 @@ public class Track : MonoBehaviour
         {
             InitLevel();
         }
+        if(Input.GetMouseButtonDown(1))
+        {
+            tilemapInteractable.ClearAllTiles();
+        }
     }
 }

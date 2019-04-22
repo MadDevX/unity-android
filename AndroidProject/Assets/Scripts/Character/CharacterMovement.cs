@@ -29,4 +29,9 @@ public class CharacterMovement : NetworkBehaviour
         var currentVelocity = new Vector2(Horizontal, Vertical).normalized * movementSpeed;
         _rigidbody2D.MovePosition(_rigidbody2D.position + currentVelocity * Time.fixedDeltaTime);
     }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Debug.Log(collision.gameObject.name);
+    }
 }
