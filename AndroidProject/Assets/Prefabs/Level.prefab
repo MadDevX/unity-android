@@ -11,6 +11,9 @@ GameObject:
   - component: {fileID: 5642857941229630432}
   - component: {fileID: 5642857941229630446}
   - component: {fileID: 5642857941229630447}
+  - component: {fileID: 1869726427}
+  - component: {fileID: 1869726426}
+  - component: {fileID: 1869726428}
   m_Layer: 0
   m_Name: TilemapBase
   m_TagString: Untagged
@@ -67,7 +70,7 @@ Tilemap:
       m_TileColorIndex: 0
       m_ObjectToInstantiate: {fileID: 0}
       m_TileFlags: 1
-      m_ColliderType: 2
+      m_ColliderType: 0
   - first: {x: 3, y: 0, z: 0}
     second:
       m_TileIndex: 7
@@ -76,7 +79,7 @@ Tilemap:
       m_TileColorIndex: 0
       m_ObjectToInstantiate: {fileID: 0}
       m_TileFlags: 1
-      m_ColliderType: 2
+      m_ColliderType: 0
   - first: {x: 4, y: 0, z: 0}
     second:
       m_TileIndex: 10
@@ -121,7 +124,7 @@ Tilemap:
       m_TileColorIndex: 0
       m_ObjectToInstantiate: {fileID: 0}
       m_TileFlags: 1
-      m_ColliderType: 2
+      m_ColliderType: 0
   - first: {x: 3, y: 1, z: 0}
     second:
       m_TileIndex: 7
@@ -130,7 +133,7 @@ Tilemap:
       m_TileColorIndex: 0
       m_ObjectToInstantiate: {fileID: 0}
       m_TileFlags: 1
-      m_ColliderType: 2
+      m_ColliderType: 0
   - first: {x: 4, y: 1, z: 0}
     second:
       m_TileIndex: 10
@@ -175,7 +178,7 @@ Tilemap:
       m_TileColorIndex: 0
       m_ObjectToInstantiate: {fileID: 0}
       m_TileFlags: 1
-      m_ColliderType: 2
+      m_ColliderType: 0
   - first: {x: 3, y: 2, z: 0}
     second:
       m_TileIndex: 7
@@ -184,7 +187,7 @@ Tilemap:
       m_TileColorIndex: 0
       m_ObjectToInstantiate: {fileID: 0}
       m_TileFlags: 1
-      m_ColliderType: 2
+      m_ColliderType: 0
   - first: {x: 4, y: 2, z: 0}
     second:
       m_TileIndex: 10
@@ -229,7 +232,7 @@ Tilemap:
       m_TileColorIndex: 0
       m_ObjectToInstantiate: {fileID: 0}
       m_TileFlags: 1
-      m_ColliderType: 2
+      m_ColliderType: 0
   - first: {x: 3, y: 3, z: 0}
     second:
       m_TileIndex: 7
@@ -238,7 +241,7 @@ Tilemap:
       m_TileColorIndex: 0
       m_ObjectToInstantiate: {fileID: 0}
       m_TileFlags: 1
-      m_ColliderType: 2
+      m_ColliderType: 0
   - first: {x: 4, y: 3, z: 0}
     second:
       m_TileIndex: 10
@@ -283,7 +286,7 @@ Tilemap:
       m_TileColorIndex: 0
       m_ObjectToInstantiate: {fileID: 0}
       m_TileFlags: 1
-      m_ColliderType: 2
+      m_ColliderType: 0
   - first: {x: 3, y: 4, z: 0}
     second:
       m_TileIndex: 7
@@ -292,7 +295,7 @@ Tilemap:
       m_TileColorIndex: 0
       m_ObjectToInstantiate: {fileID: 0}
       m_TileFlags: 1
-      m_ColliderType: 2
+      m_ColliderType: 0
   - first: {x: 4, y: 4, z: 0}
     second:
       m_TileIndex: 10
@@ -337,7 +340,7 @@ Tilemap:
       m_TileColorIndex: 0
       m_ObjectToInstantiate: {fileID: 0}
       m_TileFlags: 1
-      m_ColliderType: 2
+      m_ColliderType: 0
   - first: {x: 3, y: 5, z: 0}
     second:
       m_TileIndex: 7
@@ -346,7 +349,7 @@ Tilemap:
       m_TileColorIndex: 0
       m_ObjectToInstantiate: {fileID: 0}
       m_TileFlags: 1
-      m_ColliderType: 2
+      m_ColliderType: 0
   - first: {x: 4, y: 5, z: 0}
     second:
       m_TileIndex: 10
@@ -391,7 +394,7 @@ Tilemap:
       m_TileColorIndex: 0
       m_ObjectToInstantiate: {fileID: 0}
       m_TileFlags: 1
-      m_ColliderType: 2
+      m_ColliderType: 0
   - first: {x: 3, y: 6, z: 0}
     second:
       m_TileIndex: 7
@@ -400,7 +403,7 @@ Tilemap:
       m_TileColorIndex: 0
       m_ObjectToInstantiate: {fileID: 0}
       m_TileFlags: 1
-      m_ColliderType: 2
+      m_ColliderType: 0
   - first: {x: 4, y: 6, z: 0}
     second:
       m_TileIndex: 10
@@ -556,6 +559,88 @@ TilemapRenderer:
   m_Mode: 0
   m_DetectChunkCullingBounds: 0
   m_MaskInteraction: 0
+--- !u!50 &1869726427
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5642857941229630433}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!66 &1869726426
+CompositeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5642857941229630433}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_GeometryType: 1
+  m_GenerationType: 0
+  m_EdgeRadius: 0
+  m_ColliderPaths:
+  - m_Collider: {fileID: 1869726428}
+    m_ColliderPaths:
+    - - X: 20000000
+        Y: 70000000
+      - X: 0
+        Y: 70000000
+      - X: 0
+        Y: 0
+      - X: 20000000
+        Y: 0
+    - - X: 60000000
+        Y: 70000000
+      - X: 40000000
+        Y: 70000000
+      - X: 40000000
+        Y: 0
+      - X: 60000000
+        Y: 0
+  m_CompositePaths:
+    m_Paths:
+    - - {x: 2, y: 7}
+      - {x: 0, y: 7}
+      - {x: 0, y: 0}
+      - {x: 2, y: 0}
+    - - {x: 6, y: 7}
+      - {x: 4, y: 7}
+      - {x: 4, y: 0}
+      - {x: 6, y: 0}
+  m_VertexDistance: 0.0005
+--- !u!19719996 &1869726428
+TilemapCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5642857941229630433}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 1
+  m_Offset: {x: 0, y: 0}
 --- !u!1 &5642857941342582138
 GameObject:
   m_ObjectHideFlags: 0
@@ -779,11 +864,8 @@ MonoBehaviour:
   tilemapGrid: {fileID: 5642857942071191747}
   tilemapBase: {fileID: 5642857941229630446}
   tilemapInteractable: {fileID: 5642857942583383851}
-  lanes:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  raceLanePrefab: {fileID: 5653201280829695268, guid: 5d7bc491186624648ba6a825fe28adec,
+    type: 3}
   borderLeft: {fileID: 5642857941720365390}
   borderRight: {fileID: 5642857941342582137}
   laneLength: 20

@@ -36,7 +36,7 @@ public class PlayerInput : NetworkBehaviour
 
     void SwitchLanes()
     {
-        if (Input.GetKeyDown(KeyCode.A)) _charMovement.TurnRight();
-        if (Input.GetKeyDown(KeyCode.D)) _charMovement.TurnLeft();
+        if (Input.GetKeyDown(KeyCode.A)) _charMovement.TurnLeft();
+        if (Input.GetKeyDown(KeyCode.D)) _charMovement.TurnRight();
     }
 }

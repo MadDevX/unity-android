@@ -25,7 +25,6 @@ public class CharacterMovement : NetworkBehaviour
     void FixedUpdate()
     {
         if (!isLocalPlayer) return;
-
         Move();
     }
 
@@ -52,7 +51,7 @@ public class CharacterMovement : NetworkBehaviour
     {
         Debug.Log("weszlo");
         _lane += direction;
-        _rigidbody2D.MovePosition(_rigidbody2D.position + new Vector2(direction, 0));
+        _rigidbody2D.position = (_rigidbody2D.position + new Vector2(direction, 0));
         return true;
     }
 }

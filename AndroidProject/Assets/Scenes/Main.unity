@@ -414,11 +414,5 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5642857942525183963, guid: 6a27cd69b6df66a4c96aaa7e611cd526,
-        type: 3}
-      propertyPath: raceLanePrefab
-      value: 
-      objectReference: {fileID: 5653201280829695268, guid: 5d7bc491186624648ba6a825fe28adec,
-        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6a27cd69b6df66a4c96aaa7e611cd526, type: 3}
