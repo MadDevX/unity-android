@@ -19,20 +19,24 @@ public class PlayerInput : NetworkBehaviour
         if (!isLocalPlayer) return;
 
         SetMovement();
-        Shoot();
+        SwitchLanes();
     }
 
     void SetMovement()
     {
-        _charMovement.Horizontal = Input.GetAxis("Horizontal");
-        _charMovement.Vertical = Input.GetAxis("Vertical");
+        if (Input.GetButtonDown("Fire1"))
+        {
+            _charMovement.IsRunning = true;
+        }
+        if (Input.GetButtonUp("Fire1"))
+        {
+            _charMovement.IsRunning = false;
+        }
     }
 
-    void Shoot()
+    void SwitchLanes()
     {
-        if(Input.GetButtonDown("Fire1"))
-        {
-            _charShooting.CmdFire();
-        }
+        if (Input.GetKeyDown(KeyCode.A)) _charMovement.TurnRight();
+        if (Input.GetKeyDown(KeyCode.D)) _charMovement.TurnLeft();
     }
 }

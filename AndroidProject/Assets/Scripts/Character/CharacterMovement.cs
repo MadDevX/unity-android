@@ -6,11 +6,16 @@ using UnityEngine.Networking;
 public class CharacterMovement : NetworkBehaviour
 {
     public float movementSpeed = 2.0f;
+    public float runMult = 2.0f;
 
-    public float Horizontal { get; set; } = 0.0f;
-    public float Vertical { get; set; } = 0.0f;
+    public bool IsRunning { get; set; } = false;
+    private int _lane;
 
     private Rigidbody2D _rigidbody2D;
+    [SerializeField]
+    private Collider2D _leftLane;
+    [SerializeField]
+    private Collider2D _rightLane;
 
     void Start()
     {
@@ -24,14 +29,30 @@ public class CharacterMovement : NetworkBehaviour
         Move();
     }
 
+    public bool TurnLeft()
+    {
+        if (_leftLane.IsTouchingLayers()) return false;
+        return SwitchLanes(-1);
+    }
+
+    public bool TurnRight()
+    {
+        if (_rightLane.IsTouchingLayers()) return false;
+        return SwitchLanes(1);
+    }
+
     private void Move()
     {
-        var currentVelocity = new Vector2(Horizontal, Vertical).normalized * movementSpeed;
+        var currentVelocity = Vector2.up * movementSpeed;
+        if (IsRunning) currentVelocity *= runMult;
         _rigidbody2D.MovePosition(_rigidbody2D.position + currentVelocity * Time.fixedDeltaTime);
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private bool SwitchLanes(int direction)
     {
-        Debug.Log(collision.gameObject.name);
+        Debug.Log("weszlo");
+        _lane += direction;
+        _rigidbody2D.MovePosition(_rigidbody2D.position + new Vector2(direction, 0));
+        return true;
     }
 }
