@@ -12,6 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 646055a43a62cb64b844c9dd34b0c55d, type: 3}
   m_Name: ObstacleBarrelTile
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: 21300000, guid: 5b54b64aa03a6418fa2cf8b50928ceb9, type: 3}
-  m_Prefab: {fileID: 6502110112126284756, guid: 0c943a27aca82a945bfe6eecc42c90cb,
-    type: 3}
+  sprite: {fileID: 0}
+  prefab: {fileID: 6502110112126284756, guid: 0c943a27aca82a945bfe6eecc42c90cb, type: 3}

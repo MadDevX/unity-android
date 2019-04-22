@@ -12,6 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 646055a43a62cb64b844c9dd34b0c55d, type: 3}
   m_Name: ObstacleRockTile
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: 21300000, guid: d4fd9a785b43f4479a077f9adbaf5a47, type: 3}
-  m_Prefab: {fileID: 7897740640932492616, guid: 00f144d48acf0884a9ea557fc19b1d08,
-    type: 3}
+  sprite: {fileID: 0}
+  prefab: {fileID: 7897740640932492616, guid: 00f144d48acf0884a9ea557fc19b1d08, type: 3}

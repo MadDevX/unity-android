@@ -6,14 +6,14 @@ using UnityEngine.Tilemaps;
 [CreateAssetMenu(fileName = "NewPrefabTile", menuName = "Tiles/Prefab Tile")]
 public class PrefabTile : TileBase
 {
-    public Sprite m_Sprite;
-    public GameObject m_Prefab;
+    public Sprite sprite;
+    public GameObject prefab;
     private static Vector3 _spawnOffset = new Vector3(0.5f, 0.5f, 0.0f);
 
     public override void GetTileData(Vector3Int location, ITilemap tilemap, ref TileData tileData)
     {
-        tileData.sprite = m_Sprite;
-        tileData.gameObject = m_Prefab;
+        tileData.sprite = sprite;
+        tileData.gameObject = prefab;
     }
 
     public override bool StartUp(Vector3Int position, ITilemap tilemap, GameObject go)

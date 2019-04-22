@@ -8,7 +8,7 @@ public class TileQueue
 {
     public TileBase[] tiles;
     public TilingMode tilingMode;
-    private int currentIndex = 0;
+    private int _currentIndex = 0;
 
     public TileBase PopTile()
     {
@@ -22,8 +22,8 @@ public class TileQueue
             case TilingMode.Random:
                 return tiles[Random.Range(0, tiles.Length-1)];
             case TilingMode.Sequential:
-                int retInd = currentIndex;
-                currentIndex = (currentIndex + 1) % tiles.Length;
+                int retInd = _currentIndex;
+                _currentIndex = (_currentIndex + 1) % tiles.Length;
                 return tiles[retInd];
             default:
                 return tiles[0];

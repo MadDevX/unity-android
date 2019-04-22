@@ -4,9 +4,21 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    private SpriteRenderer _spriteRenderer;
+
+    private void Start()
+    {
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+    }
     public void Kill()
     {
-        gameObject.SetActive(false);
+        Debug.Log("Player was killed!");
     }
 
+    public void PaintRandom()
+    {
+        Color randomColor = Random.ColorHSV();
+        //randomColor.a = 1.0f;
+        _spriteRenderer.color = randomColor;
+    }
 }

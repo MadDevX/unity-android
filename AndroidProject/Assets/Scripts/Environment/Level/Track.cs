@@ -15,7 +15,7 @@ public class Track : MonoBehaviour
     public int minYDistanceBetweenObstacles;
     public int obstacleSpawnOffset;
     public Vector3Int baseVector;
-    private Vector3Int offsetVector = new Vector3Int();
+    private Vector3Int _offsetVector = new Vector3Int();
 
     // Start is called before the first frame update
     void Start()
@@ -33,17 +33,17 @@ public class Track : MonoBehaviour
 
     void DrawLanes()
     {
-        offsetVector.Set(baseVector.x, baseVector.y, baseVector.z);
+        _offsetVector.Set(baseVector.x, baseVector.y, baseVector.z);
 
-        offsetVector.x += borderLeft.SetupLane(tilemapBase, tilemapInteractable, offsetVector, laneLength);
+        _offsetVector.x += borderLeft.SetupLane(tilemapBase, tilemapInteractable, _offsetVector, laneLength);
 
         List<Vector2Int> blockedYs = new List<Vector2Int>();
         foreach (var lane in lanes)
         {
-            offsetVector.x += lane.SetupLane(tilemapBase, tilemapInteractable, offsetVector, laneLength, blockedYs, minYDistanceBetweenObstacles, obstacleSpawnOffset);
+            _offsetVector.x += lane.SetupLane(tilemapBase, tilemapInteractable, _offsetVector, laneLength, blockedYs, minYDistanceBetweenObstacles, obstacleSpawnOffset);
         }
 
-        offsetVector.x += borderRight.SetupLane(tilemapBase, tilemapInteractable, offsetVector, laneLength);
+        _offsetVector.x += borderRight.SetupLane(tilemapBase, tilemapInteractable, _offsetVector, laneLength);
     }
 
     private void Update()
