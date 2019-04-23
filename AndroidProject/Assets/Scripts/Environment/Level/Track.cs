@@ -78,16 +78,4 @@ public class Track : NetworkBehaviour
 
         _offsetVector.x += borderRight.SetupLane(tilemapBase, tilemapInteractable, _offsetVector, laneLength);
     }
-
-    private void Update()
-    {
-        if(Input.GetMouseButtonDown(0))
-        {
-            InitLevel(isServer: isLocalPlayer);
-        }
-        if(Input.GetMouseButtonDown(1))
-        {
-            tilemapInteractable.ClearAllTiles();
-        }
-    }
 }

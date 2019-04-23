@@ -117,6 +117,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 2
   runMult: 2
+  lerpFactor: 0.2
   _leftLane: {fileID: 954540711517822143}
   _rightLane: {fileID: 2857345095042453692}
 --- !u!114 &5291399896342199440
@@ -161,7 +162,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 5291399896342199441}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 0643e76b88eb30647b34fd3ac1544464, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
