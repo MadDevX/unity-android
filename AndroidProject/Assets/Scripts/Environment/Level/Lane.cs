@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.Tilemaps;
 
-public class Lane : MonoBehaviour
+public class Lane : NetworkBehaviour
 {
     public int width;
     public TileQueue backgroundTiles;

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.Networking;
 
 public class RaceLane : Lane
 {
@@ -9,6 +10,18 @@ public class RaceLane : Lane
     public float spawnChance;
     public List<TileEntry> interactables;
     public TileBase finishTile;
+
+    [SyncVar]
+    public int offsetX;
+    [SyncVar]
+    public int offsetY;
+    [SyncVar]
+    public int offsetZ;
+
+    private void Awake()
+    {
+        GameManager.Instance.track.AddRaceLane(this);
+    }
 
     /// <summary>
     /// Draws background tiles and generates obstacles
@@ -20,14 +33,14 @@ public class RaceLane : Lane
     /// <param name="blockedTilesY">List of y coordinates telling which y's are already blocked by obstacle from another lane.</param>
     /// <param name="minYDistanceBetweenObstacles">Minimal y distance between spawned obstacles on lanes.</param>
     /// <returns></returns>
-    public int SetupLane(Tilemap background, Tilemap interactable, Vector3Int position, int laneLength, List<Vector2Int> blockedTilesY,
+    public int SetupLane(Tilemap background, Tilemap interactable, int laneLength, List<Vector2Int> blockedTilesY,
                          int minYDistanceBetweenObstacles, int obstacleSpawnOffset, bool isServer)
     {
         if (isServer == true)
         {
-            GenerateInteractables(interactable, position, laneLength, blockedTilesY, minYDistanceBetweenObstacles, obstacleSpawnOffset);
+            GenerateInteractables(interactable, GetOffset(), laneLength, blockedTilesY, minYDistanceBetweenObstacles, obstacleSpawnOffset);
         }
-        return SetupLane(background, interactable, position, laneLength);
+        return SetupLane(background, interactable, GetOffset(), laneLength);
     }
 
     private List<Vector2Int> GenerateInteractables(Tilemap colliderTilemap, Vector3Int position, int laneLength, List<Vector2Int> blockedTilesY, 
@@ -86,5 +99,17 @@ public class RaceLane : Lane
         {
             return probability;
         }
+    }
+
+    public Vector3Int GetOffset()
+    {
+        return new Vector3Int(offsetX, offsetY, offsetZ);
+    }
+
+    public void SetOffset(Vector3Int vector)
+    {
+        offsetX = vector.x;
+        offsetY = vector.y;
+        offsetZ = vector.z;
     }
 }

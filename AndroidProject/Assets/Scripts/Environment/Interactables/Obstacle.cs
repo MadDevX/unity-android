@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class Obstacle : MonoBehaviour
+public class Obstacle : NetworkBehaviour
 {
     private void OnCollisionEnter2D(Collision2D collision)
     {

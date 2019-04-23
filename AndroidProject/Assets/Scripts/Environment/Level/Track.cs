@@ -21,12 +21,6 @@ public class Track : NetworkBehaviour
     private Vector3Int _offsetVector = new Vector3Int();
     private static Vector3 _tileCorrectionOffset = new Vector3(0.5f, 0.5f, 0.0f);
 
-    //// Start is called before the first frame update
-    //void Start()
-    //{
-    //    InitLevel(false);
-    //}
-
     public override void OnStartServer()
     {
         base.OnStartServer();
@@ -39,11 +33,17 @@ public class Track : NetworkBehaviour
         InitLevel(false);
     }
 
+    public void AddRaceLane(RaceLane lane)
+    {
+        _lanes.Add(lane);
+    }
+
     private void InitLevel(bool isServer)
     {
         if (isServer)
         {
             ClearLevel();
+            InitRaceLanes(new Vector3Int(borderLeft.width + baseVector.x, baseVector.y, baseVector.z));
         }
         DrawLanes(isServer);
     }
@@ -55,10 +55,26 @@ public class Track : NetworkBehaviour
 
         foreach(var lane in _lanes)
         {
-            Destroy(lane.gameObject);
+            if (lane != null && lane.gameObject != null)
+            {
+                NetworkServer.Destroy(lane.gameObject);
+            }
         }
+
         _lanes.Clear();
 
+    }
+
+    void InitRaceLanes(Vector3Int currentOffset)
+    {
+        for (int i = 0; i < LaneCount; i++)
+        {
+            var lane = Instantiate(raceLanePrefab, new Vector3(currentOffset.x, currentOffset.y, currentOffset.z) + _tileCorrectionOffset,
+                                   Quaternion.identity, transform);
+            lane.SetOffset(currentOffset);
+            NetworkServer.Spawn(lane.gameObject);
+            currentOffset.x += lane.width;
+        }
     }
 
     void DrawLanes(bool isServer)
@@ -68,12 +84,10 @@ public class Track : NetworkBehaviour
         _offsetVector.x += borderLeft.SetupLane(tilemapBase, tilemapInteractable, _offsetVector, laneLength);
 
         List<Vector2Int> blockedYs = new List<Vector2Int>();
+
         for(int i = 0; i < LaneCount; i++)
         {
-            var lane = Instantiate(raceLanePrefab, new Vector3(_offsetVector.x, _offsetVector.y, _offsetVector.z) + _tileCorrectionOffset, 
-                                   Quaternion.identity, transform);
-            _lanes.Add(lane);
-            _offsetVector.x += lane.SetupLane(tilemapBase, tilemapInteractable, _offsetVector, laneLength, blockedYs, minYDistanceBetweenObstacles, obstacleSpawnOffset, isServer);
+            _offsetVector.x += _lanes[i].SetupLane(tilemapBase, tilemapInteractable, laneLength, blockedYs, minYDistanceBetweenObstacles, obstacleSpawnOffset, isServer);
         }
 
         _offsetVector.x += borderRight.SetupLane(tilemapBase, tilemapInteractable, _offsetVector, laneLength);

@@ -82,7 +82,6 @@ public class CharacterMovement : NetworkBehaviour
     private bool SwitchLanes(int direction)
     {
         _xPos += direction;
-        //_rigidbody2D.position = (_rigidbody2D.position + new Vector2(direction, 0));
         return true;
     }
 }

@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
 {
     private static GameManager _instance;
     public CinemachineVirtualCamera vCam;
+    public Track track;
 
     private void Awake()
     {
