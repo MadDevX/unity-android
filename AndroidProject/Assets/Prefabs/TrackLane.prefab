@@ -55,6 +55,7 @@ MonoBehaviour:
     probability: 0.5
   - tile: {fileID: 11400000, guid: 85c48499524690f45adb39059f4967b1, type: 2}
     probability: 0.5
+  finishTile: {fileID: 11400000, guid: 32f27aa7994b03d4e97f5b9747ee86c1, type: 2}
 --- !u!114 &5284834822202955363
 MonoBehaviour:
   m_ObjectHideFlags: 0

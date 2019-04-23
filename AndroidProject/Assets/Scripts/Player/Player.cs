@@ -5,10 +5,12 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     private SpriteRenderer _spriteRenderer;
+    private PlayerNetworkPresence _playerNetworkPresence;
 
     private void Start()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
+        _playerNetworkPresence = GetComponent<PlayerNetworkPresence>();
     }
     public void Kill()
     {
@@ -20,5 +22,10 @@ public class Player : MonoBehaviour
         Color randomColor = Random.ColorHSV();
         //randomColor.a = 1.0f;
         _spriteRenderer.color = randomColor;
+    }
+
+    public void Respawn()
+    {
+        _playerNetworkPresence.RpcRespawn();
     }
 }

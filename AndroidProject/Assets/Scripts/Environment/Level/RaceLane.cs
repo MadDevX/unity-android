@@ -8,6 +8,7 @@ public class RaceLane : Lane
     [Range(0.0f, 1.0f)]
     public float spawnChance;
     public List<TileEntry> interactables;
+    public TileBase finishTile;
 
     /// <summary>
     /// Draws background tiles and generates obstacles
@@ -23,16 +24,19 @@ public class RaceLane : Lane
                          int minYDistanceBetweenObstacles, int obstacleSpawnOffset)
     {
         GenerateInteractables(interactable, position, laneLength, blockedTilesY, minYDistanceBetweenObstacles, obstacleSpawnOffset);
-        return base.SetupLane(background, interactable, position, laneLength);
+        return SetupLane(background, interactable, position, laneLength);
     }
 
     private List<Vector2Int> GenerateInteractables(Tilemap colliderTilemap, Vector3Int position, int laneLength, List<Vector2Int> blockedTilesY, 
                                             int minYDistanceBetweenObstacles, int obstacleSpawnOffset, int initialOffset = 0)
     {
         int currentOffset = 0;
-        for (int y = 0; y < laneLength; y++)
+        int y;
+        Vector3Int tempPos;
+        //Generating obstacles
+        for (y = 0; y < laneLength-1; y++)
         {
-            var tempPos = position;
+            tempPos = position;
             for (int x = 0; x < width; x++)
             {
                 if (CanSpawn((Vector2Int)tempPos, blockedTilesY, minYDistanceBetweenObstacles) && Random.value < spawnChance && currentOffset >= obstacleSpawnOffset)
@@ -45,6 +49,13 @@ public class RaceLane : Lane
             }
             position.y++;
             currentOffset++;
+        }
+        //Generating finish line
+        tempPos = position;
+        for(int x = 0; x < width; x++)
+        {
+            colliderTilemap.SetTile(tempPos, finishTile);
+            tempPos.x++;
         }
         return blockedTilesY;
     }
