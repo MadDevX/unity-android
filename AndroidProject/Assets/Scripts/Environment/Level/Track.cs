@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.Tilemaps;
 
-public class Track : MonoBehaviour
+public class Track : NetworkBehaviour
 {
     public int LaneCount { get; set; } = 4;
     public Grid tilemapGrid;
@@ -20,16 +21,31 @@ public class Track : MonoBehaviour
     private Vector3Int _offsetVector = new Vector3Int();
     private static Vector3 _tileCorrectionOffset = new Vector3(0.5f, 0.5f, 0.0f);
 
-    // Start is called before the first frame update
-    void Start()
+    //// Start is called before the first frame update
+    //void Start()
+    //{
+    //    InitLevel(false);
+    //}
+
+    public override void OnStartServer()
     {
-        InitLevel();
+        base.OnStartServer();
+        InitLevel(true);
     }
 
-    private void InitLevel()
+    public override void OnStartClient()
     {
-        ClearLevel();
-        DrawLanes();
+        base.OnStartClient();
+        InitLevel(false);
+    }
+
+    private void InitLevel(bool isServer)
+    {
+        if (isServer)
+        {
+            ClearLevel();
+        }
+        DrawLanes(isServer);
     }
 
     private void ClearLevel()
@@ -45,7 +61,7 @@ public class Track : MonoBehaviour
 
     }
 
-    void DrawLanes()
+    void DrawLanes(bool isServer)
     {
         _offsetVector.Set(baseVector.x, baseVector.y, baseVector.z);
 
@@ -57,7 +73,7 @@ public class Track : MonoBehaviour
             var lane = Instantiate(raceLanePrefab, new Vector3(_offsetVector.x, _offsetVector.y, _offsetVector.z) + _tileCorrectionOffset, 
                                    Quaternion.identity, transform);
             _lanes.Add(lane);
-            _offsetVector.x += lane.SetupLane(tilemapBase, tilemapInteractable, _offsetVector, laneLength, blockedYs, minYDistanceBetweenObstacles, obstacleSpawnOffset);
+            _offsetVector.x += lane.SetupLane(tilemapBase, tilemapInteractable, _offsetVector, laneLength, blockedYs, minYDistanceBetweenObstacles, obstacleSpawnOffset, isServer);
         }
 
         _offsetVector.x += borderRight.SetupLane(tilemapBase, tilemapInteractable, _offsetVector, laneLength);
@@ -67,7 +83,7 @@ public class Track : MonoBehaviour
     {
         if(Input.GetMouseButtonDown(0))
         {
-            InitLevel();
+            InitLevel(isServer: isLocalPlayer);
         }
         if(Input.GetMouseButtonDown(1))
         {

@@ -112,6 +112,84 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &124620397 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5642857942525183965, guid: 6a27cd69b6df66a4c96aaa7e611cd526,
+    type: 3}
+  m_PrefabInstance: {fileID: 5642857943084446007}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &124620400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 124620397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 106
+    i1: 39
+    i2: 205
+    i3: 105
+    i4: 182
+    i5: 223
+    i6: 102
+    i7: 164
+    i8: 201
+    i9: 106
+    i10: 170
+    i11: 126
+    i12: 97
+    i13: 28
+    i14: 213
+    i15: 38
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
+--- !u!1 &316570316 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5642857941229630433, guid: 6a27cd69b6df66a4c96aaa7e611cd526,
+    type: 3}
+  m_PrefabInstance: {fileID: 5642857943084446007}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &316570323
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 316570316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 106
+    i1: 39
+    i2: 205
+    i3: 105
+    i4: 182
+    i5: 223
+    i6: 102
+    i7: 164
+    i8: 201
+    i9: 106
+    i10: 170
+    i11: 126
+    i12: 97
+    i13: 28
+    i14: 213
+    i15: 38
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -292,6 +370,10 @@ MonoBehaviour:
   m_OnlineScene: 
   m_SpawnPrefabs:
   - {fileID: 6931873338582951159, guid: 4c4991eeee3e77348b0d8d4f2e31314a, type: 3}
+  - {fileID: 2218331922650124625, guid: 402f019e1c90e9646a8a7eb92ea5cd40, type: 3}
+  - {fileID: 7897740640932492616, guid: 00f144d48acf0884a9ea557fc19b1d08, type: 3}
+  - {fileID: 6502110112126284756, guid: 0c943a27aca82a945bfe6eecc42c90cb, type: 3}
+  - {fileID: 5653201280829695273, guid: 5d7bc491186624648ba6a825fe28adec, type: 3}
   m_CustomConfig: 0
   m_MaxConnections: 4
   m_ConnectionConfig:
@@ -347,6 +429,84 @@ MonoBehaviour:
   matchSize: 4
   isNetworkActive: 0
   matchMaker: {fileID: 0}
+--- !u!1 &1033632590 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5642857942071191748, guid: 6a27cd69b6df66a4c96aaa7e611cd526,
+    type: 3}
+  m_PrefabInstance: {fileID: 5642857943084446007}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1033632593
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1033632590}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 106
+    i1: 39
+    i2: 205
+    i3: 105
+    i4: 182
+    i5: 223
+    i6: 102
+    i7: 164
+    i8: 201
+    i9: 106
+    i10: 170
+    i11: 126
+    i12: 97
+    i13: 28
+    i14: 213
+    i15: 38
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
+--- !u!1 &1957108268 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5642857942583383854, guid: 6a27cd69b6df66a4c96aaa7e611cd526,
+    type: 3}
+  m_PrefabInstance: {fileID: 5642857943084446007}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1957108269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1957108268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 106
+    i1: 39
+    i2: 205
+    i3: 105
+    i4: 182
+    i5: 223
+    i6: 102
+    i7: 164
+    i8: 201
+    i9: 106
+    i10: 170
+    i11: 126
+    i12: 97
+    i13: 28
+    i14: 213
+    i15: 38
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!1001 &5642857943084446007
 PrefabInstance:
   m_ObjectHideFlags: 0

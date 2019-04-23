@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.Networking;
 
 [CreateAssetMenu(fileName = "NewPrefabTile", menuName = "Tiles/Prefab Tile")]
 public class PrefabTile : TileBase
@@ -21,6 +22,7 @@ public class PrefabTile : TileBase
         if(go != null)
         {
             go.transform.position += _spawnOffset;
+            NetworkServer.Spawn(go);
         }
         return base.StartUp(position, tilemap, go);
     }

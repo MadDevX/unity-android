@@ -21,9 +21,12 @@ public class RaceLane : Lane
     /// <param name="minYDistanceBetweenObstacles">Minimal y distance between spawned obstacles on lanes.</param>
     /// <returns></returns>
     public int SetupLane(Tilemap background, Tilemap interactable, Vector3Int position, int laneLength, List<Vector2Int> blockedTilesY,
-                         int minYDistanceBetweenObstacles, int obstacleSpawnOffset)
+                         int minYDistanceBetweenObstacles, int obstacleSpawnOffset, bool isServer)
     {
-        GenerateInteractables(interactable, position, laneLength, blockedTilesY, minYDistanceBetweenObstacles, obstacleSpawnOffset);
+        if (isServer == true)
+        {
+            GenerateInteractables(interactable, position, laneLength, blockedTilesY, minYDistanceBetweenObstacles, obstacleSpawnOffset);
+        }
         return SetupLane(background, interactable, position, laneLength);
     }
 

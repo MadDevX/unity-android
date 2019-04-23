@@ -19,7 +19,10 @@ public class PlayerNetworkPresence : NetworkBehaviour
     [ClientRpc]
     public void RpcRespawn()
     {
-        _spawnPositions = NetworkManager.singleton.startPositions; //level generates several times (transforms can change often)
-        _rigidbody2D.position = _spawnPositions[Random.Range(0, _spawnPositions.Count - 1)].position;
+        if (isLocalPlayer)
+        {
+            _spawnPositions = NetworkManager.singleton.startPositions; //level generates several times (transforms can change often)
+            _rigidbody2D.position = _spawnPositions[Random.Range(0, _spawnPositions.Count - 1)].position;
+        }
     }
 }
