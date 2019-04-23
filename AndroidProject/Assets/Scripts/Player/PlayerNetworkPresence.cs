@@ -14,6 +14,7 @@ public class PlayerNetworkPresence : NetworkBehaviour
         _sprite = GetComponent<SpriteRenderer>();
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _sprite.color = Color.blue;
+        GameManager.Instance.vCam.Follow = transform;
     }
 
     [ClientRpc]

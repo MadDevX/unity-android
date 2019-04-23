@@ -9,6 +9,6 @@ public class CameraController : MonoBehaviour
 
     void Update()
     {
-        //transform.position = player.position + offset;
+
     }
 }
