@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1869726427}
   - component: {fileID: 1869726426}
   - component: {fileID: 1869726428}
+  - component: {fileID: 316570323}
   m_Layer: 0
   m_Name: TilemapBase
   m_TagString: Untagged
@@ -641,6 +642,39 @@ TilemapCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 1
   m_Offset: {x: 0, y: 0}
+--- !u!114 &316570323
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5642857941229630433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 0
+    i1: 0
+    i2: 0
+    i3: 0
+    i4: 0
+    i5: 0
+    i6: 0
+    i7: 0
+    i8: 0
+    i9: 0
+    i10: 0
+    i11: 0
+    i12: 0
+    i13: 0
+    i14: 0
+    i15: 0
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!1 &5642857941342582138
 GameObject:
   m_ObjectHideFlags: 0
@@ -781,6 +815,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5642857942071191746}
   - component: {fileID: 5642857942071191747}
+  - component: {fileID: 1033632593}
   m_Layer: 0
   m_Name: Grid
   m_TagString: Untagged
@@ -816,6 +851,39 @@ Grid:
   m_CellGap: {x: 0, y: 0, z: 0}
   m_CellLayout: 0
   m_CellSwizzle: 0
+--- !u!114 &1033632593
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5642857942071191748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 0
+    i1: 0
+    i2: 0
+    i3: 0
+    i4: 0
+    i5: 0
+    i6: 0
+    i7: 0
+    i8: 0
+    i9: 0
+    i10: 0
+    i11: 0
+    i12: 0
+    i13: 0
+    i14: 0
+    i15: 0
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!1 &5642857942525183965
 GameObject:
   m_ObjectHideFlags: 0
@@ -826,6 +894,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5642857942525183964}
   - component: {fileID: 5642857942525183963}
+  - component: {fileID: 124620400}
   m_Layer: 0
   m_Name: Track
   m_TagString: Untagged
@@ -868,10 +937,43 @@ MonoBehaviour:
     type: 3}
   borderLeft: {fileID: 5642857941720365390}
   borderRight: {fileID: 5642857941342582137}
-  laneLength: 20
-  minYDistanceBetweenObstacles: 3
-  obstacleSpawnOffset: 3
+  laneLength: 50
+  minYDistanceBetweenObstacles: 4
+  obstacleSpawnOffset: 4
   baseVector: {x: 0, y: 0, z: 0}
+--- !u!114 &124620400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5642857942525183965}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 0
+    i1: 0
+    i2: 0
+    i3: 0
+    i4: 0
+    i5: 0
+    i6: 0
+    i7: 0
+    i8: 0
+    i9: 0
+    i10: 0
+    i11: 0
+    i12: 0
+    i13: 0
+    i14: 0
+    i15: 0
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!1 &5642857942583383854
 GameObject:
   m_ObjectHideFlags: 0
@@ -883,6 +985,7 @@ GameObject:
   - component: {fileID: 5642857942583383853}
   - component: {fileID: 5642857942583383851}
   - component: {fileID: 5642857942583383852}
+  - component: {fileID: 1957108272}
   m_Layer: 0
   m_Name: TilemapInteractable
   m_TagString: Untagged
@@ -1010,3 +1113,36 @@ TilemapRenderer:
   m_Mode: 0
   m_DetectChunkCullingBounds: 0
   m_MaskInteraction: 0
+--- !u!114 &1957108272
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5642857942583383854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 0
+    i1: 0
+    i2: 0
+    i3: 0
+    i4: 0
+    i5: 0
+    i6: 0
+    i7: 0
+    i8: 0
+    i9: 0
+    i10: 0
+    i11: 0
+    i12: 0
+    i13: 0
+    i14: 0
+    i15: 0
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
