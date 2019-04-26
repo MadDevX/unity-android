@@ -8,8 +8,6 @@ public class CharacterMovement : NetworkBehaviour
     public float movementSpeed = 2.0f;
     public float runMult = 2.0f;
     public float lerpFactor = 0.1f;
-
-    private bool _isRunning = false;
     public bool IsRunning {
         get
         {
@@ -21,7 +19,9 @@ public class CharacterMovement : NetworkBehaviour
             _anim.speed = _isRunning ? runMult : 1.0f;
         }
     }
-    private int _xPos;
+
+    private bool _isRunning = false;
+    private int _xTilePos;
     private float _xTileOffset = 0.5f;
 
     [SerializeField]
@@ -37,7 +37,7 @@ public class CharacterMovement : NetworkBehaviour
     {
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _anim = GetComponent<Animator>();
-        _xPos = (int)_rigidbody2D.position.x;
+        _xTilePos = (int)_rigidbody2D.position.x;
     }
 
     void FixedUpdate()
@@ -47,6 +47,11 @@ public class CharacterMovement : NetworkBehaviour
         movementVector += MovementVector();
         movementVector += CorrectPositionVector();
         ApplyMovementVector(movementVector);
+    }
+    
+    public void SetLane(int lane)
+    {
+        _xTilePos = lane;
     }
 
     public bool TurnLeft()
@@ -70,7 +75,7 @@ public class CharacterMovement : NetworkBehaviour
 
     private Vector2 CorrectPositionVector()
     {
-        float interpolateX = Mathf.Lerp(0.0f, _xPos + _xTileOffset - _rigidbody2D.position.x, lerpFactor);
+        float interpolateX = Mathf.Lerp(0.0f, _xTilePos + _xTileOffset - _rigidbody2D.position.x, lerpFactor);
         return Vector2.right * interpolateX;
     }
 
@@ -81,7 +86,7 @@ public class CharacterMovement : NetworkBehaviour
 
     private bool SwitchLanes(int direction)
     {
-        _xPos += direction;
+        _xTilePos += direction;
         return true;
     }
 }

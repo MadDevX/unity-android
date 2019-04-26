@@ -20,7 +20,7 @@ public class RaceLane : Lane
 
     private void Awake()
     {
-        GameManager.Instance.track.AddRaceLane(this);
+        ServiceProvider.Instance.track.AddRaceLane(this);
     }
 
     /// <summary>

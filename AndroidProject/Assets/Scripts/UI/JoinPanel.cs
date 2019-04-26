@@ -9,14 +9,19 @@ public class JoinPanel : MonoBehaviour
     public ExitPanel exitPanel;
 
     public InputField addressInput;
-    public NetworkManager networkManager;
 
+    private NetworkManager _networkManager;
     private NetworkClient _client;
+
+    private void Start()
+    {
+        _networkManager = ServiceProvider.Instance.networkManager;
+    }
 
     public void OnJoinButton()
     {
-        networkManager.networkAddress = addressInput.text;
-        _client = networkManager.StartClient();
+        _networkManager.networkAddress = addressInput.text;
+        _client = _networkManager.StartClient();
         if (_client != null)
         {
             SwitchPanels(ConnectionMode.Client);
@@ -29,7 +34,7 @@ public class JoinPanel : MonoBehaviour
 
     public void OnHostButton()
     {
-        _client = networkManager.StartHost();
+        _client = _networkManager.StartHost();
         if (_client != null)
         {
             SwitchPanels(ConnectionMode.Host);
@@ -42,7 +47,7 @@ public class JoinPanel : MonoBehaviour
 
     public void OnServerButton()
     {
-        if (networkManager.StartServer())
+        if (_networkManager.StartServer())
         {
             SwitchPanels(ConnectionMode.Server);
         }

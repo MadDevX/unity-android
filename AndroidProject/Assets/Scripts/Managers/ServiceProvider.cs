@@ -2,12 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class GameManager : MonoBehaviour
+public class ServiceProvider : MonoBehaviour
 {
-    private static GameManager _instance;
+    private static ServiceProvider _instance;
     public CinemachineVirtualCamera vCam;
     public Track track;
+    public NetworkManager networkManager;
 
     private void Awake()
     {
@@ -21,7 +23,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public static GameManager Instance
+    public static ServiceProvider Instance
     {
         get
         {
