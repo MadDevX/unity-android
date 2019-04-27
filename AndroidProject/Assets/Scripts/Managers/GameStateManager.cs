@@ -1,10 +1,9 @@
-﻿using Assets.Scripts.Enums;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace Assets.Scripts.Managers
 {
-    class GameStateManager
+    public class GameStateManager
     {
         private GameState _state = GameState.Menu;
 

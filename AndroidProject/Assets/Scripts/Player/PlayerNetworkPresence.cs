@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using Cinemachine;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using Zenject;
 
 public class PlayerNetworkPresence : NetworkBehaviour
 {
@@ -9,11 +11,19 @@ public class PlayerNetworkPresence : NetworkBehaviour
     private List<Transform> _spawnPositions;
     private CharacterMovement _charMovement;
 
+    private CinemachineVirtualCamera _vCam;
+
+    [Inject]
+    public void Construct(ServiceProvider provider)
+    {
+        _vCam = provider.vCam;
+    }
+
     public override void OnStartLocalPlayer()
     {
         _charMovement = GetComponent<CharacterMovement>();
         _rigidbody2D = GetComponent<Rigidbody2D>();
-        ServiceProvider.Instance.vCam.Follow = transform;
+        _vCam.Follow = transform;
     }
 
     [ClientRpc]

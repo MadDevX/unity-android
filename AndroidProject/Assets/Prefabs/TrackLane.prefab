@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5653201280829695268}
   - component: {fileID: 5284834822202955363}
   - component: {fileID: 3448489390611065242}
+  - component: {fileID: 8849952565894618168}
   m_Layer: 0
   m_Name: TrackLane
   m_TagString: Untagged
@@ -57,6 +58,9 @@ MonoBehaviour:
   - tile: {fileID: 11400000, guid: 85c48499524690f45adb39059f4967b1, type: 2}
     probability: 0.5
   finishTile: {fileID: 11400000, guid: 32f27aa7994b03d4e97f5b9747ee86c1, type: 2}
+  offsetX: 0
+  offsetY: 0
+  offsetZ: 0
 --- !u!114 &5284834822202955363
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -102,3 +106,15 @@ MonoBehaviour:
     i15: 0
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &8849952565894618168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5653201280829695273}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c857868b2b799e41985b5a167abf065, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

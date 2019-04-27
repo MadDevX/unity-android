@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.Networking;
+using Zenject;
 
 public class RaceLane : Lane
 {
@@ -18,9 +19,10 @@ public class RaceLane : Lane
     [SyncVar]
     public int offsetZ;
 
-    private void Awake()
+    [Inject]
+    public void Construct(Track environment)
     {
-        ServiceProvider.Instance.track.AddRaceLane(this);
+        environment.AddRaceLane(this);
     }
 
     /// <summary>

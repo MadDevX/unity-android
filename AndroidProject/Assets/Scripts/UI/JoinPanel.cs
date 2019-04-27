@@ -1,21 +1,28 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.Managers;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
+using Zenject;
 
-public class JoinPanel : MonoBehaviour
+public class JoinPanel : UIPanel
 {
-    public ExitPanel exitPanel;
+    [SerializeField]
+    private InputField addressInput;
 
-    public InputField addressInput;
-
-    private NetworkManager _networkManager;
     private NetworkClient _client;
 
-    private void Start()
+    private NetworkManager _networkManager;
+    private ConnectionModeManager _connManager;
+    private UIPanel _exitPanel;
+
+    [Inject]
+    public void Construct(ConnectionModeManager connManager, ServiceProvider provider, UIManager uiManager)
     {
-        _networkManager = ServiceProvider.Instance.networkManager;
+        _connManager = connManager;
+        _networkManager = provider.networkManager;
+        _exitPanel = uiManager.exitPanel;
     }
 
     public void OnJoinButton()
@@ -24,7 +31,8 @@ public class JoinPanel : MonoBehaviour
         _client = _networkManager.StartClient();
         if (_client != null)
         {
-            SwitchPanels(ConnectionMode.Client);
+            _connManager.Mode = ConnectionMode.Client;
+            SwitchPanels();
         }
         else
         {
@@ -37,7 +45,8 @@ public class JoinPanel : MonoBehaviour
         _client = _networkManager.StartHost();
         if (_client != null)
         {
-            SwitchPanels(ConnectionMode.Host);
+            _connManager.Mode = ConnectionMode.Host;
+            SwitchPanels();
         }
         else
         {
@@ -49,7 +58,8 @@ public class JoinPanel : MonoBehaviour
     {
         if (_networkManager.StartServer())
         {
-            SwitchPanels(ConnectionMode.Server);
+            _connManager.Mode = ConnectionMode.Server;
+            SwitchPanels();
         }
         else
         {
@@ -57,19 +67,9 @@ public class JoinPanel : MonoBehaviour
         }
     }
 
-    public void ShowPanel()
-    {
-        gameObject.SetActive(true);
-    }
-
-    public void HidePanel()
-    {
-        gameObject.SetActive(false);
-    }
-
-    private void SwitchPanels(ConnectionMode mode)
+    private void SwitchPanels()
     {
         HidePanel();
-        exitPanel.ShowPanel(mode);
+        _exitPanel.ShowPanel();
     }
 }

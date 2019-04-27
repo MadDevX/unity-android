@@ -57,7 +57,7 @@ public class Track : NetworkBehaviour
         {
             if (lane != null && lane.gameObject != null)
             {
-                NetworkServer.Destroy(lane.gameObject);
+                Destroy(lane.gameObject);
             }
         }
 
@@ -70,7 +70,7 @@ public class Track : NetworkBehaviour
         for (int i = 0; i < LaneCount; i++)
         {
             var lane = Instantiate(raceLanePrefab, new Vector3(currentOffset.x, currentOffset.y, currentOffset.z) + _tileCorrectionOffset,
-                                   Quaternion.identity, transform);
+                                   Quaternion.identity, transform).GetComponent<RaceLane>();
             lane.SetOffset(currentOffset);
             NetworkServer.Spawn(lane.gameObject);
             currentOffset.x += lane.width;

@@ -1,23 +1,27 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.Managers;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using Zenject;
 
-public class ExitPanel : MonoBehaviour
+public class ExitPanel : UIPanel
 {
-    public JoinPanel joinPanel;
-
     private NetworkManager _networkManager;
-    private ConnectionMode _connectionMode;
+    private ConnectionModeManager _connManager;
+    private UIPanel _joinPanel;
 
-    private void Start()
+    [Inject]
+    public void Construct(ServiceProvider provider, ConnectionModeManager connManager, UIManager uiManager)
     {
-        _networkManager = ServiceProvider.Instance.networkManager;
+        _connManager = connManager;
+        _networkManager = provider.networkManager;
+        _joinPanel = uiManager.joinPanel;
     }
 
     public void OnExit()
     {
-        switch(_connectionMode)
+        switch(_connManager.Mode)
         {
             case ConnectionMode.Client:
                 _networkManager.StopClient();
@@ -28,24 +32,17 @@ public class ExitPanel : MonoBehaviour
             case ConnectionMode.Server:
                 _networkManager.StopServer();
                 break;
+            case ConnectionMode.Null:
+                Debug.LogError("Connection mode was set to Null.");
+                break;
         }
+        _connManager.Mode = ConnectionMode.Null;
         SwitchPanels();
-    }
-
-    public void ShowPanel(ConnectionMode mode)
-    {
-        _connectionMode = mode;
-        gameObject.SetActive(true);
-    }
-
-    public void HidePanel()
-    {
-        gameObject.SetActive(false);
     }
 
     private void SwitchPanels()
     {
         HidePanel();
-        joinPanel.ShowPanel();
+        _joinPanel.ShowPanel();
     }
 }
