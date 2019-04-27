@@ -15,6 +15,10 @@ public class Player : NetworkBehaviour
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _playerNetworkPresence = GetComponent<PlayerNetworkPresence>();
+        if (isLocalPlayer == false)
+        {
+            OnColorChanged(_color);
+        }
     }
 
     void OnColorChanged(Color color)
