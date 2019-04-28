@@ -11,14 +11,13 @@ public class JoinPanel : UIPanel
     [SerializeField]
     private InputField addressInput;
 
-    private NetworkClient _client;
-
     private NetworkManager _networkManager;
-    private ConnectionModeManager _connManager;
+
+    private ConnectionStateManager _connManager;
     private UIPanel _exitPanel;
 
     [Inject]
-    public void Construct(ConnectionModeManager connManager, ServiceProvider provider, UIManager uiManager)
+    public void Construct(ConnectionStateManager connManager, ServiceProvider provider, UIManager uiManager)
     {
         _connManager = connManager;
         _networkManager = provider.networkManager;
@@ -28,42 +27,37 @@ public class JoinPanel : UIPanel
     public void OnJoinButton()
     {
         _networkManager.networkAddress = addressInput.text;
-        _client = _networkManager.StartClient();
-        if (_client != null)
+        if (_connManager.SetState(ConnectionState.Client))
         {
-            _connManager.Mode = ConnectionMode.Client;
             SwitchPanels();
         }
         else
         {
-            Debug.LogWarning("client cannot connect");
+            //Show warning
         }
     }
 
     public void OnHostButton()
     {
-        _client = _networkManager.StartHost();
-        if (_client != null)
+        if(_connManager.SetState(ConnectionState.Host))
         {
-            _connManager.Mode = ConnectionMode.Host;
             SwitchPanels();
         }
         else
         {
-            Debug.LogWarning("cannot start host");
+            //Show warning
         }
     }
 
     public void OnServerButton()
     {
-        if (_networkManager.StartServer())
+        if(_connManager.SetState(ConnectionState.Server))
         {
-            _connManager.Mode = ConnectionMode.Server;
             SwitchPanels();
         }
         else
         {
-            Debug.LogWarning("cannot start server");
+            //Show warning
         }
     }
 

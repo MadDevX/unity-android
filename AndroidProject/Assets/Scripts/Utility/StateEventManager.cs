@@ -10,7 +10,7 @@ public class StateEventManager<EnumType> where EnumType : struct, IConvertible
     private Dictionary<EnumType, Action> _onStateInitialized = new Dictionary<EnumType, Action>();
     private Dictionary<EnumType, Action> _onStateDisposed = new Dictionary<EnumType, Action>();
 
-    public void SetState(EnumType state)
+    public virtual void SetState(EnumType state)
     {
         GetOnDisposeEvent(State)?.Invoke();
         State = state;
@@ -22,6 +22,11 @@ public class StateEventManager<EnumType> where EnumType : struct, IConvertible
         InitDictionaries();
     }
 
+    /// <summary>
+    /// Add method to be invoked when specified state is set.
+    /// </summary>
+    /// <param name="state">State to which initialization method will be added.</param>
+    /// <param name="method">Method that will be invoked after specified state is set.</param>
     public void SubscribeToInit(EnumType state, Action method)
     {
         var evt = GetOnInitEvent(state);
@@ -36,6 +41,11 @@ public class StateEventManager<EnumType> where EnumType : struct, IConvertible
         SetOnInitEvent(state, evt);
     }
 
+    /// <summary>
+    /// Add method to be invoked when specified state is replaced with another one.
+    /// </summary>
+    /// <param name="state">State to which dispose method will be added.</param>
+    /// <param name="method">Method that will be invoked before specified state is replaced with another one.</param>
     public void SubscribeToDispose(EnumType state, Action method)
     {
         var evt = GetOnDisposeEvent(state);

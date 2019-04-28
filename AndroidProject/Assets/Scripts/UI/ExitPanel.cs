@@ -7,36 +7,19 @@ using Zenject;
 
 public class ExitPanel : UIPanel
 {
-    private NetworkManager _networkManager;
-    private ConnectionModeManager _connManager;
+    private ConnectionStateManager _connManager;
     private UIPanel _joinPanel;
 
     [Inject]
-    public void Construct(ServiceProvider provider, ConnectionModeManager connManager, UIManager uiManager)
+    public void Construct(ConnectionStateManager connManager, UIManager uiManager)
     {
         _connManager = connManager;
-        _networkManager = provider.networkManager;
         _joinPanel = uiManager.joinPanel;
     }
 
     public void OnExit()
     {
-        switch(_connManager.Mode)
-        {
-            case ConnectionMode.Client:
-                _networkManager.StopClient();
-                break;
-            case ConnectionMode.Host:
-                _networkManager.StopHost();
-                break;
-            case ConnectionMode.Server:
-                _networkManager.StopServer();
-                break;
-            case ConnectionMode.Null:
-                Debug.LogError("Connection mode was set to Null.");
-                break;
-        }
-        _connManager.Mode = ConnectionMode.Null;
+        _connManager.SetState(ConnectionState.Null);
         SwitchPanels();
     }
 

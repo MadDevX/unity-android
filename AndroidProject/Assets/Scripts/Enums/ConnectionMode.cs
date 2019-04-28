@@ -1,4 +1,4 @@
-﻿public enum ConnectionMode
+﻿public enum ConnectionState
 {
     Null,
     Host,
