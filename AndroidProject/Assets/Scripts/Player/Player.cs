@@ -38,6 +38,14 @@ public class Player : NetworkBehaviour
         _color = _spriteRenderer.color;
     }
 
+    private void Start()
+    {
+        if(!isLocalPlayer)
+        {
+            OnColorChanged(_color);
+        }
+    }
+
     private void Update()
     {
         if (!isLocalPlayer) return;
@@ -47,7 +55,8 @@ public class Player : NetworkBehaviour
 
     void OnColorChanged(Color color)
     {
-        _spriteRenderer.color = color;
+        _color = color;
+        _spriteRenderer.color = _color;
     }
 
     public void Kill()
