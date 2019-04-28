@@ -7,5 +7,5 @@ using UnityEngine.Networking;
 public class ServiceProvider : MonoBehaviour
 {
     public CinemachineVirtualCamera vCam;
-    public NetworkManager networkManager;
+    public MyNetworkManager networkManager;
 }

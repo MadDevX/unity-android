@@ -9,7 +9,7 @@ public class Lane : NetworkBehaviour
     public int width;
     public TileQueue backgroundTiles;
 
-    public int SetupLane(Tilemap background, Tilemap interactable, Vector3Int position, int laneLength)
+    public int SetupLane(Tilemap background, Vector3Int position, int laneLength)
     {
         DrawLane(background, position, laneLength);
         return width;

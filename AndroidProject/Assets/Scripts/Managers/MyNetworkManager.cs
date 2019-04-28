@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Managers;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,7 +8,10 @@ using Zenject;
 
 public class MyNetworkManager : NetworkManager
 {
+    public event Action OnNumPlayersChanged;
+
     private ConnectionStateManager _connManager;
+
     [Inject]
     public void Construct(ConnectionStateManager connManager)
     {
@@ -16,24 +20,24 @@ public class MyNetworkManager : NetworkManager
 
     private void OnEnable()
     {
-        _connManager.SubscribeToDispose(ConnectionState.Client, StopClient);
-        _connManager.SubscribeToDispose(ConnectionState.Host, StopHost);
-        _connManager.SubscribeToDispose(ConnectionState.Server, StopServer);
-
         _connManager.SubscribeToInit(ConnectionState.Client, MyStartClient);
         _connManager.SubscribeToInit(ConnectionState.Host, MyStartHost);
         _connManager.SubscribeToInit(ConnectionState.Server, MyStartServer);
+
+        _connManager.SubscribeToDispose(ConnectionState.Client, StopClient);
+        _connManager.SubscribeToDispose(ConnectionState.Host, StopHost);
+        _connManager.SubscribeToDispose(ConnectionState.Server, StopServer);
     }
 
     private void OnDisable()
     {
-        _connManager.UnsubscribeFromDispose(ConnectionState.Client, StopClient);
-        _connManager.UnsubscribeFromDispose(ConnectionState.Host, StopHost);
-        _connManager.UnsubscribeFromDispose(ConnectionState.Server, StopServer);
-
         _connManager.UnsubscribeFromInit(ConnectionState.Client, MyStartClient);
         _connManager.UnsubscribeFromInit(ConnectionState.Host, MyStartHost);
         _connManager.UnsubscribeFromInit(ConnectionState.Server, MyStartServer);
+
+        _connManager.UnsubscribeFromDispose(ConnectionState.Client, StopClient);
+        _connManager.UnsubscribeFromDispose(ConnectionState.Host, StopHost);
+        _connManager.UnsubscribeFromDispose(ConnectionState.Server, StopServer);
     }
 
     private void MyStartClient()
@@ -63,5 +67,17 @@ public class MyNetworkManager : NetworkManager
             _connManager.StateError = true;
             Debug.LogError("cannot start host");
         }
+    }
+
+    public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId)
+    {
+        base.OnServerAddPlayer(conn, playerControllerId);
+        OnNumPlayersChanged?.Invoke();
+    }
+
+    public override void OnServerRemovePlayer(NetworkConnection conn, PlayerController player)
+    {
+        base.OnServerRemovePlayer(conn, player);
+        OnNumPlayersChanged?.Invoke();
     }
 }

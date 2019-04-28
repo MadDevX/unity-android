@@ -19,30 +19,30 @@ public class RaceLane : Lane
     [SyncVar]
     public int offsetZ;
 
+    private EnvironmentSettings _envSettings;
+
     [Inject]
-    public void Construct(Track environment)
+    public void Construct(Track environment, EnvironmentSettings envSettings)
     {
+        _envSettings = envSettings;
         environment.AddRaceLane(this);
     }
 
-    /// <summary>
-    /// Draws background tiles and generates obstacles
-    /// </summary>
-    /// <param name="background">Tilemap on which background tiles will be drawn.</param>
-    /// <param name="interactable">Tilemap on which interactable tiles will be drawn.</param>
-    /// <param name="position">Position of the first tile that will be drawn in a lane.</param>
-    /// <param name="laneLength">Length of the drawn lane.</param>
-    /// <param name="blockedTilesY">List of y coordinates telling which y's are already blocked by obstacle from another lane.</param>
-    /// <param name="minYDistanceBetweenObstacles">Minimal y distance between spawned obstacles on lanes.</param>
-    /// <returns></returns>
-    public int SetupLane(Tilemap background, Tilemap interactable, int laneLength, List<Vector2Int> blockedTilesY,
-                         int minYDistanceBetweenObstacles, int obstacleSpawnOffset, bool isServer)
+    public Vector3Int GetOffset()
     {
-        if (isServer == true)
-        {
-            GenerateInteractables(interactable, GetOffset(), laneLength, blockedTilesY, minYDistanceBetweenObstacles, obstacleSpawnOffset);
-        }
-        return SetupLane(background, interactable, GetOffset(), laneLength);
+        return new Vector3Int(offsetX, offsetY, offsetZ);
+    }
+
+    public void SetOffset(Vector3Int vector)
+    {
+        offsetX = vector.x;
+        offsetY = vector.y;
+        offsetZ = vector.z;
+    }
+
+    public void SetupInteractables(Tilemap interactable, List<Vector2Int> blockedTilesY)
+    {
+        GenerateInteractables(interactable, GetOffset(), _envSettings.laneLength, blockedTilesY, _envSettings.minYDistanceBetweenObstacles, _envSettings.obstacleSpawnOffset);
     }
 
     private List<Vector2Int> GenerateInteractables(Tilemap colliderTilemap, Vector3Int position, int laneLength, List<Vector2Int> blockedTilesY, 
@@ -101,17 +101,5 @@ public class RaceLane : Lane
         {
             return probability;
         }
-    }
-
-    public Vector3Int GetOffset()
-    {
-        return new Vector3Int(offsetX, offsetY, offsetZ);
-    }
-
-    public void SetOffset(Vector3Int vector)
-    {
-        offsetX = vector.x;
-        offsetY = vector.y;
-        offsetZ = vector.z;
     }
 }
