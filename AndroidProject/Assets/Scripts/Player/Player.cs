@@ -61,14 +61,14 @@ public class Player : NetworkBehaviour
 
     public void Kill()
     {
-        if (isLocalPlayer == false) return;
+        if (!isLocalPlayer) return;
 
         Debug.Log("Player was killed!");
     }
 
     public void PaintRandom()
     {
-        if (isLocalPlayer == false) return;
+        if (!isLocalPlayer) return;
 
         CmdPaint();
     }
