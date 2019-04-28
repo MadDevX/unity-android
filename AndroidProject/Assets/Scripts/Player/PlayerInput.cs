@@ -3,44 +3,33 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class PlayerInput : NetworkBehaviour
+public class PlayerInput : MonoBehaviour
 {
-    private CharacterMovement _charMovement;
-    private CharacterShooting _charShooting;
-
     private Vector2 _touchOrigin = -Vector2.one;
 
-    void Start()
+    public void ProcessInput(CharacterMovement charMovement)
     {
-        _charMovement = gameObject.GetComponent<CharacterMovement>();
-        _charShooting = gameObject.GetComponent<CharacterShooting>();
+        SetMovement(charMovement);
+        SwitchLanes(charMovement);
     }
 
-    void Update()
-    {
-        if (!isLocalPlayer) return;
-
-        SetMovement();
-        SwitchLanes();
-    }
-
-    void SetMovement()
+    void SetMovement(CharacterMovement charMovement)
     {
         if (Input.GetButtonDown("Fire1"))
         {
-            _charMovement.IsRunning = true;
+            charMovement.IsRunning = true;
         }
         if (Input.GetButtonUp("Fire1"))
         {
-            _charMovement.IsRunning = false;
+            charMovement.IsRunning = false;
         }
     }
 
-    void SwitchLanes()
+    void SwitchLanes(CharacterMovement charMovement)
     {
 #if UNITY_STANDALONE || UNITY_WEBPLAYER
-        if (Input.GetKeyDown(KeyCode.A)) _charMovement.TurnLeft();
-        if (Input.GetKeyDown(KeyCode.D)) _charMovement.TurnRight();
+        if (Input.GetKeyDown(KeyCode.A)) charMovement.TurnLeft();
+        if (Input.GetKeyDown(KeyCode.D)) charMovement.TurnRight();
 #else
         if (Input.touchCount > 0)
         {
@@ -58,8 +47,8 @@ public class PlayerInput : NetworkBehaviour
                 if (Mathf.Abs(x) > Mathf.Abs(y) && Mathf.Abs(x) > Screen.width/15)
                 {
                     Debug.Log(x);
-                    if (x > 0) _charMovement.TurnRight();
-                    else _charMovement.TurnLeft();
+                    if (x > 0) charMovement.TurnRight();
+                    else charMovement.TurnLeft();
                 }
                 else
                 {

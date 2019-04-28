@@ -5,25 +5,16 @@ using UnityEngine;
 using UnityEngine.Networking;
 using Zenject;
 
-public class PlayerNetworkPresence : NetworkBehaviour
+public class PlayerRespawn : NetworkBehaviour
 {
     private Rigidbody2D _rigidbody2D;
     private List<Transform> _spawnPositions;
     private CharacterMovement _charMovement;
 
-    private CinemachineVirtualCamera _vCam;
-
-    [Inject]
-    public void Construct(ServiceProvider provider)
-    {
-        _vCam = provider.vCam;
-    }
-
     public override void OnStartLocalPlayer()
     {
         _charMovement = GetComponent<CharacterMovement>();
         _rigidbody2D = GetComponent<Rigidbody2D>();
-        _vCam.Follow = transform;
     }
 
     [ClientRpc]
