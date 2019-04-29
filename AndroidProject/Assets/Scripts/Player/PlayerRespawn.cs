@@ -23,10 +23,10 @@ public class PlayerRespawn : NetworkBehaviour
         if (isLocalPlayer)
         {
             _spawnPositions = NetworkManager.singleton.startPositions; //level generates several times (transforms can change often)
-            RaceLane lane = _spawnPositions[Random.Range(0, _spawnPositions.Count - 1)].GetComponent<RaceLane>();
-            Vector2 newPos = lane.transform.position;
+            var spawnPoint = _spawnPositions[Random.Range(0, _spawnPositions.Count - 1)];
+            Vector2 newPos = spawnPoint.position;
             _rigidbody2D.position = newPos;
-            _charMovement.SetLane(lane.GetOffset().x);
+            _charMovement.SetLane((int)spawnPoint.position.x);
         }
     }
 }

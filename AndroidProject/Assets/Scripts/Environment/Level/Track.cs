@@ -1,105 +1,71 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.Managers;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
-using UnityEngine.Tilemaps;
 using Zenject;
 
-public class Track : NetworkBehaviour
+public class Track : MonoBehaviour
 {
-    private List<RaceLane> _lanes = new List<RaceLane>();
-    private Vector3Int _offsetVector = new Vector3Int();
+    /// <summary>
+    /// Contains x coordinate of first playable lane.
+    /// </summary>
+    public int GameAreaBoundsMin { get; private set; }
+    /// <summary>
+    /// Contains x coordinate of last playable lane.
+    /// </summary>
+    public int GameAreaBoundsMax { get; private set; }
 
+    public event Action<int, int> OnMapGenerated;
+    public event Action OnMapCleared;
+
+    private Vector3Int _offsetVector = new Vector3Int();
     private GridManager _gridManager;
     private EnvironmentSettings _envSettings;
-
+    private GameStateManager _gameStateManager;
+    private PrefabManager _prefabManager;
     [Inject]
-    public void Construct(GridManager gridManager, EnvironmentSettings envSettings)
+    public void Construct(GridManager gridManager, 
+                          EnvironmentSettings envSettings, 
+                          GameStateManager gameStateManager,
+                          PrefabManager prefabManager)
     {
         _gridManager = gridManager;
         _envSettings = envSettings;
+        _gameStateManager = gameStateManager;
+        _prefabManager = prefabManager;
     }
 
-    public override void OnStartServer()
+    private void Awake()
     {
-        base.OnStartServer();
-        InitLevel(true);
+        _gameStateManager.SubscribeToInit(GameState.Countdown, DrawTrack);
+        _gameStateManager.SubscribeToDispose(GameState.Finished, ClearTrack);
     }
 
-    public override void OnStartClient()
+    private void OnDestroy()
     {
-        base.OnStartClient();
-        InitLevel(false);
+        _gameStateManager.UnsubscribeFromInit(GameState.Countdown, DrawTrack);
+        _gameStateManager.UnsubscribeFromDispose(GameState.Finished, ClearTrack);
     }
 
-    public void AddRaceLane(RaceLane lane)
-    {
-        _lanes.Add(lane);
-    }
-
-    private void RefreshRaceLanes()
-    {
-        ClearRaceLanes();
-        Vector3Int baseVec = _envSettings.baseVector;
-        baseVec.x += _envSettings.borderLane.width;
-        InitRaceLanes(baseVec, _envSettings.LaneCount);
-    }
-
-    private void InitLevel(bool isServer)
-    {
-        if (isServer)
-        {
-            _gridManager.ClearTilemaps();
-            RefreshRaceLanes();
-        }
-        DrawLanes(isServer);
-    }
-
-    private void ClearRaceLanes()
-    {
-        foreach (var lane in _lanes)
-        {
-            if (lane != null && lane.gameObject != null)
-            {
-                Destroy(lane.gameObject);
-            }
-        }
-
-        _lanes.Clear();
-    }
-
-    private RaceLane CreateRaceLane(Vector3Int currentOffset)
-    {
-        var lane = Instantiate(_envSettings.raceLanePrefab, new Vector3(currentOffset.x, currentOffset.y, currentOffset.z) + _envSettings.tileCorrectionOffset,
-                       Quaternion.identity);
-        lane.SetOffset(currentOffset);
-        NetworkServer.Spawn(lane.gameObject);
-        return lane;
-    }
-
-    void InitRaceLanes(Vector3Int currentOffset, int count)
-    {
-        for (int i = 0; i < count; i++)
-        {
-            var lane = CreateRaceLane(currentOffset);
-            currentOffset.x += lane.width;
-        }
-    }
-
-    void DrawLanes(bool isServer)
+    void DrawTrack(GameStateEventArgs e)
     {
         _offsetVector = _envSettings.baseVector;
 
-        _offsetVector.x += _envSettings.borderLane.SetupLane(_gridManager.tilemapBase, _offsetVector, _envSettings.laneLength);
+        _offsetVector.x += _prefabManager.borderLane.SetupLane(_gridManager.tilemapBase, _offsetVector, _envSettings.laneLength);
+        
+        GameAreaBoundsMin = _offsetVector.x;
+        _offsetVector.x += _prefabManager.trackLane.SetupLane(_gridManager.tilemapBase, _offsetVector, _envSettings.laneLength, e.playerCount);
+        GameAreaBoundsMax = _offsetVector.x - 1;
 
-        List<Vector2Int> blockedYs = new List<Vector2Int>();
+        _offsetVector.x += _prefabManager.borderLane.SetupLane(_gridManager.tilemapBase, _offsetVector, _envSettings.laneLength);
 
-        for(int i = 0; i < _lanes.Count; i++)
-        {
-            _offsetVector.x += _lanes[i].SetupLane(_gridManager.tilemapBase, _lanes[i].GetOffset(), _envSettings.laneLength);
-            if (isServer) _lanes[i].SetupInteractables(_gridManager.tilemapInteractable, blockedYs);
-        }
+        OnMapGenerated?.Invoke(GameAreaBoundsMin, GameAreaBoundsMax);
+    }
 
-        _offsetVector.x += _envSettings.borderLane.SetupLane(_gridManager.tilemapBase, _offsetVector, _envSettings.laneLength);
+    void ClearTrack(GameStateEventArgs e)
+    {
+        _gridManager.tilemapBase.ClearAllTiles();
+        OnMapCleared?.Invoke();
     }
 }

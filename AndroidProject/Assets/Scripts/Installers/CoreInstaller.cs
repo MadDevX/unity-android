@@ -17,6 +17,10 @@ public class CoreInstaller : MonoInstaller
     private EnvironmentSettings _environmentSettings;
     [SerializeField]
     private PlayerSettings _playerSettings;
+    [SerializeField]
+    private PrefabManager _prefabManager;
+    [SerializeField]
+    private LobbyManager _lobbyManager;
 
 
     public override void InstallBindings()
@@ -29,5 +33,8 @@ public class CoreInstaller : MonoInstaller
         Container.Bind<GridManager>().FromInstance(_gridManager).AsSingle();
         Container.Bind<PlayerSettings>().FromInstance(_playerSettings).AsSingle();
         Container.Bind<EnvironmentSettings>().FromInstance(_environmentSettings).AsSingle();
+        Container.Bind<PrefabManager>().FromInstance(_prefabManager).AsSingle();
+        Container.Bind<LobbyManager>().FromInstance(_lobbyManager).AsSingle();
+
     }
 }

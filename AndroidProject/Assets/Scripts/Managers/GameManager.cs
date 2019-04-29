@@ -8,39 +8,54 @@ using Zenject;
 
 public class GameManager : NetworkBehaviour
 {
-    private GameStateManager _manager;
-
+    private GameStateManager _gameStateManager;
+    private LobbyManager _lobbyManager;
+    private ConnectionStateManager _connManager;
     [Inject]
-    public void Construct(GameStateManager manager)
+    public void Construct(GameStateManager manager, LobbyManager lobbyManager, ConnectionStateManager connManager)
     {
-        _manager = manager;
+        _gameStateManager = manager;
+        _lobbyManager = lobbyManager;
+        _connManager = connManager;
     }
 
     private void Awake()
     {
-        Action act0 = () => { Debug.Log("Started init"); };
-        Action act1 = () => { Debug.Log("Started dispose"); };
-        Action act2 = () => { Debug.Log("Menu init"); };
-        Action act3 = () => { Debug.Log("Menu dispose"); };
-        _manager.SubscribeToInit(GameState.Started, act0);
-        _manager.SubscribeToDispose(GameState.Started, act1);
-        _manager.SubscribeToInit(GameState.Menu, act2);
-        _manager.SubscribeToDispose(GameState.Menu, act3);
-        _manager.SetState(GameState.Started);
-        _manager.SetState(GameState.Menu);
-        _manager.SetState(GameState.Started);
-        _manager.UnsubscribeFromDispose(GameState.Started, act1);
-        _manager.SetState(GameState.Finished);
+        _connManager.SubscribeToInit(ConnectionState.Null, ResetGame);
+    }
+
+    private void OnDestroy()
+    {
+        _connManager.UnsubscribeFromInit(ConnectionState.Null, ResetGame);
+    }
+
+    public override void OnStartServer()
+    {
+        StartGame();
+    }
+
+    public override void OnStartClient()
+    {
+        if (!isServer)
+        {
+            StartGame();
+        }
     }
 
     public void StartGame()
     {
-
+        _gameStateManager.SetState(GameState.Countdown, new GameStateEventArgs(4));
     }
 
     public void PauseGame()
     {
 
+    }
+
+    public void ResetGame()
+    {
+        _gameStateManager.SetState(GameState.Finished, new GameStateEventArgs(4));
+        _gameStateManager.SetState(GameState.Menu, new GameStateEventArgs(4));
     }
 
 
