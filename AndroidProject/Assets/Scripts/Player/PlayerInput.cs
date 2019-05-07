@@ -7,13 +7,13 @@ public class PlayerInput : MonoBehaviour
 {
     private Vector2 _touchOrigin = -Vector2.one;
 
-    public void ProcessInput(CharacterMovement charMovement)
+    public void ProcessInput(PlayerMovement charMovement)
     {
         SetMovement(charMovement);
         SwitchLanes(charMovement);
     }
 
-    void SetMovement(CharacterMovement charMovement)
+    void SetMovement(PlayerMovement charMovement)
     {
         if (Input.GetButtonDown("Fire1"))
         {
@@ -25,7 +25,7 @@ public class PlayerInput : MonoBehaviour
         }
     }
 
-    void SwitchLanes(CharacterMovement charMovement)
+    void SwitchLanes(PlayerMovement charMovement)
     {
 #if UNITY_STANDALONE || UNITY_WEBPLAYER
         if (Input.GetKeyDown(KeyCode.A)) charMovement.TurnLeft();

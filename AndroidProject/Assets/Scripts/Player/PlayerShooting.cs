@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class CharacterShooting : NetworkBehaviour
+public class PlayerShooting : NetworkBehaviour
 {
     public GameObject bulletPrefab;
     public Vector3 offset;

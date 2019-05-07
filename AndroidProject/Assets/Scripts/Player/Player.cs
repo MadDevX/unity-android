@@ -13,7 +13,7 @@ public class Player : NetworkBehaviour
     private SpriteRenderer _spriteRenderer;
     private PlayerRespawn _playerNetworkPresence;
     private PlayerInput _playerInput;
-    private CharacterMovement _charMovement;
+    private PlayerMovement _charMovement;
     
     private PlayerState _state;
     private CinemachineVirtualCamera _vCam;
@@ -29,7 +29,7 @@ public class Player : NetworkBehaviour
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _playerNetworkPresence = GetComponent<PlayerRespawn>();
         _playerInput = GetComponent<PlayerInput>();
-        _charMovement = GetComponent<CharacterMovement>();
+        _charMovement = GetComponent<PlayerMovement>();
     }
 
     public override void OnStartLocalPlayer()

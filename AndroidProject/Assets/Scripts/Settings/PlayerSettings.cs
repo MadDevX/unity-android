@@ -4,15 +4,7 @@ using UnityEngine;
 
 public class PlayerSettings : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public float movementSpeed = 4.0f;
+    public float runMult = 2.0f;
+    public float lerpFactor = 0.3f;
 }

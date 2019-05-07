@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using Zenject;
 
-public class CharacterMovement : NetworkBehaviour
+public class PlayerMovement : NetworkBehaviour
 {
-    public float movementSpeed = 2.0f;
-    public float runMult = 2.0f;
-    public float lerpFactor = 0.1f;
     public bool IsRunning {
         get
         {
@@ -16,7 +14,7 @@ public class CharacterMovement : NetworkBehaviour
         set
         {
             _isRunning = value;
-            _anim.speed = _isRunning ? runMult : 1.0f;
+            _anim.speed = _isRunning ? _settings.runMult : 1.0f;
         }
     }
 
@@ -31,6 +29,14 @@ public class CharacterMovement : NetworkBehaviour
 
     private Rigidbody2D _rigidbody2D;
     private Animator _anim;
+
+    private PlayerSettings _settings;
+
+    [Inject]
+    public void Construct(PlayerSettings playerSettings)
+    {
+        _settings = playerSettings;
+    }
 
 
     void Start()
@@ -68,14 +74,14 @@ public class CharacterMovement : NetworkBehaviour
 
     private Vector2 MovementVector()
     {
-        var currentVelocity = Vector2.up * movementSpeed;
-        if (IsRunning) currentVelocity *= runMult;
+        var currentVelocity = Vector2.up * _settings.movementSpeed;
+        if (IsRunning) currentVelocity *= _settings.runMult;
         return currentVelocity * Time.fixedDeltaTime;
     }
 
     private Vector2 CorrectPositionVector()
     {
-        float interpolateX = Mathf.Lerp(0.0f, _xTilePos + _xTileOffset - _rigidbody2D.position.x, lerpFactor);
+        float interpolateX = Mathf.Lerp(0.0f, _xTilePos + _xTileOffset - _rigidbody2D.position.x, _settings.lerpFactor);
         return Vector2.right * interpolateX;
     }
 

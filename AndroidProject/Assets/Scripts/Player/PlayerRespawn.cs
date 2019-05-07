@@ -9,11 +9,11 @@ public class PlayerRespawn : NetworkBehaviour
 {
     private Rigidbody2D _rigidbody2D;
     private List<Transform> _spawnPositions;
-    private CharacterMovement _charMovement;
+    private PlayerMovement _charMovement;
 
     public override void OnStartLocalPlayer()
     {
-        _charMovement = GetComponent<CharacterMovement>();
+        _charMovement = GetComponent<PlayerMovement>();
         _rigidbody2D = GetComponent<Rigidbody2D>();
     }
 
