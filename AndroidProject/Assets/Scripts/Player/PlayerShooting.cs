@@ -20,6 +20,8 @@ public class PlayerShooting : NetworkBehaviour
     [Command]
     public void CmdFire()
     {
+
+            
         var bullet = Instantiate(_prefabManager.bullet, transform.position + transform.rotation * _playerSettings.offset, transform.rotation);
 
         bullet.GetComponent<Rigidbody2D>().velocity = bullet.transform.up * _playerSettings.bulletSpeed;

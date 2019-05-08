@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -50,11 +51,21 @@ public class PlayerMovement : NetworkBehaviour
     {
         if (!isLocalPlayer) return;
         Vector2 movementVector = Vector2.zero;
-        movementVector += MovementVector();
-        movementVector += CorrectPositionVector();
-        ApplyMovementVector(movementVector);
+        Accelerate();
+        CorrectPosition();
+        //movementVector += MovementVector();
+
+        //ApplyMovementVector(movementVector);
     }
-    
+
+    private void Accelerate()
+    {
+        if (IsRunning)
+        {
+            _rigidbody2D.velocity += new Vector2(_rigidbody2D.velocity.x, _settings.accelerationRate);
+        }
+    }
+
     public void SetLane(int lane)
     {
         _xTilePos = lane;
@@ -79,10 +90,10 @@ public class PlayerMovement : NetworkBehaviour
         return currentVelocity * Time.fixedDeltaTime;
     }
 
-    private Vector2 CorrectPositionVector()
+    private void CorrectPosition()
     {
         float interpolateX = Mathf.Lerp(0.0f, _xTilePos + _xTileOffset - _rigidbody2D.position.x, _settings.lerpFactor);
-        return Vector2.right * interpolateX;
+        _rigidbody2D.velocity = new Vector2(interpolateX/Time.fixedDeltaTime, _rigidbody2D.velocity.y);
     }
 
     private void ApplyMovementVector(Vector2 vec)
