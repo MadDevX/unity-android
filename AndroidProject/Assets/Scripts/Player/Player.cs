@@ -1,4 +1,5 @@
 ﻿using Cinemachine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,8 @@ public class Player : NetworkBehaviour
 {
     public StateEventManager<PlayerStates> stateManager = new StateEventManager<PlayerStates>();
     public PlayerState State { private get; set; }
+
+    
 
     [SyncVar(hook = "OnColorChanged")]
     public Color _color;
@@ -69,7 +72,7 @@ public class Player : NetworkBehaviour
     public void Kill()
     {
         if (!isLocalPlayer) return;
-
+        stateManager.SetState(PlayerStates.Dead);
         Debug.Log("Player was killed!");
     }
 
@@ -83,7 +86,7 @@ public class Player : NetworkBehaviour
     [Command]
     private void CmdPaint()
     {
-        _color = Random.ColorHSV();
+        _color = UnityEngine.Random.ColorHSV();
     }
 
     public void Respawn()
@@ -92,5 +95,9 @@ public class Player : NetworkBehaviour
 
         _playerNetworkPresence.RpcRespawn();
     }
-   
+
+    public void TakeDamage()
+    {
+        stateManager.SetState(PlayerStates.Dead);
+    }
 }
