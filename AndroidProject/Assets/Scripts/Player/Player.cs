@@ -14,7 +14,8 @@ public class Player : NetworkBehaviour
     private PlayerRespawn _playerNetworkPresence;
     private PlayerInput _playerInput;
     private PlayerMovement _charMovement;
-    
+    private PlayerShooting _playerShooting;
+
     private PlayerState _state;
     private CinemachineVirtualCamera _vCam;
 
@@ -30,6 +31,7 @@ public class Player : NetworkBehaviour
         _playerNetworkPresence = GetComponent<PlayerRespawn>();
         _playerInput = GetComponent<PlayerInput>();
         _charMovement = GetComponent<PlayerMovement>();
+        _playerShooting = GetComponent<PlayerShooting>();
     }
 
     public override void OnStartLocalPlayer()
@@ -50,7 +52,7 @@ public class Player : NetworkBehaviour
     {
         if (!isLocalPlayer) return;
 
-        _playerInput.ProcessInput(_charMovement);
+        _playerInput.ProcessInput(_charMovement,_playerShooting);
     }
 
     void OnColorChanged(Color color)

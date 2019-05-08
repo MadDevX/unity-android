@@ -9,7 +9,7 @@ public class PrefabManager : MonoBehaviour
     public StaticWidthLane borderLane;
     public DynamicWidthLane trackLane;
     public GameObject spawnPoint;
-
+    public GameObject bullet;
 
     [System.Serializable]
     public class TileEntry : IRandomizable

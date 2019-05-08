@@ -7,10 +7,11 @@ public class PlayerInput : MonoBehaviour
 {
     private Vector2 _touchOrigin = -Vector2.one;
 
-    public void ProcessInput(PlayerMovement charMovement)
+    public void ProcessInput(PlayerMovement charMovement,PlayerShooting playerShooting)
     {
         SetMovement(charMovement);
         SwitchLanes(charMovement);
+        Shoot(playerShooting);
     }
 
     void SetMovement(PlayerMovement charMovement)
@@ -24,6 +25,12 @@ public class PlayerInput : MonoBehaviour
             charMovement.IsRunning = false;
         }
     }
+
+    public void Shoot(PlayerShooting playerShooting)
+    {
+        if (Input.GetKeyDown(KeyCode.Space)) playerShooting.CmdFire();
+    }
+
 
     void SwitchLanes(PlayerMovement charMovement)
     {

@@ -159,6 +159,8 @@ MonoBehaviour:
   movementSpeed: 4
   runMult: 2
   lerpFactor: 0.3
+  offset: {x: 0, y: 0.5, z: 0}
+  bulletSpeed: 6
 --- !u!114 &50363323
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -631,6 +633,7 @@ MonoBehaviour:
   trackLane: {fileID: 11400000, guid: 9bbdd55c3d478f844be2bf52c9bfc463, type: 2}
   spawnPoint: {fileID: 2884407771631100458, guid: dd83f8fd278390d4b9c02b83d2d7ecda,
     type: 3}
+  bullet: {fileID: 6931873338582951159, guid: 4c4991eeee3e77348b0d8d4f2e31314a, type: 3}
 --- !u!1 &356273629
 GameObject:
   m_ObjectHideFlags: 0
