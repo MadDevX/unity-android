@@ -9,28 +9,43 @@ public abstract class PlayerState: MonoBehaviour
     private void Awake()
     {
         _player = GetComponent<Player>();
-        Init();
+        SetupReferences();
+        _player.stateManager.SubscribeToInit(GetState(), AssignState);
+        _player.stateManager.SubscribeToInit(GetState(), Init);
+        _player.stateManager.SubscribeToDispose(GetState(), Dispose);
     }
     
     private void OnDestroy()
     {
-        Dispose();
+        _player.stateManager.UnsubscribeFromInit(GetState(), AssignState);
+        _player.stateManager.UnsubscribeFromInit(GetState(), Init);
+        _player.stateManager.UnsubscribeFromDispose(GetState(), Dispose);
     }
 
     private void AssignState()
     {
         _player.State = this;
-        
     }
 
+    /// <summary>
+    /// Used to set up references to other components from game object.
+    /// </summary>
+    protected virtual void SetupReferences()
+    {
+    }
+
+    /// <summary>
+    /// Invoked if player state changes to this state.
+    /// </summary>
     protected virtual void Init()
     {
-        _player.stateManager.SubscribeToInit(GetState(), AssignState);
     }
 
+    /// <summary>
+    /// Invoked if player state changes from this state to another state.
+    /// </summary>
     protected virtual void Dispose()
     {
-        _player.stateManager.UnsubscribeFromInit(GetState(), AssignState);
     }
 
     protected abstract PlayerStates GetState();

@@ -39,7 +39,6 @@ public class PlayerMovement : NetworkBehaviour
         _settings = playerSettings;
     }
 
-
     void Start()
     {
         _rigidbody2D = GetComponent<Rigidbody2D>();
@@ -50,10 +49,8 @@ public class PlayerMovement : NetworkBehaviour
     void FixedUpdate()
     {
         if (!isLocalPlayer) return;
-        Vector2 movementVector = Vector2.zero;
         Accelerate();
         CorrectPosition();
-
     }
 
     private void Accelerate()

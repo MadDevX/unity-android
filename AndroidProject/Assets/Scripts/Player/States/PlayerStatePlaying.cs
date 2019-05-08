@@ -12,18 +12,10 @@ public class PlayerStatePlaying : PlayerState
         ProcessInput(_playerMovement, _playerShooting);
     }
 
-    protected override void Init()
+    protected override void SetupReferences()
     {
-        base.Init();
-
         _playerMovement = GetComponent<PlayerMovement>();
         _playerShooting = GetComponent<PlayerShooting>();
-
-    }
-
-    protected override void Dispose()
-    {
-        base.Dispose();
     }
 
     protected override PlayerStates GetState()

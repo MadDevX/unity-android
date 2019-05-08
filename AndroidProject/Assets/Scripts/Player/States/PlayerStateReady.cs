@@ -6,11 +6,29 @@ public class PlayerStateReady : PlayerState
 {
     public override void Tick()
     {
-        throw new System.NotImplementedException();
+        ProcessInput();
+    }
+
+    protected override void Init()
+    {
+        Debug.Log("Player is ready.");
+    }
+
+    protected override void Dispose()
+    {
+        Debug.Log("Player is no longer ready.");
     }
 
     protected override PlayerStates GetState()
     {
         return PlayerStates.Ready;
+    }
+
+    private void ProcessInput()
+    {
+        if(Input.GetButton("Fire1") == false)
+        {
+            _player.stateManager.SetState(PlayerStates.Waiting);
+        }
     }
 }
