@@ -22,22 +22,26 @@ public class Spawner : NetworkBehaviour
         _track = track;
     }
 
-    private void OnEnable()
+    private void Awake()
     {
-        _track.OnMapGenerated += GenerateObstacles;
-        _track.OnMapGenerated += GenerateFinish;
+        _track.OnMapGenerated += GenerateInteractables;
         _track.OnMapGenerated += GenerateSpawnPoints;
         _track.OnMapCleared += ClearInteractables;
         _track.OnMapCleared += ClearSpawnPoints;
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
-        _track.OnMapGenerated -= GenerateObstacles;
-        _track.OnMapGenerated -= GenerateFinish;
+        _track.OnMapGenerated -= GenerateInteractables;
         _track.OnMapGenerated -= GenerateSpawnPoints;
         _track.OnMapCleared -= ClearInteractables;
         _track.OnMapCleared -= ClearSpawnPoints;
+    }
+
+    private void GenerateInteractables(int boundsMin, int boundsMax)
+    {
+        GenerateObstacles(boundsMin, boundsMax);
+        GenerateFinish(boundsMin, boundsMax);
     }
 
     private void GenerateObstacles(int boundsMin, int boundsMax)
@@ -77,12 +81,9 @@ public class Spawner : NetworkBehaviour
 
     private void GenerateFinish(int boundsMin, int boundsMax)
     {
-
         for (int x = boundsMin; x <= boundsMax; x++)
         {
-            
             var position = new Vector3Int(x, _envSettings.laneLength - 1, 0);
-            if (_prefabManager.finishTile is null) Debug.Log("NIE DLA PSA DLA PANA TO KURWA");
             _gridManager.tilemapInteractable.SetTile(position, _prefabManager.finishTile);
         }
     }
