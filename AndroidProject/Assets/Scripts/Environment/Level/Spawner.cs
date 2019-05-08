@@ -77,9 +77,12 @@ public class Spawner : NetworkBehaviour
 
     private void GenerateFinish(int boundsMin, int boundsMax)
     {
+
         for (int x = boundsMin; x <= boundsMax; x++)
         {
+            
             var position = new Vector3Int(x, _envSettings.laneLength - 1, 0);
+            if (_prefabManager.finishTile is null) Debug.Log("NIE DLA PSA DLA PANA TO KURWA");
             _gridManager.tilemapInteractable.SetTile(position, _prefabManager.finishTile);
         }
     }

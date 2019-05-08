@@ -53,9 +53,7 @@ public class PlayerMovement : NetworkBehaviour
         Vector2 movementVector = Vector2.zero;
         Accelerate();
         CorrectPosition();
-        //movementVector += MovementVector();
 
-        //ApplyMovementVector(movementVector);
     }
 
     private void Accelerate()
