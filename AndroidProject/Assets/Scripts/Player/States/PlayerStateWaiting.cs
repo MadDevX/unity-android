@@ -6,7 +6,7 @@ public class PlayerStateWaiting : PlayerState
 {
     public override void Tick()
     {
-        throw new System.NotImplementedException();
+
     }
 
     protected override PlayerStates GetState()
