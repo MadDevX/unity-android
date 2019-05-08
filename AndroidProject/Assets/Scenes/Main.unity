@@ -159,6 +159,7 @@ MonoBehaviour:
   movementSpeed: 4
   runMult: 2
   lerpFactor: 0.3
+  accelerationRate: 0.1
   offset: {x: 0, y: 0.5, z: 0}
   bulletSpeed: 6
 --- !u!114 &50363323

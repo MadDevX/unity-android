@@ -1,4 +1,4 @@
-﻿public enum PlayerState
+﻿public enum PlayerStates
 {
     Waiting,
     Ready,

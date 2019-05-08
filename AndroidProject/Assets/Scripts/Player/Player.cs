@@ -7,17 +7,19 @@ using Zenject;
 
 public class Player : NetworkBehaviour
 {
+    public StateEventManager<PlayerStates> stateManager = new StateEventManager<PlayerStates>();
+    public PlayerState State { private get; set; }
+
     [SyncVar(hook = "OnColorChanged")]
     public Color _color;
-    
+
     private SpriteRenderer _spriteRenderer;
     private PlayerRespawn _playerNetworkPresence;
-    private PlayerInput _playerInput;
     private PlayerMovement _charMovement;
     private PlayerShooting _playerShooting;
-
-    private PlayerState _state;
     private CinemachineVirtualCamera _vCam;
+    
+        
 
     [Inject]
     public void Construct(ServiceProvider provider)
@@ -29,9 +31,8 @@ public class Player : NetworkBehaviour
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _playerNetworkPresence = GetComponent<PlayerRespawn>();
-        _playerInput = GetComponent<PlayerInput>();
         _charMovement = GetComponent<PlayerMovement>();
-        _playerShooting = GetComponent<PlayerShooting>();
+        _playerShooting = GetComponent<PlayerShooting>();       
     }
 
     public override void OnStartLocalPlayer()
@@ -42,9 +43,13 @@ public class Player : NetworkBehaviour
 
     private void Start()
     {
-        if(!isLocalPlayer)
+        if (!isLocalPlayer)
         {
             OnColorChanged(_color);
+        }
+        else
+        {
+            stateManager.SetState(PlayerStates.Playing);
         }
     }
 
@@ -52,7 +57,7 @@ public class Player : NetworkBehaviour
     {
         if (!isLocalPlayer) return;
 
-        _playerInput.ProcessInput(_charMovement,_playerShooting);
+        State.Tick();
     }
 
     void OnColorChanged(Color color)
@@ -87,9 +92,5 @@ public class Player : NetworkBehaviour
 
         _playerNetworkPresence.RpcRespawn();
     }
-
-    public void ChangeState(PlayerState state)
-    {
-
-    }
+   
 }

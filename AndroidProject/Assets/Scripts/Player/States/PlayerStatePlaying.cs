@@ -1,20 +1,47 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
 
-public class PlayerInput : MonoBehaviour
+public class PlayerStatePlaying : PlayerState
 {
+    private PlayerMovement _playerMovement;
+    private PlayerShooting _playerShooting;
+
+    public override void Tick()
+    {
+        ProcessInput(_playerMovement, _playerShooting);
+    }
+
+    protected override void Init()
+    {
+        base.Init();
+
+        _playerMovement = GetComponent<PlayerMovement>();
+        _playerShooting = GetComponent<PlayerShooting>();
+
+    }
+
+    protected override void Dispose()
+    {
+        base.Dispose();
+    }
+
+    protected override PlayerStates GetState()
+    {
+        return PlayerStates.Playing;
+    }
+
+    #region PlayerInput
     private Vector2 _touchOrigin = -Vector2.one;
 
-    public void ProcessInput(PlayerMovement charMovement,PlayerShooting playerShooting)
+    private void ProcessInput(PlayerMovement charMovement, PlayerShooting playerShooting)
     {
         SetMovement(charMovement);
         SwitchLanes(charMovement);
         Shoot(playerShooting);
     }
 
-    void SetMovement(PlayerMovement charMovement)
+    private void SetMovement(PlayerMovement charMovement)
     {
         if (Input.GetButtonDown("Fire1"))
         {
@@ -26,13 +53,13 @@ public class PlayerInput : MonoBehaviour
         }
     }
 
-    public void Shoot(PlayerShooting playerShooting)
+    private void Shoot(PlayerShooting playerShooting)
     {
         if (Input.GetKeyDown(KeyCode.Space)) playerShooting.CmdFire();
     }
 
 
-    void SwitchLanes(PlayerMovement charMovement)
+    private void SwitchLanes(PlayerMovement charMovement)
     {
 #if UNITY_STANDALONE || UNITY_WEBPLAYER
         if (Input.GetKeyDown(KeyCode.A)) charMovement.TurnLeft();
@@ -65,4 +92,5 @@ public class PlayerInput : MonoBehaviour
         }
 #endif
     }
+    #endregion
 }
