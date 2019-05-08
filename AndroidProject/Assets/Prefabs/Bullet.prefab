@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 6931873338582951152}
   - component: {fileID: 165324097596297405}
   - component: {fileID: 3907999244107412399}
+  - component: {fileID: 4974264474251729746}
+  - component: {fileID: 7895528356722892216}
   m_Layer: 0
   m_Name: Bullet
   m_TagString: Untagged
@@ -158,3 +160,31 @@ MonoBehaviour:
   m_SnapThreshold: 5
   m_InterpolateRotation: 1
   m_InterpolateMovement: 1
+--- !u!58 &4974264474251729746
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6931873338582951159}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.1
+--- !u!114 &7895528356722892216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6931873338582951159}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee703ff8512c07c4ba52000d155bf35a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
