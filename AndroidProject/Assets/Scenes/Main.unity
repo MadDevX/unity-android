@@ -2124,6 +2124,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerCount: 0
   readyPlayerCount: 0
+  readyPlayers: []
 --- !u!114 &2000521306
 MonoBehaviour:
   m_ObjectHideFlags: 0

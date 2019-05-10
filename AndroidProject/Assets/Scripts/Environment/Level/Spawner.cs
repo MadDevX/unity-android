@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using Zenject;
 
-public class Spawner : NetworkBehaviour
+public class Spawner : MonoBehaviour
 {
     private ConnectionStateManager _connManager;
     private EnvironmentSettings _envSettings;

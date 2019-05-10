@@ -13,7 +13,7 @@ public class LobbyManager : NetworkBehaviour
     [SyncVar]
     public int readyPlayerCount;
 
-    public List<PlayerNetworkingLobby> readyPlayers = new List<PlayerNetworkingLobby>();
+    private List<PlayerNetworkingLobby> _readyPlayers = new List<PlayerNetworkingLobby>();
 
     private ConnectionStateManager _connManager;
     private MyNetworkManager _networkManager;
@@ -28,22 +28,22 @@ public class LobbyManager : NetworkBehaviour
     public void AddReady(PlayerNetworkingLobby player)
     {
         RefreshReadyPlayers();
-        if(readyPlayers.Contains(player) == false) readyPlayers.Add(player);
-        readyPlayerCount = readyPlayers.Count;
+        if(_readyPlayers.Contains(player) == false) _readyPlayers.Add(player);
+        readyPlayerCount = _readyPlayers.Count;
     }
 
     public void RemoveReady(PlayerNetworkingLobby player)
     {
         RefreshReadyPlayers();
-        readyPlayers.Remove(player);
-        readyPlayerCount = readyPlayers.Count;
+        _readyPlayers.Remove(player);
+        readyPlayerCount = _readyPlayers.Count;
     }
 
     private void RefreshReadyPlayers()
     {
-        for(int i = readyPlayers.Count-1; i>=0; i--)
+        for(int i = _readyPlayers.Count-1; i>=0; i--)
         {
-            if (readyPlayers[i] == null) readyPlayers.RemoveAt(i);
+            if (_readyPlayers[i] == null) _readyPlayers.RemoveAt(i);
         }
     }
 
