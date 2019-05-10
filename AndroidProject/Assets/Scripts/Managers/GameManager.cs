@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using Zenject;
 
-public class GameManager : NetworkBehaviour
+public class GameManager : MonoBehaviour
 {
     private GameStateManager _gameStateManager;
     private LobbyManager _lobbyManager;
@@ -21,24 +21,27 @@ public class GameManager : NetworkBehaviour
 
     private void Awake()
     {
-        _connManager.SubscribeToInit(ConnectionState.Null, ResetGame);
+        _connManager.SubscribeToDispose(ConnectionState.Server, ResetGame);
+        _connManager.SubscribeToDispose(ConnectionState.Host, ResetGame);
+        _connManager.SubscribeToDispose(ConnectionState.Client, ResetGame);
     }
 
     private void OnDestroy()
     {
-        _connManager.UnsubscribeFromInit(ConnectionState.Null, ResetGame);
+        _connManager.UnsubscribeFromDispose(ConnectionState.Server, ResetGame);
+        _connManager.UnsubscribeFromDispose(ConnectionState.Host, ResetGame);
+        _connManager.UnsubscribeFromDispose(ConnectionState.Client, ResetGame);
     }
 
-    public override void OnStartServer()
+    private void Update()
     {
-        StartGame();
-    }
-
-    public override void OnStartClient()
-    {
-        if (!isServer)
+        if(_gameStateManager.State != GameState.Countdown && _connManager.State != ConnectionState.Null)
         {
             StartGame();
+        }
+        if(_gameStateManager.State != GameState.Menu && _connManager.State == ConnectionState.Null)
+        {
+            ResetGame();
         }
     }
 

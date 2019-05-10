@@ -7,6 +7,7 @@ using Zenject;
 
 public class Spawner : NetworkBehaviour
 {
+    private ConnectionStateManager _connManager;
     private EnvironmentSettings _envSettings;
     private PrefabManager _prefabManager;
     private GridManager _gridManager;
@@ -14,34 +15,49 @@ public class Spawner : NetworkBehaviour
     private List<GameObject> _spawnPoints = new List<GameObject>();
 
     [Inject]
-    public void Construct(EnvironmentSettings envSettings, PrefabManager prefabManager, GridManager gridManager, Track track)
+    public void Construct(EnvironmentSettings envSettings, PrefabManager prefabManager, GridManager gridManager, Track track, ConnectionStateManager connManager)
     {
         _envSettings = envSettings;
         _prefabManager = prefabManager;
         _gridManager = gridManager;
         _track = track;
+        _connManager = connManager;
     }
 
     private void Awake()
     {
-        _track.OnMapGenerated += GenerateInteractables;
-        _track.OnMapGenerated += GenerateSpawnPoints;
-        _track.OnMapCleared += ClearInteractables;
-        _track.OnMapCleared += ClearSpawnPoints;
+        _connManager.SubscribeToInit(ConnectionState.Server, SubscribeMethods);
+        _connManager.SubscribeToInit(ConnectionState.Host, SubscribeMethods);
+        _connManager.SubscribeToInit(ConnectionState.Client, UnsubscribeMethods);
+        _connManager.SubscribeToInit(ConnectionState.Null, UnsubscribeMethods);
     }
 
     private void OnDestroy()
     {
+        _connManager.UnsubscribeFromInit(ConnectionState.Server, SubscribeMethods);
+        _connManager.UnsubscribeFromInit(ConnectionState.Host, SubscribeMethods);
+        _connManager.UnsubscribeFromInit(ConnectionState.Client, UnsubscribeMethods);
+        _connManager.UnsubscribeFromInit(ConnectionState.Null, UnsubscribeMethods);
+    }
+
+    private void SubscribeMethods()
+    {
+        _track.OnMapGenerated += GenerateInteractables;
+        _track.OnMapCleared += ClearInteractables;
+    }
+
+    private void UnsubscribeMethods()
+    {
         _track.OnMapGenerated -= GenerateInteractables;
-        _track.OnMapGenerated -= GenerateSpawnPoints;
         _track.OnMapCleared -= ClearInteractables;
-        _track.OnMapCleared -= ClearSpawnPoints;
     }
 
     private void GenerateInteractables(int boundsMin, int boundsMax)
     {
+
         GenerateObstacles(boundsMin, boundsMax);
         GenerateFinish(boundsMin, boundsMax);
+        GenerateSpawnPoints(boundsMin, boundsMax);
     }
 
     private void GenerateObstacles(int boundsMin, int boundsMax)
@@ -91,6 +107,7 @@ public class Spawner : NetworkBehaviour
     private void ClearInteractables()
     {
         _gridManager.tilemapInteractable.ClearAllTiles();
+        ClearSpawnPoints();
     }
 
     private void ClearSpawnPoints()
