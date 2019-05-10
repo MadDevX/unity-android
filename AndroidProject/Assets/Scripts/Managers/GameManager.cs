@@ -8,6 +8,8 @@ using Zenject;
 
 public class GameManager : MonoBehaviour
 {
+    public GameState initialState;
+
     private GameStateManager _gameStateManager;
     private LobbyManager _lobbyManager;
     private ConnectionStateManager _connManager;
@@ -35,7 +37,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if(_gameStateManager.State != GameState.Countdown && _connManager.State != ConnectionState.Null)
+        if(_gameStateManager.State != initialState && _connManager.State != ConnectionState.Null)
         {
             StartGame();
         }
@@ -47,7 +49,7 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
-        _gameStateManager.SetState(GameState.Countdown, new GameStateEventArgs(4));
+        _gameStateManager.SetState(initialState, new GameStateEventArgs(4));
     }
 
     public void PauseGame()

@@ -7,10 +7,10 @@ public class Finish : NetworkBehaviour
 {
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        var player = collision.GetComponent<Player>();
-        if(player != null)
+        var playerRespawn = collision.GetComponent<PlayerRespawn>();
+        if(playerRespawn != null)
         {
-            player.Respawn();
+            playerRespawn.Respawn();
         }
     }
 }

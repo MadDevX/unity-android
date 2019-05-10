@@ -1804,6 +1804,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7860a09ef6f04a74782fe02849e7f7f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  initialState: 2
 --- !u!4 &1567475030
 Transform:
   m_ObjectHideFlags: 0
@@ -2121,7 +2122,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f35a0088868dcaa40817b839763b60dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerCount: 1
+  playerCount: 0
+  readyPlayerCount: 0
 --- !u!114 &2000521306
 MonoBehaviour:
   m_ObjectHideFlags: 0

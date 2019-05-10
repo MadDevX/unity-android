@@ -17,6 +17,13 @@ public class PlayerRespawn : NetworkBehaviour
         _rigidbody2D = GetComponent<Rigidbody2D>();
     }
 
+    public void Respawn()
+    {
+        if (!isServer) return;
+
+        RpcRespawn();
+    }
+
     [ClientRpc]
     public void RpcRespawn()
     {

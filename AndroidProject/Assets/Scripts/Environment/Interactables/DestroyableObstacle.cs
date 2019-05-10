@@ -6,6 +6,6 @@ public class DestroyableObstacle : Obstacle
 {
     protected override void OnPlayerCollision(Player player)
     {
-        player.PaintRandom();
+        player.GetComponent<PlayerNetworkingRenderer>()?.PaintRandom();
     }
 }

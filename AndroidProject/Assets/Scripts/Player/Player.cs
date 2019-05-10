@@ -1,4 +1,5 @@
-﻿using Cinemachine;
+﻿using Assets.Scripts.Managers;
+using Cinemachine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,63 +11,45 @@ public class Player : NetworkBehaviour
 {
     public StateEventManager<PlayerStates> stateManager = new StateEventManager<PlayerStates>();
     public PlayerState State { private get; set; }
-
     
-
-    [SyncVar(hook = "OnColorChanged")]
-    public Color _color;
-
-    private SpriteRenderer _spriteRenderer;
-    private PlayerRespawn _playerNetworkPresence;
     private PlayerMovement _charMovement;
     private PlayerShooting _playerShooting;
     private CinemachineVirtualCamera _vCam;
-    
-        
+    private GameStateManager _gameStateManager;
 
     [Inject]
-    public void Construct(ServiceProvider provider)
+    public void Construct(ServiceProvider provider, GameStateManager gameStateManager)
     {
         _vCam = provider.vCam;
+        _gameStateManager = gameStateManager;
     }
 
     private void Awake()
     {
-        _spriteRenderer = GetComponent<SpriteRenderer>();
-        _playerNetworkPresence = GetComponent<PlayerRespawn>();
         _charMovement = GetComponent<PlayerMovement>();
-        _playerShooting = GetComponent<PlayerShooting>();       
+        _playerShooting = GetComponent<PlayerShooting>();
     }
 
     public override void OnStartLocalPlayer()
     {
         _vCam.Follow = transform;
-        _color = _spriteRenderer.color;
     }
 
     private void Start()
     {
-        if (!isLocalPlayer)
-        {
-            OnColorChanged(_color);
-        }
-        else
-        {
-            stateManager.SetState(PlayerStates.Playing);
-        }
+
+        if (!isLocalPlayer) return;
+        OnGameJoined();
     }
 
     private void Update()
     {
         if (!isLocalPlayer) return;
-
+        if(stateManager.State == PlayerStates.Ready && _gameStateManager.State == GameState.Countdown)
+        {
+            OnGameStarted();
+        }
         State.Tick();
-    }
-
-    void OnColorChanged(Color color)
-    {
-        _color = color;
-        _spriteRenderer.color = _color;
     }
 
     public void Kill()
@@ -76,28 +59,18 @@ public class Player : NetworkBehaviour
         Debug.Log("Player was killed!");
     }
 
-    public void PaintRandom()
-    {
-        if (!isLocalPlayer) return;
-
-        CmdPaint();
-    }
-
-    [Command]
-    private void CmdPaint()
-    {
-        _color = UnityEngine.Random.ColorHSV();
-    }
-
-    public void Respawn()
-    {
-        if (!isServer) return;
-
-        _playerNetworkPresence.RpcRespawn();
-    }
-
     public void TakeDamage()
     {
         stateManager.SetState(PlayerStates.Dead);
+    }
+
+    private void OnGameJoined()
+    {
+        stateManager.SetState(PlayerStates.Waiting);
+    }
+
+    private void OnGameStarted()
+    {
+        stateManager.SetState(PlayerStates.Playing);
     }
 }

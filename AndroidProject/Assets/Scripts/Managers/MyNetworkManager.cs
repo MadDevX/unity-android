@@ -8,7 +8,7 @@ using Zenject;
 
 public class MyNetworkManager : NetworkManager
 {
-    public event Action OnNumPlayersChanged;
+    public event Action<int> OnNumPlayersChanged;
 
     public bool MyStartClient()
     {
@@ -45,12 +45,24 @@ public class MyNetworkManager : NetworkManager
     public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId)
     {
         base.OnServerAddPlayer(conn, playerControllerId);
-        OnNumPlayersChanged?.Invoke();
+        OnNumPlayersChanged?.Invoke(numPlayers);
+    }
+
+    public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId, NetworkReader extraMessageReader)
+    {
+        base.OnServerAddPlayer(conn, playerControllerId, extraMessageReader);
+        OnNumPlayersChanged?.Invoke(numPlayers);
     }
 
     public override void OnServerRemovePlayer(NetworkConnection conn, PlayerController player)
     {
         base.OnServerRemovePlayer(conn, player);
-        OnNumPlayersChanged?.Invoke();
+        OnNumPlayersChanged?.Invoke(numPlayers);
+    }
+
+    public override void OnServerDisconnect(NetworkConnection conn)
+    {
+        base.OnServerDisconnect(conn);
+        OnNumPlayersChanged?.Invoke(numPlayers);
     }
 }
