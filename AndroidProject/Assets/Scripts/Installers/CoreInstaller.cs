@@ -23,12 +23,12 @@ public class CoreInstaller : MonoInstaller
     private PrefabManager _prefabManager;
     [SerializeField]
     private LobbyManager _lobbyManager;
+    [SerializeField]
+    private NetworkedGameManager _netGameManager;
 
 
     public override void InstallBindings()
     {
-        
-        Container.Bind<GameManager>().FromInstance(_gameManager).AsSingle();
         Container.Bind<GameStateManager>().AsSingle();
         Container.Bind<ConnectionStateManager>().AsSingle();
         Container.Bind<ServiceProvider>().FromInstance(_serviceProvider).AsSingle();
@@ -39,6 +39,7 @@ public class CoreInstaller : MonoInstaller
         Container.Bind<EnvironmentSettings>().FromInstance(_environmentSettings).AsSingle();
         Container.Bind<PrefabManager>().FromInstance(_prefabManager).AsSingle();
         Container.Bind<LobbyManager>().FromInstance(_lobbyManager).AsSingle();
-
+        Container.Bind<GameManager>().FromInstance(_gameManager).AsSingle();
+        Container.Bind<NetworkedGameManager>().FromInstance(_netGameManager).AsSingle();
     }
 }

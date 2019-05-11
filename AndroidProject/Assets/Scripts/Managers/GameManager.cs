@@ -8,17 +8,18 @@ using Zenject;
 
 public class GameManager : MonoBehaviour
 {   
-
     private GameStateManager _gameStateManager;
     private LobbyManager _lobbyManager;
     private ConnectionStateManager _connManager;
+    private NetworkedGameManager _netGameManager;
 
     [Inject]
-    public void Construct(GameStateManager manager, LobbyManager lobbyManager, ConnectionStateManager connManager)
+    public void Construct(GameStateManager manager, LobbyManager lobbyManager, ConnectionStateManager connManager, NetworkedGameManager netGameManager)
     {
         _gameStateManager = manager;
         _lobbyManager = lobbyManager;
         _connManager = connManager;
+        _netGameManager = netGameManager;
     }
 
     private void Awake()
@@ -53,9 +54,8 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
-        _gameStateManager.SetState(GameState.Countdown, new GameStateEventArgs(_lobbyManager.playerCount));
+        _netGameManager.StartGame();
     }
-
 
     private void StartLobby()
     {

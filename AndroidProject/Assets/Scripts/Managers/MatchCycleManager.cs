@@ -6,7 +6,6 @@ using Zenject;
 
 public class MatchCycleManager : MonoBehaviour
 {
-
     LobbyManager _lobbyManager;
     GameManager _gameManager;
     GameStateManager _gameStateManager;
@@ -14,14 +13,10 @@ public class MatchCycleManager : MonoBehaviour
     [Inject]
     public void Construct(LobbyManager lobbyManager, GameManager gameManager, GameStateManager gameStateManager)
     {
-
         _lobbyManager = lobbyManager;
         _gameManager = gameManager;
         _gameStateManager = gameStateManager;
-
     }
-
-    
 
     private void Awake()
     {
@@ -42,6 +37,5 @@ public class MatchCycleManager : MonoBehaviour
                 _gameManager.StartGame();
             }
         }
-
     }
 }
