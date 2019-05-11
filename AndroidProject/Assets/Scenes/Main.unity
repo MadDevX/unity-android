@@ -577,6 +577,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _serviceProvider: {fileID: 317707284}
   _gridManager: {fileID: 317707285}
+  _gameManager: {fileID: 1567475029}
   _environment: {fileID: 124620399}
   _uiManager: {fileID: 1983106863}
   _environmentSettings: {fileID: 50363323}
@@ -1804,7 +1805,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7860a09ef6f04a74782fe02849e7f7f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialState: 2
 --- !u!4 &1567475030
 Transform:
   m_ObjectHideFlags: 0
@@ -2103,6 +2103,7 @@ GameObject:
   - component: {fileID: 2000521307}
   - component: {fileID: 2000521306}
   - component: {fileID: 2000521305}
+  - component: {fileID: 2000521308}
   m_Layer: 0
   m_Name: LobbyManager
   m_TagString: Untagged
@@ -2124,7 +2125,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerCount: 0
   readyPlayerCount: 0
-  readyPlayers: []
 --- !u!114 &2000521306
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2172,6 +2172,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2000521308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2000521304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 513fde0f505e29245b8d281642f57dd1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2028118902
 GameObject:
   m_ObjectHideFlags: 0
