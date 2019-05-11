@@ -7,12 +7,12 @@ using UnityEngine.Networking;
 using Zenject;
 
 public class GameManager : MonoBehaviour
-{
-    public GameState initialState;
+{   
 
     private GameStateManager _gameStateManager;
     private LobbyManager _lobbyManager;
     private ConnectionStateManager _connManager;
+
     [Inject]
     public void Construct(GameStateManager manager, LobbyManager lobbyManager, ConnectionStateManager connManager)
     {
@@ -23,13 +23,21 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        _connManager.SubscribeToInit(ConnectionState.Client, StartLobby);
+        _connManager.SubscribeToInit(ConnectionState.Host, StartLobby);
+        _connManager.SubscribeToInit(ConnectionState.Server, StartLobby);
+
         _connManager.SubscribeToDispose(ConnectionState.Server, ResetGame);
         _connManager.SubscribeToDispose(ConnectionState.Host, ResetGame);
         _connManager.SubscribeToDispose(ConnectionState.Client, ResetGame);
     }
 
     private void OnDestroy()
-    {
+    {        
+        _connManager.UnsubscribeFromInit(ConnectionState.Client, StartLobby);
+        _connManager.UnsubscribeFromInit(ConnectionState.Host, StartLobby);
+        _connManager.UnsubscribeFromInit(ConnectionState.Server, StartLobby);
+
         _connManager.UnsubscribeFromDispose(ConnectionState.Server, ResetGame);
         _connManager.UnsubscribeFromDispose(ConnectionState.Host, ResetGame);
         _connManager.UnsubscribeFromDispose(ConnectionState.Client, ResetGame);
@@ -37,10 +45,6 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if(_gameStateManager.State != initialState && _connManager.State != ConnectionState.Null)
-        {
-            StartGame();
-        }
         if(_gameStateManager.State != GameState.Menu && _connManager.State == ConnectionState.Null)
         {
             ResetGame();
@@ -49,18 +53,19 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
-        _gameStateManager.SetState(initialState, new GameStateEventArgs(4));
+        _gameStateManager.SetState(GameState.Countdown, new GameStateEventArgs(_lobbyManager.playerCount));
     }
 
-    public void PauseGame()
-    {
 
+    private void StartLobby()
+    {
+        _gameStateManager.SetState(GameState.Lobby, new GameStateEventArgs(_lobbyManager.playerCount));
     }
 
     public void ResetGame()
     {
-        _gameStateManager.SetState(GameState.Finished, new GameStateEventArgs(4));
-        _gameStateManager.SetState(GameState.Menu, new GameStateEventArgs(4));
+        _gameStateManager.SetState(GameState.Finished, new GameStateEventArgs(_lobbyManager.playerCount));
+        _gameStateManager.SetState(GameState.Menu, new GameStateEventArgs(_lobbyManager.playerCount));
     }
 
 

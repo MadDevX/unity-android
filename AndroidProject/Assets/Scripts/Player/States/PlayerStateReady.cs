@@ -26,7 +26,7 @@ public class PlayerStateReady : PlayerState
 
     private void ProcessInput()
     {
-        if(Input.GetButton("Fire1") == false)
+        if(Input.GetButtonDown("Fire1"))
         {
             _player.stateManager.SetState(PlayerStates.Waiting);
         }

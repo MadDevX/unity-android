@@ -44,6 +44,7 @@ public class Player : NetworkBehaviour
 
     private void Update()
     {
+        
         if (!isLocalPlayer) return;
         if(stateManager.State == PlayerStates.Ready && _gameStateManager.State == GameState.Countdown)
         {

@@ -12,6 +12,7 @@ public class LobbyManager : NetworkBehaviour
     public int playerCount;
     [SyncVar]
     public int readyPlayerCount;
+    public event Action OnReadyPlayerCountChanged;
 
     private List<PlayerNetworkingLobby> _readyPlayers = new List<PlayerNetworkingLobby>();
 
@@ -46,6 +47,9 @@ public class LobbyManager : NetworkBehaviour
             if (_readyPlayers[i] == null) _readyPlayers.RemoveAt(i);
         }
         readyPlayerCount = _readyPlayers.Count;
+        
+        OnReadyPlayerCountChanged?.Invoke();
+
     }
 
     private void Awake()

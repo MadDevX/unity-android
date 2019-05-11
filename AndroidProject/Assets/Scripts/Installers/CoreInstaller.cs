@@ -10,6 +10,8 @@ public class CoreInstaller : MonoInstaller
     [SerializeField]
     private GridManager _gridManager;
     [SerializeField]
+    private GameManager _gameManager;
+    [SerializeField]
     private Track _environment;
     [SerializeField]
     private UIManager _uiManager;
@@ -25,6 +27,8 @@ public class CoreInstaller : MonoInstaller
 
     public override void InstallBindings()
     {
+        
+        Container.Bind<GameManager>().FromInstance(_gameManager).AsSingle();
         Container.Bind<GameStateManager>().AsSingle();
         Container.Bind<ConnectionStateManager>().AsSingle();
         Container.Bind<ServiceProvider>().FromInstance(_serviceProvider).AsSingle();
