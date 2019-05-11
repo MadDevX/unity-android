@@ -18,6 +18,8 @@ public class LobbyManager : NetworkBehaviour
     private ConnectionStateManager _connManager;
     private MyNetworkManager _networkManager;
 
+    private Coroutine _refreshCor;
+
     [Inject]
     public void Construct(ConnectionStateManager connManager, ServiceProvider provider)
     {
@@ -27,16 +29,14 @@ public class LobbyManager : NetworkBehaviour
 
     public void AddReady(PlayerNetworkingLobby player)
     {
-        RefreshReadyPlayers();
         if(_readyPlayers.Contains(player) == false) _readyPlayers.Add(player);
-        readyPlayerCount = _readyPlayers.Count;
+        RefreshReadyPlayers();
     }
 
     public void RemoveReady(PlayerNetworkingLobby player)
     {
-        RefreshReadyPlayers();
         _readyPlayers.Remove(player);
-        readyPlayerCount = _readyPlayers.Count;
+        RefreshReadyPlayers();
     }
 
     private void RefreshReadyPlayers()
@@ -45,6 +45,7 @@ public class LobbyManager : NetworkBehaviour
         {
             if (_readyPlayers[i] == null) _readyPlayers.RemoveAt(i);
         }
+        readyPlayerCount = _readyPlayers.Count;
     }
 
     private void Awake()
@@ -53,6 +54,16 @@ public class LobbyManager : NetworkBehaviour
         _connManager.SubscribeToInit(ConnectionState.Host, ResetLobby);
 
         _networkManager.OnNumPlayersChanged += UpdatePlayerCount;
+    }
+
+    private void OnEnable()
+    {
+        _refreshCor = StartCoroutine(RefreshCoroutine());
+    }
+
+    private void OnDisable()
+    {
+        StopCoroutine(_refreshCor);
     }
 
     private void OnDestroy()
@@ -74,6 +85,18 @@ public class LobbyManager : NetworkBehaviour
         if(_connManager.State == ConnectionState.Server || _connManager.State == ConnectionState.Host)
         {
             playerCount = count;
+        }
+    }
+
+    private IEnumerator RefreshCoroutine()
+    {
+        while (true)
+        {
+            if (_connManager.State == ConnectionState.Server || _connManager.State == ConnectionState.Host)
+            {
+                RefreshReadyPlayers();
+            }
+            yield return new WaitForSeconds(1.0f);
         }
     }
 }

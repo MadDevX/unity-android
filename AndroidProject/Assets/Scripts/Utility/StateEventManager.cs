@@ -13,8 +13,8 @@ public class StateEventManager<EnumType> where EnumType : struct, IConvertible
     public virtual void SetState(EnumType state)
     {
         GetOnDisposeEvent(State)?.Invoke();
-        State = state;
         GetOnInitEvent(state)?.Invoke();
+        State = state;
     }
 
     public StateEventManager()
@@ -101,8 +101,8 @@ public class StateEventManager<EnumType, ActionArgs> where EnumType : struct, IC
     public void SetState(EnumType state, ActionArgs e)
     {
         GetOnDisposeEvent(State)?.Invoke(e);
-        State = state;
         GetOnInitEvent(state)?.Invoke(e);
+        State = state;
     }
 
     public StateEventManager()
