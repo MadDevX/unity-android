@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 
 //Without arguments
-public class StateEventManager<EnumType> where EnumType : struct, IConvertible
+public class EventStateMachine<EnumType> where EnumType : struct, IConvertible
 {
     public EnumType State { get; private set; }
 
@@ -17,7 +17,7 @@ public class StateEventManager<EnumType> where EnumType : struct, IConvertible
         State = state;
     }
 
-    public StateEventManager()
+    public EventStateMachine()
     {
         InitDictionaries();
     }
@@ -91,7 +91,7 @@ public class StateEventManager<EnumType> where EnumType : struct, IConvertible
 }
 
 //With arguments
-public class StateEventManager<EnumType, ActionArgs> where EnumType : struct, IConvertible
+public class EventStateMachine<EnumType, ActionArgs> where EnumType : struct, IConvertible
 {
     public EnumType State { get; private set; }
 
@@ -105,7 +105,7 @@ public class StateEventManager<EnumType, ActionArgs> where EnumType : struct, IC
         State = state;
     }
 
-    public StateEventManager()
+    public EventStateMachine()
     {
         InitDictionaries();
     }

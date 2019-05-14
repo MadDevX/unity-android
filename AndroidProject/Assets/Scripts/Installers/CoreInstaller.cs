@@ -29,8 +29,8 @@ public class CoreInstaller : MonoInstaller
 
     public override void InstallBindings()
     {
-        Container.Bind<GameStateManager>().AsSingle();
-        Container.Bind<ConnectionStateManager>().AsSingle();
+        Container.Bind<GameStateMachine>().AsSingle();
+        Container.Bind<ConnectionStateMachine>().AsSingle();
         Container.Bind<ServiceProvider>().FromInstance(_serviceProvider).AsSingle();
         Container.Bind<Track>().FromInstance(_environment).AsSingle();
         Container.Bind<UIManager>().FromInstance(_uiManager).AsSingle();

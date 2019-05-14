@@ -7,7 +7,7 @@ using Zenject;
 
 public class Spawner : MonoBehaviour
 {
-    private ConnectionStateManager _connManager;
+    private ConnectionStateMachine _connManager;
     private EnvironmentSettings _envSettings;
     private PrefabManager _prefabManager;
     private GridManager _gridManager;
@@ -15,7 +15,7 @@ public class Spawner : MonoBehaviour
     private List<GameObject> _spawnPoints = new List<GameObject>();
 
     [Inject]
-    public void Construct(EnvironmentSettings envSettings, PrefabManager prefabManager, GridManager gridManager, Track track, ConnectionStateManager connManager)
+    public void Construct(EnvironmentSettings envSettings, PrefabManager prefabManager, GridManager gridManager, Track track, ConnectionStateMachine connManager)
     {
         _envSettings = envSettings;
         _prefabManager = prefabManager;

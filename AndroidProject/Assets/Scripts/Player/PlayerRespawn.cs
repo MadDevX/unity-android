@@ -20,20 +20,39 @@ public class PlayerRespawn : NetworkBehaviour
     public void Respawn()
     {
         if (!isServer) return;
-
         RpcRespawn();
     }
 
+    public void Respawn(int i)
+    {
+        if (!isServer) return;
+        RpcRespawnAtSpawnPoint(i);
+    }
+
     [ClientRpc]
-    public void RpcRespawn()
+    private void RpcRespawn()
     {
         if (isLocalPlayer)
         {
             _spawnPositions = NetworkManager.singleton.startPositions; //level generates several times (transforms can change often)
-            var spawnPoint = _spawnPositions[Random.Range(0, _spawnPositions.Count - 1)];
-            Vector2 newPos = spawnPoint.position;
-            _rigidbody2D.position = newPos;
-            _charMovement.SetLane((int)spawnPoint.position.x);
+            RespawnAtSpawnPoint(_spawnPositions[Random.Range(0, _spawnPositions.Count - 1)]);
         }
+    }
+
+    [ClientRpc]
+    private void RpcRespawnAtSpawnPoint(int i)
+    {
+        if (isLocalPlayer)
+        {
+            _spawnPositions = NetworkManager.singleton.startPositions; //level generates several times (transforms can change often)
+            RespawnAtSpawnPoint(_spawnPositions[i]);
+        }
+    }
+
+    private void RespawnAtSpawnPoint(Transform spawnPoint)
+    {
+        Vector2 newPos = spawnPoint.position;
+        _rigidbody2D.position = newPos;
+        _charMovement.SetLane((int)spawnPoint.position.x);
     }
 }

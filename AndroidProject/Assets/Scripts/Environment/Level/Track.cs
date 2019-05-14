@@ -22,12 +22,12 @@ public class Track : MonoBehaviour
     private Vector3Int _offsetVector = new Vector3Int();
     private GridManager _gridManager;
     private EnvironmentSettings _envSettings;
-    private GameStateManager _gameStateManager;
+    private GameStateMachine _gameStateManager;
     private PrefabManager _prefabManager;
     [Inject]
     public void Construct(GridManager gridManager, 
                           EnvironmentSettings envSettings, 
-                          GameStateManager gameStateManager,
+                          GameStateMachine gameStateManager,
                           PrefabManager prefabManager)
     {
         _gridManager = gridManager;
@@ -55,7 +55,7 @@ public class Track : MonoBehaviour
         _offsetVector.x += _prefabManager.borderLane.SetupLane(_gridManager.tilemapBase, _offsetVector, _envSettings.laneLength);
         
         GameAreaBoundsMin = _offsetVector.x;
-        _offsetVector.x += _prefabManager.trackLane.SetupLane(_gridManager.tilemapBase, _offsetVector, _envSettings.laneLength, e.playerCount);
+        _offsetVector.x += _prefabManager.trackLane.SetupLane(_gridManager.tilemapBase, _offsetVector, _envSettings.laneLength, e.playerCount + _envSettings.extraLanes);
         GameAreaBoundsMax = _offsetVector.x - 1;
 
         _offsetVector.x += _prefabManager.borderLane.SetupLane(_gridManager.tilemapBase, _offsetVector, _envSettings.laneLength);

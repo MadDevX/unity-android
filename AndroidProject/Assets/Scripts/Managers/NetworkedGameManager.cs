@@ -7,12 +7,12 @@ using Zenject;
 
 public class NetworkedGameManager : NetworkBehaviour
 {
-    private GameStateManager _gameStateManager;
+    private GameStateMachine _gameStateManager;
     private LobbyManager _lobbyManager;
-    private ConnectionStateManager _connManager;
+    private ConnectionStateMachine _connManager;
 
     [Inject]
-    public void Construct(GameStateManager gameStateManager, LobbyManager lobbyManager, ConnectionStateManager connManager)
+    public void Construct(GameStateMachine gameStateManager, LobbyManager lobbyManager, ConnectionStateMachine connManager)
     {
         _gameStateManager = gameStateManager;
         _lobbyManager = lobbyManager;
@@ -21,13 +21,12 @@ public class NetworkedGameManager : NetworkBehaviour
 
     public void StartGame()
     {
-        if (_connManager.State == ConnectionState.Host)
-        {
-            RpcStartGame();
-        }
-        if (_connManager.State == ConnectionState.Server)
+        if(_connManager.State == ConnectionState.Server)
         {
             _gameStateManager.SetState(GameState.Countdown, new GameStateEventArgs(_lobbyManager.playerCount));
+        }
+        if (_connManager.State == ConnectionState.Host || _connManager.State == ConnectionState.Server)
+        {
             RpcStartGame();
         }
     }
@@ -36,5 +35,15 @@ public class NetworkedGameManager : NetworkBehaviour
     private void RpcStartGame()
     {
         _gameStateManager.SetState(GameState.Countdown, new GameStateEventArgs(_lobbyManager.playerCount));
+        SetPlayersPositionsRpc();
+    }
+
+    private void SetPlayersPositionsRpc()
+    {
+        var players = _lobbyManager.GetReadyPlayers();
+        for(int i = 0; i < players.Count; i++)
+        {
+            players[i].GetComponent<PlayerRespawn>().Respawn(i);
+        }
     }
 }

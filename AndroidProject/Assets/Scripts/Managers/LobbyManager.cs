@@ -16,13 +16,13 @@ public class LobbyManager : NetworkBehaviour
 
     private List<PlayerNetworkingLobby> _readyPlayers = new List<PlayerNetworkingLobby>();
 
-    private ConnectionStateManager _connManager;
+    private ConnectionStateMachine _connManager;
     private MyNetworkManager _networkManager;
 
     private Coroutine _refreshCor;
 
     [Inject]
-    public void Construct(ConnectionStateManager connManager, ServiceProvider provider)
+    public void Construct(ConnectionStateMachine connManager, ServiceProvider provider)
     {
         _connManager = connManager;
         _networkManager = provider.networkManager;
@@ -38,6 +38,16 @@ public class LobbyManager : NetworkBehaviour
     {
         _readyPlayers.Remove(player);
         RefreshReadyPlayers();
+    }
+
+    public List<GameObject> GetReadyPlayers()
+    {
+        List<GameObject> players = new List<GameObject>();
+        foreach(var player in _readyPlayers)
+        {
+            players.Add(player.gameObject);
+        }
+        return players;
     }
 
     private void RefreshReadyPlayers()

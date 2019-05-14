@@ -2,7 +2,7 @@
 
 namespace Assets.Scripts.Managers
 {
-    public class ConnectionStateManager : StateEventManager<ConnectionState>
+    public class ConnectionStateMachine : EventStateMachine<ConnectionState>
     {
         private MyNetworkManager _networkManager;
 

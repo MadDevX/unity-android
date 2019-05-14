@@ -174,6 +174,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63ecbe7710e8b4242a26f5008f98ad98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  extraLanes: 2
   laneLength: 50
   minYDistanceBetweenObstacles: 4
   obstacleSpawnOffset: 4

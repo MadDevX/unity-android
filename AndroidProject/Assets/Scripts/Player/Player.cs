@@ -9,16 +9,16 @@ using Zenject;
 
 public class Player : NetworkBehaviour
 {
-    public StateEventManager<PlayerStates> stateManager = new StateEventManager<PlayerStates>();
+    public EventStateMachine<PlayerStates> stateMachine = new EventStateMachine<PlayerStates>();
     public PlayerState State { private get; set; }
     
     private PlayerMovement _charMovement;
     private PlayerShooting _playerShooting;
     private CinemachineVirtualCamera _vCam;
-    private GameStateManager _gameStateManager;
+    private GameStateMachine _gameStateManager;
 
     [Inject]
-    public void Construct(ServiceProvider provider, GameStateManager gameStateManager)
+    public void Construct(ServiceProvider provider, GameStateMachine gameStateManager)
     {
         _vCam = provider.vCam;
         _gameStateManager = gameStateManager;
@@ -46,7 +46,7 @@ public class Player : NetworkBehaviour
     {
         
         if (!isLocalPlayer) return;
-        if(stateManager.State == PlayerStates.Ready && _gameStateManager.State == GameState.Countdown)
+        if(stateMachine.State == PlayerStates.Ready && _gameStateManager.State == GameState.Countdown)
         {
             OnGameStarted();
         }
@@ -56,22 +56,22 @@ public class Player : NetworkBehaviour
     public void Kill()
     {
         if (!isLocalPlayer) return;
-        stateManager.SetState(PlayerStates.Dead);
+        stateMachine.SetState(PlayerStates.Dead);
         Debug.Log("Player was killed!");
     }
 
     public void TakeDamage()
     {
-        stateManager.SetState(PlayerStates.Dead);
+        stateMachine.SetState(PlayerStates.Dead);
     }
 
     private void OnGameJoined()
     {
-        stateManager.SetState(PlayerStates.Waiting);
+        stateMachine.SetState(PlayerStates.Waiting);
     }
 
     private void OnGameStarted()
     {
-        stateManager.SetState(PlayerStates.Playing);
+        stateMachine.SetState(PlayerStates.Playing);
     }
 }

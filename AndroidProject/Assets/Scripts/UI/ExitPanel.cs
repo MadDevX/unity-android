@@ -7,11 +7,11 @@ using Zenject;
 
 public class ExitPanel : UIPanel
 {
-    private ConnectionStateManager _connManager;
+    private ConnectionStateMachine _connManager;
     private UIPanel _joinPanel;
 
     [Inject]
-    public void Construct(ConnectionStateManager connManager, UIManager uiManager)
+    public void Construct(ConnectionStateMachine connManager, UIManager uiManager)
     {
         _connManager = connManager;
         _joinPanel = uiManager.joinPanel;

@@ -8,13 +8,13 @@ using Zenject;
 
 public class GameManager : MonoBehaviour
 {   
-    private GameStateManager _gameStateManager;
+    private GameStateMachine _gameStateManager;
     private LobbyManager _lobbyManager;
-    private ConnectionStateManager _connManager;
+    private ConnectionStateMachine _connManager;
     private NetworkedGameManager _netGameManager;
 
     [Inject]
-    public void Construct(GameStateManager manager, LobbyManager lobbyManager, ConnectionStateManager connManager, NetworkedGameManager netGameManager)
+    public void Construct(GameStateMachine manager, LobbyManager lobbyManager, ConnectionStateMachine connManager, NetworkedGameManager netGameManager)
     {
         _gameStateManager = manager;
         _lobbyManager = lobbyManager;

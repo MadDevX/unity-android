@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnvironmentSettings : MonoBehaviour
 {
-    public int LaneCount { get; set; } = 4;
+    public int extraLanes;
     public int laneLength;
     public int minYDistanceBetweenObstacles;
     public int obstacleSpawnOffset;

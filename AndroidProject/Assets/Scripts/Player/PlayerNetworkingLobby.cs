@@ -18,14 +18,14 @@ public class PlayerNetworkingLobby : NetworkBehaviour
     private void Awake()
     {
         _player = GetComponent<Player>();
-        _player.stateManager.SubscribeToInit(PlayerStates.Ready, SetReady);        
-        _player.stateManager.SubscribeToDispose(PlayerStates.Ready, SetNotReady);
+        _player.stateMachine.SubscribeToInit(PlayerStates.Ready, SetReady);        
+        _player.stateMachine.SubscribeToDispose(PlayerStates.Ready, SetNotReady);
     }
 
     private void OnDestroy()
     {
-        _player.stateManager.UnsubscribeFromInit(PlayerStates.Ready, SetReady);
-        _player.stateManager.UnsubscribeFromDispose(PlayerStates.Ready, SetNotReady);
+        _player.stateMachine.UnsubscribeFromInit(PlayerStates.Ready, SetReady);
+        _player.stateMachine.UnsubscribeFromDispose(PlayerStates.Ready, SetNotReady);
 
     }
 

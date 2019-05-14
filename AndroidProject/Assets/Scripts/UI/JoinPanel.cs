@@ -13,11 +13,11 @@ public class JoinPanel : UIPanel
 
     private NetworkManager _networkManager;
 
-    private ConnectionStateManager _connManager;
+    private ConnectionStateMachine _connManager;
     private UIPanel _exitPanel;
 
     [Inject]
-    public void Construct(ConnectionStateManager connManager, ServiceProvider provider, UIManager uiManager)
+    public void Construct(ConnectionStateMachine connManager, ServiceProvider provider, UIManager uiManager)
     {
         _connManager = connManager;
         _networkManager = provider.networkManager;

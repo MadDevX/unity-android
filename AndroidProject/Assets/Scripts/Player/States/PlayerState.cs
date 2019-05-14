@@ -10,16 +10,16 @@ public abstract class PlayerState: MonoBehaviour
     {
         _player = GetComponent<Player>();
         SetupReferences();
-        _player.stateManager.SubscribeToInit(GetState(), AssignState);
-        _player.stateManager.SubscribeToInit(GetState(), Init);
-        _player.stateManager.SubscribeToDispose(GetState(), Dispose);
+        _player.stateMachine.SubscribeToInit(GetState(), AssignState);
+        _player.stateMachine.SubscribeToInit(GetState(), Init);
+        _player.stateMachine.SubscribeToDispose(GetState(), Dispose);
     }
     
     private void OnDestroy()
     {
-        _player.stateManager.UnsubscribeFromInit(GetState(), AssignState);
-        _player.stateManager.UnsubscribeFromInit(GetState(), Init);
-        _player.stateManager.UnsubscribeFromDispose(GetState(), Dispose);
+        _player.stateMachine.UnsubscribeFromInit(GetState(), AssignState);
+        _player.stateMachine.UnsubscribeFromInit(GetState(), Init);
+        _player.stateMachine.UnsubscribeFromDispose(GetState(), Dispose);
     }
 
     private void AssignState()

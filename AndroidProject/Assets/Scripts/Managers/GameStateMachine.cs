@@ -13,7 +13,7 @@ namespace Assets.Scripts.Managers
         }
     }
 
-    public class GameStateManager : StateEventManager<GameState, GameStateEventArgs>
+    public class GameStateMachine : EventStateMachine<GameState, GameStateEventArgs>
     {
     }
 }
