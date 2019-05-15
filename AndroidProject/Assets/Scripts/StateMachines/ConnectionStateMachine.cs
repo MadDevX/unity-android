@@ -1,6 +1,6 @@
 ﻿using Zenject;
 
-namespace Assets.Scripts.Managers
+namespace Assets.Scripts.StateMachines
 {
     public class ConnectionStateMachine : EventStateMachine<ConnectionState>
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Assets.Scripts.Managers
+namespace Assets.Scripts.StateMachines
 {
     public class GameStateEventArgs
     {

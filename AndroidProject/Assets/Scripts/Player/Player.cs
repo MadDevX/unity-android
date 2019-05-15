@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.Managers;
+﻿using Assets.Scripts.StateMachines;
 using Cinemachine;
 using System;
 using System.Collections;

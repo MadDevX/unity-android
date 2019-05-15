@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Assets.Scripts.Managers;
+using Assets.Scripts.StateMachines;
 using Zenject;
 
 public class MatchCycleManager : MonoBehaviour
