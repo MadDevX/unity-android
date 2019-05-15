@@ -39,7 +39,7 @@ public class PlayerMovement : NetworkBehaviour
         _settings = playerSettings;
     }
 
-    void Start()
+    void Awake()
     {
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _anim = GetComponent<Animator>();
@@ -100,5 +100,11 @@ public class PlayerMovement : NetworkBehaviour
     {
         _xTilePos += direction;
         return true;
+    }
+
+    public void SetPosition(Vector2 position)
+    {
+        _rigidbody2D.MovePosition(position);
+        SetLane((int)position.x);
     }
 }

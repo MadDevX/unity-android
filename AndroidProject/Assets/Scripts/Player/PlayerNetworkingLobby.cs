@@ -6,18 +6,24 @@ using Zenject;
 
 public class PlayerNetworkingLobby : NetworkBehaviour
 {
+    [SerializeField]
+    private GameObject _readyIndicator;
     private Player _player;
     private LobbyManager _lobbyManager;
+    private Vector3 _lobbySpawnPoint;
+    private PlayerMovement _playerMovement;
 
     [Inject]
-    public void Construct(LobbyManager lobbyManager)
+    public void Construct(LobbyManager lobbyManager, ServiceProvider provider)
     {
         _lobbyManager = lobbyManager;
+        _lobbySpawnPoint = provider.lobbySpawnPoint.position;
     }
 
     private void Awake()
     {
         _player = GetComponent<Player>();
+        _playerMovement = GetComponent<PlayerMovement>();
         _player.stateMachine.SubscribeToInit(PlayerStates.Ready, SetReady);        
         _player.stateMachine.SubscribeToDispose(PlayerStates.Ready, SetNotReady);
     }
@@ -29,13 +35,18 @@ public class PlayerNetworkingLobby : NetworkBehaviour
 
     }
 
+    public override void OnStartLocalPlayer()
+    {
+        _playerMovement.SetPosition(_lobbySpawnPoint);
+    }
+
     private void SetReady()
     {
         if(isLocalPlayer)
         {
             if (isServer)
             {
-                _lobbyManager.AddReady(this);
+                SetReadyServer();
             }
             else
             {
@@ -50,7 +61,7 @@ public class PlayerNetworkingLobby : NetworkBehaviour
         {
             if (isServer)
             {
-                _lobbyManager.RemoveReady(this);
+                SetNotReadyServer();
             }
             else
             {
@@ -62,12 +73,31 @@ public class PlayerNetworkingLobby : NetworkBehaviour
     [Command]
     private void CmdSetReady()
     {
-        _lobbyManager.AddReady(this);
+        SetReadyServer();
     }
 
     [Command]
     private void CmdSetNotReady()
     {
+        SetNotReadyServer();
+    }
+
+    private void SetReadyServer()
+    {
+        _lobbyManager.AddReady(this);
+        RpcSetIndicator(true);
+    }
+
+    private void SetNotReadyServer()
+    {
         _lobbyManager.RemoveReady(this);
+        RpcSetIndicator(false);
+    }
+
+
+    [ClientRpc]
+    private void RpcSetIndicator(bool active)
+    {
+        _readyIndicator.SetActive(active);
     }
 }

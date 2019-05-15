@@ -37,7 +37,6 @@ public class Player : NetworkBehaviour
 
     private void Start()
     {
-
         if (!isLocalPlayer) return;
         OnGameJoined();
     }
