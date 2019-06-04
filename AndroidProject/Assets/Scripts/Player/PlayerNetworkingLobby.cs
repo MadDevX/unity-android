@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.StateMachines;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -12,12 +13,14 @@ public class PlayerNetworkingLobby : NetworkBehaviour
     private LobbyManager _lobbyManager;
     private Vector3 _lobbySpawnPoint;
     private PlayerMovement _playerMovement;
+    private GameStateMachine _gameStateMachine;
 
     [Inject]
-    public void Construct(LobbyManager lobbyManager, ServiceProvider provider)
+    public void Construct(LobbyManager lobbyManager, ServiceProvider provider, GameStateMachine gameStateMachine)
     {
         _lobbyManager = lobbyManager;
         _lobbySpawnPoint = provider.lobbySpawnPoint.position;
+        _gameStateMachine = gameStateMachine;
     }
 
     private void Awake()
@@ -28,16 +31,22 @@ public class PlayerNetworkingLobby : NetworkBehaviour
         _player.stateMachine.SubscribeToDispose(PlayerStates.Ready, SetNotReady);
     }
 
+    private void Start()
+    {
+        _gameStateMachine.SubscribeToInit(GameState.Lobby, ResetPositionToLobby);        
+    }
+
     private void OnDestroy()
     {
         _player.stateMachine.UnsubscribeFromInit(PlayerStates.Ready, SetReady);
         _player.stateMachine.UnsubscribeFromDispose(PlayerStates.Ready, SetNotReady);
+        _gameStateMachine.UnsubscribeFromInit(GameState.Lobby, ResetPositionToLobby);
 
     }
 
     public override void OnStartLocalPlayer()
     {
-        _playerMovement.SetPosition(_lobbySpawnPoint);
+        ResetPositionToLobby(null);
     }
 
     private void SetReady()
@@ -100,4 +109,14 @@ public class PlayerNetworkingLobby : NetworkBehaviour
     {
         _readyIndicator.SetActive(active);
     }
+
+    private void ResetPositionToLobby(GameStateEventArgs e)
+    {
+        if (isLocalPlayer)
+        {
+            _playerMovement.SetPosition(_lobbySpawnPoint);
+        }
+    }
+
+
 }
