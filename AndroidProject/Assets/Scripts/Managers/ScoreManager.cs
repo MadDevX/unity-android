@@ -24,6 +24,7 @@ public class ScoreManager : NetworkBehaviour
         if(_connMachine.State == ConnectionState.Host)
         {
             RpcAddPlayer(netId);
+            SyncDictionary();
         }
     }
 
@@ -40,6 +41,17 @@ public class ScoreManager : NetworkBehaviour
         if (_connMachine.State == ConnectionState.Host)
         {
             RpcIncrementScore(netId, add);
+        }
+    }
+
+    private void SyncDictionary()
+    {
+        if (_connMachine.State == ConnectionState.Host)
+        {
+            foreach (var entry in _scores)
+            {
+                RpcUpdateEntry(entry.Key, entry.Value);
+            }
         }
     }
 
@@ -61,6 +73,19 @@ public class ScoreManager : NetworkBehaviour
     private void RpcIncrementScore(NetworkInstanceId netId, int add)
     {
         _scores[netId] += add;
+    }
+
+    [ClientRpc]
+    private void RpcUpdateEntry(NetworkInstanceId netId, int score)
+    {
+        if(_scores.ContainsKey(netId))
+        {
+            _scores[netId] = score;
+        }
+        else
+        {
+            _scores.Add(netId, score);
+        }
     }
 
     private void OnDisable()
