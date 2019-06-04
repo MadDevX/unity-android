@@ -49,6 +49,10 @@ public class Player : NetworkBehaviour
         {
             OnGameStarted();
         }
+        if((stateMachine.State == PlayerStates.Dead || stateMachine.State == PlayerStates.Playing) && _gameStateManager.State == GameState.Lobby)
+        {
+            stateMachine.SetState(PlayerStates.Waiting);
+        }
         State.Tick();
     }
 

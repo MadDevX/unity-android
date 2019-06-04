@@ -12,14 +12,18 @@ public class GameManager : MonoBehaviour
     private LobbyManager _lobbyManager;
     private ConnectionStateMachine _connManager;
     private NetworkedGameManager _netGameManager;
+    private GameSettings _gameSettings;
+
+    private Coroutine _cor = null;
 
     [Inject]
-    public void Construct(GameStateMachine manager, LobbyManager lobbyManager, ConnectionStateMachine connManager, NetworkedGameManager netGameManager)
+    public void Construct(GameStateMachine manager, LobbyManager lobbyManager, ConnectionStateMachine connManager, NetworkedGameManager netGameManager, GameSettings gameSettings)
     {
         _gameStateManager = manager;
         _lobbyManager = lobbyManager;
         _connManager = connManager;
         _netGameManager = netGameManager;
+        _gameSettings = gameSettings;
     }
 
     private void Awake()
@@ -66,6 +70,22 @@ public class GameManager : MonoBehaviour
     {
         _gameStateManager.SetState(GameState.Finished, new GameStateEventArgs(_lobbyManager.playerCount));
         _gameStateManager.SetState(GameState.Menu, new GameStateEventArgs(_lobbyManager.playerCount));
+    }
+
+    public void FinishGame()
+    {
+        if(_cor == null && _gameStateManager.State != GameState.Finished)
+        {
+        _gameStateManager.SetState(GameState.Finished, new GameStateEventArgs(_lobbyManager.playerCount));
+            _cor = StartCoroutine(FinishCoroutine());
+        }
+    }
+
+    private IEnumerator FinishCoroutine()
+    {
+        yield return new WaitForSeconds(_gameSettings.finishDelay);
+        StartLobby();
+        _cor = null;
     }
 
 

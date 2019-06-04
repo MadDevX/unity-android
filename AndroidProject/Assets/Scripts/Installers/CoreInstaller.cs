@@ -1,6 +1,5 @@
 using Assets.Scripts.StateMachines;
 using UnityEngine;
-using UnityEngine.Networking;
 using Zenject;
 
 public class CoreInstaller : MonoInstaller
@@ -25,6 +24,8 @@ public class CoreInstaller : MonoInstaller
     private LobbyManager _lobbyManager;
     [SerializeField]
     private NetworkedGameManager _netGameManager;
+    [SerializeField]
+    private GameSettings _gameSettings;
 
 
     public override void InstallBindings()
@@ -41,5 +42,6 @@ public class CoreInstaller : MonoInstaller
         Container.Bind<LobbyManager>().FromInstance(_lobbyManager).AsSingle();
         Container.Bind<GameManager>().FromInstance(_gameManager).AsSingle();
         Container.Bind<NetworkedGameManager>().FromInstance(_netGameManager).AsSingle();
+        Container.Bind<GameSettings>().FromInstance(_gameSettings).AsSingle();
     }
 }
