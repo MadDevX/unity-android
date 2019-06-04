@@ -4,30 +4,18 @@ using Zenject;
 
 public class CoreInstaller : MonoInstaller
 {
-    [SerializeField]
-    private ServiceProvider _serviceProvider;
-    [SerializeField]
-    private GridManager _gridManager;
-    [SerializeField]
-    private GameManager _gameManager;
-    [SerializeField]
-    private Track _environment;
-    [SerializeField]
-    private UIManager _uiManager;
-    [SerializeField]
-    private EnvironmentSettings _environmentSettings;
-    [SerializeField]
-    private PlayerSettings _playerSettings;
-    [SerializeField]
-    private PrefabManager _prefabManager;
-    [SerializeField]
-    private LobbyManager _lobbyManager;
-    [SerializeField]
-    private NetworkedGameManager _netGameManager;
-    [SerializeField]
-    private GameSettings _gameSettings;
-    [SerializeField]
-    private ScoreManager _scoreManager;
+    public ServiceProvider _serviceProvider;
+    public GridManager _gridManager;
+    public GameManager _gameManager;
+    public Track _environment;
+    public UIManager _uiManager;
+    public EnvironmentSettings _environmentSettings;
+    public PlayerSettings _playerSettings;
+    public PrefabManager _prefabManager;
+    public LobbyManager _lobbyManager;
+    public NetworkedGameManager _netGameManager;
+    public GameSettings _gameSettings;
+    public ScoreManager _scoreManager;
 
 
     public override void InstallBindings()
