@@ -86,6 +86,7 @@ public class ScoreManager : NetworkBehaviour
         {
             _scores.Add(netId, score);
         }
+        Debug.Log($"elo dodano sync: {_scores.Keys.Count}");
     }
 
     private void OnDisable()
