@@ -164,6 +164,8 @@ MonoBehaviour:
   offset: {x: 0, y: 0.75, z: 0}
   bulletSpeed: 6
   maxSpeed: 15
+  boostMaxError: 0.5
+  boostMaxValue: 10
 --- !u!114 &50363323
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -196,6 +198,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   finishDelay: 3
+  countdownDelay: 3
 --- !u!1 &96330138
 GameObject:
   m_ObjectHideFlags: 0

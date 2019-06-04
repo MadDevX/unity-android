@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class PlayerStateReady : PlayerState
 {
-    private Rigidbody2D _rb2D;
+    private PlayerMovement _playerMovement;
 
     protected override void SetupReferences()
     {
-        _rb2D = GetComponent<Rigidbody2D>();
+        _playerMovement = GetComponent<PlayerMovement>();
     }
 
     public override void Tick()
     {
         ProcessInput();
-        _rb2D.velocity = Vector2.zero;
+        _playerMovement.ResetVelocity();
     }
 
     protected override void Init()

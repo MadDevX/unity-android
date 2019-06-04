@@ -19,11 +19,23 @@ public class NetworkedGameManager : NetworkBehaviour
         _connManager = connManager;
     }
 
-    public void StartGame()
+    public void StartCountdown()
     {
         if(_connManager.State == ConnectionState.Server)
         {
             _gameStateManager.SetState(GameState.Countdown, new GameStateEventArgs(_lobbyManager.playerCount));
+        }
+        if (_connManager.State == ConnectionState.Host || _connManager.State == ConnectionState.Server)
+        {
+            RpcStartCountdown();
+        }
+    }
+
+    public void StartGame()
+    {
+        if (_connManager.State == ConnectionState.Server)
+        {
+            _gameStateManager.SetState(GameState.Started, new GameStateEventArgs(_lobbyManager.playerCount));
         }
         if (_connManager.State == ConnectionState.Host || _connManager.State == ConnectionState.Server)
         {
@@ -32,10 +44,16 @@ public class NetworkedGameManager : NetworkBehaviour
     }
 
     [ClientRpc]
-    private void RpcStartGame()
+    private void RpcStartCountdown()
     {
         _gameStateManager.SetState(GameState.Countdown, new GameStateEventArgs(_lobbyManager.playerCount));
         SetPlayersPositionsRpc();
+    }
+
+    [ClientRpc]
+    private void RpcStartGame()
+    {
+        _gameStateManager.SetState(GameState.Started, new GameStateEventArgs(_lobbyManager.playerCount));
     }
 
     private void SetPlayersPositionsRpc()

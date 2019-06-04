@@ -4,23 +4,23 @@ using UnityEngine;
 
 public class PlayerStateDead : PlayerState
 {
-    private Rigidbody2D _rigidbody2D;
+    private PlayerMovement _playerMovement;
     private Animator _anim;
 
     public override void Tick()
     {
-        _rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x, 0.0f);
+        _playerMovement.ResetVelocityVertical();
     }
 
     protected override void SetupReferences()
     {
-        _rigidbody2D = GetComponent<Rigidbody2D>();
+        _playerMovement = GetComponent<PlayerMovement>();
         _anim = GetComponent<Animator>();
     }
 
     protected override void Init()
     {
-        _rigidbody2D.velocity = Vector2.zero;
+        _playerMovement.ResetVelocity();
         _anim.SetBool("IsDead", true);
     }
 

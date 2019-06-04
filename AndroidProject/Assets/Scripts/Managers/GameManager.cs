@@ -1,20 +1,19 @@
 ﻿using Assets.Scripts.StateMachines;
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
 using Zenject;
 
 public class GameManager : MonoBehaviour
 {   
+    public float GameStartTime { get; private set; }
     private GameStateMachine _gameStateManager;
     private LobbyManager _lobbyManager;
     private ConnectionStateMachine _connManager;
     private NetworkedGameManager _netGameManager;
     private GameSettings _gameSettings;
 
-    private Coroutine _cor = null;
+    private Coroutine _finishCor = null;
+    private Coroutine _countdownCor = null;
 
     [Inject]
     public void Construct(GameStateMachine manager, LobbyManager lobbyManager, ConnectionStateMachine connManager, NetworkedGameManager netGameManager, GameSettings gameSettings)
@@ -35,6 +34,8 @@ public class GameManager : MonoBehaviour
         _connManager.SubscribeToDispose(ConnectionState.Server, ResetGame);
         _connManager.SubscribeToDispose(ConnectionState.Host, ResetGame);
         _connManager.SubscribeToDispose(ConnectionState.Client, ResetGame);
+
+        _gameStateManager.SubscribeToInit(GameState.Countdown, SetStartTime);
     }
 
     private void OnDestroy()
@@ -46,6 +47,8 @@ public class GameManager : MonoBehaviour
         _connManager.UnsubscribeFromDispose(ConnectionState.Server, ResetGame);
         _connManager.UnsubscribeFromDispose(ConnectionState.Host, ResetGame);
         _connManager.UnsubscribeFromDispose(ConnectionState.Client, ResetGame);
+
+        _gameStateManager.UnsubscribeFromInit(GameState.Countdown, SetStartTime);
     }
 
     private void Update()
@@ -56,9 +59,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void StartGame()
+    public void StartCountdown()
     {
-        _netGameManager.StartGame();
+        _netGameManager.StartCountdown();
+        _countdownCor = StartCoroutine(CountdownCoroutine());
     }
 
     private void StartLobby()
@@ -74,10 +78,10 @@ public class GameManager : MonoBehaviour
 
     public void FinishGame()
     {
-        if(_cor == null && _gameStateManager.State != GameState.Finished)
+        if(_finishCor == null && _gameStateManager.State != GameState.Finished)
         {
-        _gameStateManager.SetState(GameState.Finished, new GameStateEventArgs(_lobbyManager.playerCount));
-            _cor = StartCoroutine(FinishCoroutine());
+            _gameStateManager.SetState(GameState.Finished, new GameStateEventArgs(_lobbyManager.playerCount));
+            _finishCor = StartCoroutine(FinishCoroutine());
         }
     }
 
@@ -85,7 +89,19 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(_gameSettings.finishDelay);
         StartLobby();
-        _cor = null;
+        _finishCor = null;
+    }
+
+    private IEnumerator CountdownCoroutine()
+    {
+        yield return new WaitForSeconds(_gameSettings.countdownDelay);
+        _netGameManager.StartGame();
+        _countdownCor = null;
+    }
+
+    private void SetStartTime(GameStateEventArgs e)
+    {
+        GameStartTime = Time.time + _gameSettings.countdownDelay;
     }
 
 

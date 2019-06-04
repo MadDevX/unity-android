@@ -7,14 +7,12 @@ using Zenject;
 
 public class PlayerRespawn : NetworkBehaviour
 {
-    private Rigidbody2D _rigidbody2D;
     private List<Transform> _spawnPositions;
-    private PlayerMovement _charMovement;
+    private PlayerMovement _playerMovement;
 
     public override void OnStartLocalPlayer()
     {
-        _charMovement = GetComponent<PlayerMovement>();
-        _rigidbody2D = GetComponent<Rigidbody2D>();
+        _playerMovement = GetComponent<PlayerMovement>();
     }
 
     public void Respawn()
@@ -52,8 +50,8 @@ public class PlayerRespawn : NetworkBehaviour
     private void RespawnAtSpawnPoint(Transform spawnPoint)
     {
         Vector2 newPos = spawnPoint.position;
-        _rigidbody2D.position = newPos;
-        _rigidbody2D.velocity = Vector2.zero;
-        _charMovement.SetLane((int)spawnPoint.position.x);
+        _playerMovement.SetPosition(newPos);
+        _playerMovement.ResetVelocity();
+        _playerMovement.SetLane((int)spawnPoint.position.x);
     }
 }

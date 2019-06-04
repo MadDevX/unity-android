@@ -33,20 +33,20 @@ public class PlayerNetworkingLobby : NetworkBehaviour
 
     private void Start()
     {
-        _gameStateMachine.SubscribeToInit(GameState.Lobby, ResetPositionToLobby);        
+        _gameStateMachine.SubscribeToInit(GameState.Lobby, ResetPlayerToLobby);        
     }
 
     private void OnDestroy()
     {
         _player.stateMachine.UnsubscribeFromInit(PlayerStates.Ready, SetReady);
         _player.stateMachine.UnsubscribeFromDispose(PlayerStates.Ready, SetNotReady);
-        _gameStateMachine.UnsubscribeFromInit(GameState.Lobby, ResetPositionToLobby);
+        _gameStateMachine.UnsubscribeFromInit(GameState.Lobby, ResetPlayerToLobby);
 
     }
 
     public override void OnStartLocalPlayer()
     {
-        ResetPositionToLobby(null);
+        ResetPlayerToLobby(null);
     }
 
     private void SetReady()
@@ -110,11 +110,12 @@ public class PlayerNetworkingLobby : NetworkBehaviour
         _readyIndicator.SetActive(active);
     }
 
-    private void ResetPositionToLobby(GameStateEventArgs e)
+    private void ResetPlayerToLobby(GameStateEventArgs e)
     {
         if (isLocalPlayer)
         {
-            _playerMovement.SetPosition(_lobbySpawnPoint);
+            _playerMovement.MovePosition(_lobbySpawnPoint);
+            _player.stateMachine.SetState(PlayerStates.Waiting);
         }
     }
 

@@ -9,7 +9,7 @@ public class PlayerShooting : NetworkBehaviour
 
     private PrefabManager _prefabManager;
     private PlayerSettings _playerSettings;
-    private Rigidbody2D _rigidbody2D;
+    private PlayerMovement _playerMovement;
 
     [Inject]
     public void Construct(PrefabManager prefabManager,PlayerSettings playerSettings)
@@ -20,7 +20,7 @@ public class PlayerShooting : NetworkBehaviour
 
     private void Awake()
     {
-        _rigidbody2D = GetComponent<Rigidbody2D>();
+        _playerMovement = GetComponent<PlayerMovement>();
     }
 
 
@@ -31,7 +31,7 @@ public class PlayerShooting : NetworkBehaviour
             
         var bullet = Instantiate(_prefabManager.bullet, transform.position + _playerSettings.offset, Quaternion.identity);
 
-        bullet.GetComponent<Rigidbody2D>().velocity = bullet.transform.up * _playerSettings.bulletSpeed + new Vector3(0.0f,_rigidbody2D.velocity.y,0.0f);
+        bullet.GetComponent<Rigidbody2D>().velocity = bullet.transform.up * _playerSettings.bulletSpeed + new Vector3(0.0f, _playerMovement.GetVelocityVector().y, 0.0f);
 
         NetworkServer.Spawn(bullet);
 

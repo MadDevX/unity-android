@@ -5,4 +5,5 @@ using UnityEngine;
 public class GameSettings : MonoBehaviour
 {
     public float finishDelay = 3.0f;
+    public float countdownDelay = 3.0f;
 }

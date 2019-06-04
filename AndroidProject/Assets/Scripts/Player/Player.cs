@@ -15,13 +15,13 @@ public class Player : NetworkBehaviour
     private PlayerMovement _charMovement;
     private PlayerShooting _playerShooting;
     private CinemachineVirtualCamera _vCam;
-    private GameStateMachine _gameStateManager;
+    private GameStateMachine _gameStateMachine;
 
     [Inject]
-    public void Construct(ServiceProvider provider, GameStateMachine gameStateManager)
+    public void Construct(ServiceProvider provider, GameStateMachine gameStateMachine)
     {
         _vCam = provider.vCam;
-        _gameStateManager = gameStateManager;
+        _gameStateMachine = gameStateMachine;
     }
 
     private void Awake()
@@ -41,17 +41,16 @@ public class Player : NetworkBehaviour
         OnGameJoined();
     }
 
+    private void OnDestroy()
+    {
+    }
+
     private void Update()
     {
-        
         if (!isLocalPlayer) return;
-        if(stateMachine.State == PlayerStates.Ready && _gameStateManager.State == GameState.Countdown)
+        if (stateMachine.State == PlayerStates.Ready && _gameStateMachine.State == GameState.Countdown)
         {
-            OnGameStarted();
-        }
-        if((stateMachine.State == PlayerStates.Dead || stateMachine.State == PlayerStates.Playing) && _gameStateManager.State == GameState.Lobby)
-        {
-            stateMachine.SetState(PlayerStates.Waiting);
+            OnCountdownStarted();
         }
         State.Tick();
     }
@@ -73,7 +72,7 @@ public class Player : NetworkBehaviour
         stateMachine.SetState(PlayerStates.Waiting);
     }
 
-    private void OnGameStarted()
+    private void OnCountdownStarted()
     {
         stateMachine.SetState(PlayerStates.Playing);
     }

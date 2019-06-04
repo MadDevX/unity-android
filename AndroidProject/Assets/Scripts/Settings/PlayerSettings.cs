@@ -11,4 +11,6 @@ public class PlayerSettings : MonoBehaviour
     public Vector3 offset = new Vector3(0,0.5f,0);
     public float bulletSpeed = 6;
     public float maxSpeed;
+    public float boostMaxError;
+    public float boostMaxValue;
 }

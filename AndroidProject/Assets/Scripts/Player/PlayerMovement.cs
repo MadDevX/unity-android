@@ -106,9 +106,34 @@ public class PlayerMovement : NetworkBehaviour
         return true;
     }
 
-    public void SetPosition(Vector2 position)
+    public void MovePosition(Vector2 position)
     {
         _rigidbody2D.MovePosition(position);
         SetLane((int)position.x);
+    }
+
+    public void SetPosition(Vector2 position)
+    {
+        _rigidbody2D.position = position;
+    }
+
+    public Vector2 GetVelocityVector()
+    {
+        return _rigidbody2D.velocity;
+    }
+
+    public void ResetVelocity()
+    {
+        _rigidbody2D.velocity = Vector2.zero;
+    }
+
+    public void ResetVelocityVertical()
+    {
+        _rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x, 0.0f);
+    }
+
+    public void ApplyBoost(float value)
+    {
+        _rigidbody2D.velocity += Vector2.up * value;
     }
 }
