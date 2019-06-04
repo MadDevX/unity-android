@@ -70,7 +70,7 @@ public class GameManager : MonoBehaviour
         _gameStateManager.SetState(GameState.Lobby, new GameStateEventArgs(_lobbyManager.playerCount));
     }
 
-    public void ResetGame()
+    private void ResetGame()
     {
         _gameStateManager.SetState(GameState.Finished, new GameStateEventArgs(_lobbyManager.playerCount));
         _gameStateManager.SetState(GameState.Menu, new GameStateEventArgs(_lobbyManager.playerCount));
@@ -80,7 +80,7 @@ public class GameManager : MonoBehaviour
     {
         if(_finishCor == null && _gameStateManager.State != GameState.Finished)
         {
-            _gameStateManager.SetState(GameState.Finished, new GameStateEventArgs(_lobbyManager.playerCount));
+            _netGameManager.FinishGame();
             _finishCor = StartCoroutine(FinishCoroutine());
         }
     }

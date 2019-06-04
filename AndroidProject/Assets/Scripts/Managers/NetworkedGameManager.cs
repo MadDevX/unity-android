@@ -43,6 +43,18 @@ public class NetworkedGameManager : NetworkBehaviour
         }
     }
 
+    public void FinishGame()
+    {
+        if (_connManager.State == ConnectionState.Server)
+        {
+            _gameStateManager.SetState(GameState.Finished, new GameStateEventArgs(_lobbyManager.playerCount));
+        }
+        if (_connManager.State == ConnectionState.Host || _connManager.State == ConnectionState.Server)
+        {
+            RpcFinishGame();
+        }
+    }
+
     [ClientRpc]
     private void RpcStartCountdown()
     {
@@ -54,6 +66,12 @@ public class NetworkedGameManager : NetworkBehaviour
     private void RpcStartGame()
     {
         _gameStateManager.SetState(GameState.Started, new GameStateEventArgs(_lobbyManager.playerCount));
+    }
+
+    [ClientRpc]
+    private void RpcFinishGame()
+    {
+        _gameStateManager.SetState(GameState.Finished, new GameStateEventArgs(_lobbyManager.playerCount));
     }
 
     private void SetPlayersPositionsRpc()
