@@ -26,6 +26,8 @@ public class CoreInstaller : MonoInstaller
     private NetworkedGameManager _netGameManager;
     [SerializeField]
     private GameSettings _gameSettings;
+    [SerializeField]
+    private ScoreManager _scoreManager;
 
 
     public override void InstallBindings()
@@ -42,6 +44,7 @@ public class CoreInstaller : MonoInstaller
         Container.Bind<LobbyManager>().FromInstance(_lobbyManager).AsSingle();
         Container.Bind<GameManager>().FromInstance(_gameManager).AsSingle();
         Container.Bind<NetworkedGameManager>().FromInstance(_netGameManager).AsSingle();
+        Container.Bind<ScoreManager>().FromInstance(_scoreManager).AsSingle();
         Container.Bind<GameSettings>().FromInstance(_gameSettings).AsSingle();
     }
 }

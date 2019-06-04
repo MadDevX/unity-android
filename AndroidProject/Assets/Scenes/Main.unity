@@ -605,6 +605,7 @@ MonoBehaviour:
   _lobbyManager: {fileID: 2000521305}
   _netGameManager: {fileID: 2000521308}
   _gameSettings: {fileID: 50363324}
+  _scoreManager: {fileID: 2000521309}
 --- !u!114 &317707284
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2239,7 +2240,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: localhost
+  m_Text: localhos
 --- !u!222 &1584361054
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2506,6 +2507,7 @@ GameObject:
   - component: {fileID: 2000521306}
   - component: {fileID: 2000521305}
   - component: {fileID: 2000521308}
+  - component: {fileID: 2000521309}
   m_Layer: 0
   m_Name: LobbyManager
   m_TagString: Untagged
@@ -2584,6 +2586,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b99fea540bfb5e64eb7dada11c8e7b66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2000521309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2000521304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 362c0019e62a4c34eaf0e4ee32f63c97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &2028118902
