@@ -6,7 +6,7 @@ public class PlayerStateReady : PlayerState
 {
     private Rigidbody2D _rb2D;
 
-    private void Awake()
+    protected override void SetupReferences()
     {
         _rb2D = GetComponent<Rigidbody2D>();
     }
