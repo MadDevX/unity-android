@@ -53,6 +53,7 @@ public class PlayerRespawn : NetworkBehaviour
     {
         Vector2 newPos = spawnPoint.position;
         _rigidbody2D.position = newPos;
+        _rigidbody2D.velocity = Vector2.zero;
         _charMovement.SetLane((int)spawnPoint.position.x);
     }
 }
