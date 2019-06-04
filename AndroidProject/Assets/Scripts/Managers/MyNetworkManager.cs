@@ -10,6 +10,14 @@ public class MyNetworkManager : NetworkManager
 {
     public event Action<int> OnNumPlayersChanged;
 
+    private GameStateMachine _gameStateMachine;
+
+    [Inject]
+    public void Construct(GameStateMachine gameStateMachine)
+    {
+        _gameStateMachine = gameStateMachine;
+    }
+
     public bool MyStartClient()
     {
         var client = StartClient();
@@ -64,5 +72,17 @@ public class MyNetworkManager : NetworkManager
     {
         base.OnServerDisconnect(conn);
         OnNumPlayersChanged?.Invoke(numPlayers);
+    }
+
+    public override void OnServerConnect(NetworkConnection conn)
+    {
+        if (_gameStateMachine.State == GameState.Lobby)
+        {
+            base.OnServerConnect(conn);
+        }
+        else
+        {
+            conn.Disconnect();
+        }
     }
 }
