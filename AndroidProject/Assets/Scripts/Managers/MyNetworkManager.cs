@@ -11,6 +11,18 @@ public class MyNetworkManager : NetworkManager
     public event Action<int> OnNumPlayersChanged;
 
     private GameStateMachine _gameStateMachine;
+    private NetworkClient _client;
+
+    public bool ClientIsConnected
+    {
+        get
+        {
+            if (_client != null)
+                return _client.isConnected;
+            else
+                return false;
+        }
+    }
 
     [Inject]
     public void Construct(GameStateMachine gameStateMachine)
@@ -20,12 +32,7 @@ public class MyNetworkManager : NetworkManager
 
     public bool MyStartClient()
     {
-        var client = StartClient();
-        if (client == null)
-        {
-            Debug.LogError("client cannot connect");
-            return false;
-        }
+        _client = StartClient();
         return true;
     }
 
