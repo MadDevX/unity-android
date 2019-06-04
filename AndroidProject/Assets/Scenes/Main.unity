@@ -160,9 +160,10 @@ MonoBehaviour:
   movementSpeed: 4
   runMult: 2
   lerpFactor: 0.3
-  accelerationRate: 0.1
+  accelerationRate: 0.08
   offset: {x: 0, y: 0.75, z: 0}
   bulletSpeed: 6
+  maxSpeed: 15
 --- !u!114 &50363323
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -646,9 +647,9 @@ MonoBehaviour:
   finishTile: {fileID: 11400000, guid: 32f27aa7994b03d4e97f5b9747ee86c1, type: 2}
   obstacles:
   - tile: {fileID: 11400000, guid: 21ae4976e23b0cc49b222f4208217d55, type: 2}
-    probability: 0.5
+    probability: 0.7
   - tile: {fileID: 11400000, guid: 85c48499524690f45adb39059f4967b1, type: 2}
-    probability: 0.5
+    probability: 0.3
   borderLane: {fileID: 11400000, guid: 52414ceedd331364f91e226721f909f9, type: 2}
   trackLane: {fileID: 11400000, guid: 9bbdd55c3d478f844be2bf52c9bfc463, type: 2}
   spawnPoint: {fileID: 2884407771631100458, guid: dd83f8fd278390d4b9c02b83d2d7ecda,

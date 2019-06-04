@@ -55,9 +55,13 @@ public class PlayerMovement : NetworkBehaviour
 
     private void Accelerate()
     {
-        if (IsRunning)
+        if (IsRunning && _rigidbody2D.velocity.y < _settings.maxSpeed)
         {
             _rigidbody2D.velocity += new Vector2(_rigidbody2D.velocity.x, _settings.accelerationRate);
+        }
+        if(_rigidbody2D.velocity.y > _settings.maxSpeed)
+        {
+            _rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x, _settings.maxSpeed);
         }
     }
 
