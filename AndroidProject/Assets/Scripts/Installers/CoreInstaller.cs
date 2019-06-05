@@ -16,6 +16,7 @@ public class CoreInstaller : MonoInstaller
     public NetworkedGameManager _netGameManager;
     public GameSettings _gameSettings;
     public ScoreManager _scoreManager;
+    public MatchCycleManager _matchCycleManager;
 
 
     public override void InstallBindings()
@@ -34,5 +35,6 @@ public class CoreInstaller : MonoInstaller
         Container.Bind<NetworkedGameManager>().FromInstance(_netGameManager).AsSingle();
         Container.Bind<ScoreManager>().FromInstance(_scoreManager).AsSingle();
         Container.Bind<GameSettings>().FromInstance(_gameSettings).AsSingle();
+        Container.Bind<MatchCycleManager>().FromInstance(_matchCycleManager).AsSingle();
     }
 }

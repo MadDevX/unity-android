@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using Assets.Scripts.StateMachines;
 using Zenject;
+using System;
 
 public class MatchCycleManager : MonoBehaviour
 {
-    LobbyManager _lobbyManager;
-    GameManager _gameManager;
-    GameStateMachine _gameStateManager;
+    private LobbyManager _lobbyManager;
+    private GameManager _gameManager;
+    private GameStateMachine _gameStateManager;
+
+    public event Action OnAllPlayersDied;
 
     [Inject]
     public void Construct(LobbyManager lobbyManager, GameManager gameManager, GameStateMachine gameStateManager)
@@ -54,6 +57,7 @@ public class MatchCycleManager : MonoBehaviour
         {
             if (player.stateMachine.State != PlayerStates.Dead) return;
         }
+        OnAllPlayersDied?.Invoke();
         _gameManager.FinishGame();
     }
 }

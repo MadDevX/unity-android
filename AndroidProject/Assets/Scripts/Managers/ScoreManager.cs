@@ -10,6 +10,7 @@ public class ScoreManager : NetworkBehaviour
 {
     private Dictionary<NetworkInstanceId, int> _scores = new Dictionary<NetworkInstanceId, int>();
     public event Action OnDictChanged;
+    public event Action<NetworkInstanceId> OnPlayerWon;
     
     private ConnectionStateMachine _connMachine;
 
@@ -87,6 +88,7 @@ public class ScoreManager : NetworkBehaviour
         _scores[netId] += add;
         Debug.Log($"siema siema, punkciki dla: {netId} sa rowne: {_scores[netId]}");
         OnDictChanged?.Invoke();
+        OnPlayerWon?.Invoke(netId);
     }
 
     [ClientRpc]
