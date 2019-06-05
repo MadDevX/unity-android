@@ -16,12 +16,14 @@ public class Player : NetworkBehaviour
     private PlayerShooting _playerShooting;
     private CinemachineVirtualCamera _vCam;
     private GameStateMachine _gameStateMachine;
+    private ServiceProvider _serviceProvider;
 
     [Inject]
     public void Construct(ServiceProvider provider, GameStateMachine gameStateMachine)
     {
         _vCam = provider.vCam;
         _gameStateMachine = gameStateMachine;
+        _serviceProvider = provider;
     }
 
     private void Awake()
@@ -32,6 +34,7 @@ public class Player : NetworkBehaviour
 
     public override void OnStartLocalPlayer()
     {
+        _serviceProvider.player = this;
         _vCam.Follow = transform;
     }
 

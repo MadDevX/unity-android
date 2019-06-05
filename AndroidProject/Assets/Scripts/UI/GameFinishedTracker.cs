@@ -9,19 +9,17 @@ using Zenject;
 public class GameFinishedTracker : MonoBehaviour
 {
     private Text _textBox;
-
-    private LobbyManager _lobbyManager;
+    
     private ScoreManager _scoreManager;
-    private MatchCycleManager _matchCycleManager;
     private GameStateMachine _gameStateMachine;
+    private ServiceProvider _serviceProvider;
 
     [Inject]
-    public void Construct(LobbyManager lobbyManager, ScoreManager scoreManager, MatchCycleManager matchCycleManager, GameStateMachine gameStateMachine)
+    public void Construct(ScoreManager scoreManager, GameStateMachine gameStateMachine, ServiceProvider provider)
     {
-        _lobbyManager = lobbyManager;
         _scoreManager = scoreManager;
-        _matchCycleManager = matchCycleManager;
         _gameStateMachine = gameStateMachine;
+        _serviceProvider = provider;
     }
 
     private void Awake()
@@ -40,20 +38,13 @@ public class GameFinishedTracker : MonoBehaviour
 
     private void SetFinishText(NetworkInstanceId netId)
     {
-        foreach(var player in _lobbyManager.GetActivePlayers())
+        if(netId.Value == _serviceProvider.player.GetComponent<NetworkIdentity>().netId.Value)
         {
-            if (player.isLocalPlayer)
-            {
-                if(netId == player.GetComponent<NetworkIdentity>().netId)
-                {
-                    _textBox.text = "Match Finished!\nYou won!";
-                }
-                else
-                {
-                    _textBox.text = "Match Finished!\nYou lost...";
-                }
-                break;
-            }
+            _textBox.text = "Match Finished!\nYou won!";
+        }
+        else
+        {
+            _textBox.text = "Match Finished!\nYou lost...";
         }
     }
 
