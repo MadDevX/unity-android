@@ -53,6 +53,11 @@ public class LobbyManager : NetworkBehaviour
         return players;
     }
 
+    public List<Player> GetActivePlayers()
+    {
+        return _activePlayers;
+    }
+
     private void RefreshReadyPlayers()
     {
         for(int i = _readyPlayers.Count-1; i>=0; i--)

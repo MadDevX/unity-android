@@ -28,6 +28,14 @@ public class MatchCycleManager : MonoBehaviour
         _lobbyManager.OnReadyPlayerCountChanged -= CheckIfGameStarts;
     }
 
+    private void Update()
+    {
+        if (_gameStateManager.State == GameState.Started)
+        {
+            CheckIfAllDead();
+        }
+    }
+
     private void CheckIfGameStarts()
     {               
         if (_gameStateManager.State == GameState.Lobby)
@@ -38,5 +46,14 @@ public class MatchCycleManager : MonoBehaviour
                 _gameManager.StartCountdown();
             }
         }
+    }
+
+    private void CheckIfAllDead()
+    {
+        foreach (var player in _lobbyManager.GetActivePlayers())
+        {
+            if (player.stateMachine.State != PlayerStates.Dead) return;
+        }
+        _gameManager.FinishGame();
     }
 }
