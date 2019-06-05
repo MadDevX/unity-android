@@ -8,14 +8,12 @@ using Zenject;
 public class ScoreManager : NetworkBehaviour
 {
     private Dictionary<NetworkInstanceId, int> _scores = new Dictionary<NetworkInstanceId, int>();
-
-    private LobbyManager _lobbyManager;
+    
     private ConnectionStateMachine _connMachine;
 
     [Inject]
-    public void Construct(LobbyManager lobbyManager, ConnectionStateMachine connMachine)
+    public void Construct(ConnectionStateMachine connMachine)
     {
-        _lobbyManager = lobbyManager;
         _connMachine = connMachine;
     }
 
@@ -73,6 +71,7 @@ public class ScoreManager : NetworkBehaviour
     private void RpcIncrementScore(NetworkInstanceId netId, int add)
     {
         _scores[netId] += add;
+        Debug.Log($"siema siema, punkciki dla: {netId} sa rowne: {_scores[netId]}");
     }
 
     [ClientRpc]
