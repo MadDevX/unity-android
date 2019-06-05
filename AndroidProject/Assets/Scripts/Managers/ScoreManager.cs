@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.StateMachines;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,7 @@ using Zenject;
 public class ScoreManager : NetworkBehaviour
 {
     private Dictionary<NetworkInstanceId, int> _scores = new Dictionary<NetworkInstanceId, int>();
+    public event Action OnDictChanged;
     
     private ConnectionStateMachine _connMachine;
 
@@ -15,6 +17,16 @@ public class ScoreManager : NetworkBehaviour
     public void Construct(ConnectionStateMachine connMachine)
     {
         _connMachine = connMachine;
+    }
+
+    public List<KeyValuePair<NetworkInstanceId, int>> GetScoreList()
+    {
+        List<KeyValuePair<NetworkInstanceId, int>> scoreList = new List<KeyValuePair<NetworkInstanceId, int>>();
+        foreach(var entry in _scores)
+        {
+            scoreList.Add(entry);
+        }
+        return scoreList;
     }
 
     public void AddPlayer(NetworkInstanceId netId)
@@ -58,6 +70,7 @@ public class ScoreManager : NetworkBehaviour
     {
         _scores.Add(netId, 0);
         Debug.Log($"elo dodano: {_scores.Keys.Count}");
+        OnDictChanged?.Invoke();
     }
 
     [ClientRpc]
@@ -65,6 +78,7 @@ public class ScoreManager : NetworkBehaviour
     {
         _scores.Remove(netId);
         Debug.Log($"elo zabrano: {_scores.Keys.Count}");
+        OnDictChanged?.Invoke();
     }
 
     [ClientRpc]
@@ -72,6 +86,7 @@ public class ScoreManager : NetworkBehaviour
     {
         _scores[netId] += add;
         Debug.Log($"siema siema, punkciki dla: {netId} sa rowne: {_scores[netId]}");
+        OnDictChanged?.Invoke();
     }
 
     [ClientRpc]
@@ -86,6 +101,7 @@ public class ScoreManager : NetworkBehaviour
             _scores.Add(netId, score);
         }
         Debug.Log($"elo dodano sync: {_scores.Keys.Count}");
+        OnDictChanged?.Invoke();
     }
 
     private void OnDisable()

@@ -10,6 +10,7 @@ public class PrefabManager : MonoBehaviour
     public DynamicWidthLane trackLane;
     public GameObject spawnPoint;
     public GameObject bullet;
+    public ScoreListEntry scoreListEntry;
 
     [System.Serializable]
     public class TileEntry : IRandomizable
