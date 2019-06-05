@@ -179,7 +179,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   extraLanes: 2
-  laneLength: 50
+  laneLength: 150
   minYDistanceBetweenObstacles: 4
   obstacleSpawnOffset: 4
   obstacleSpawnChance: 0.2
@@ -1203,7 +1203,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_AssetsPPU: 16
   m_RefResolutionX: 160
-  m_RefResolutionY: 120
+  m_RefResolutionY: 160
   m_UpscaleRT: 0
   m_PixelSnapping: 0
   m_CropFrameX: 0
@@ -1587,7 +1587,7 @@ MonoBehaviour:
   m_YDamping: 1
   m_ZDamping: 1
   m_ScreenX: 0.5
-  m_ScreenY: 0.5
+  m_ScreenY: 0.75
   m_CameraDistance: 10
   m_DeadZoneWidth: 0
   m_DeadZoneHeight: 0
@@ -2240,7 +2240,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: localhos
+  m_Text: localhost
 --- !u!222 &1584361054
 CanvasRenderer:
   m_ObjectHideFlags: 0
