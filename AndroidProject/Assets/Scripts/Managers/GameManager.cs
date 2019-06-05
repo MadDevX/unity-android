@@ -27,9 +27,9 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        _connManager.SubscribeToInit(ConnectionState.Client, StartLobby);
-        _connManager.SubscribeToInit(ConnectionState.Host, StartLobby);
-        _connManager.SubscribeToInit(ConnectionState.Server, StartLobby);
+        _connManager.SubscribeToInit(ConnectionState.Client, StartLobbyOnInitConnection);
+        _connManager.SubscribeToInit(ConnectionState.Host, StartLobbyOnInitConnection);
+        _connManager.SubscribeToInit(ConnectionState.Server, StartLobbyOnInitConnection);
 
         _connManager.SubscribeToDispose(ConnectionState.Server, ResetGame);
         _connManager.SubscribeToDispose(ConnectionState.Host, ResetGame);
@@ -40,9 +40,9 @@ public class GameManager : MonoBehaviour
 
     private void OnDestroy()
     {        
-        _connManager.UnsubscribeFromInit(ConnectionState.Client, StartLobby);
-        _connManager.UnsubscribeFromInit(ConnectionState.Host, StartLobby);
-        _connManager.UnsubscribeFromInit(ConnectionState.Server, StartLobby);
+        _connManager.UnsubscribeFromInit(ConnectionState.Client, StartLobbyOnInitConnection);
+        _connManager.UnsubscribeFromInit(ConnectionState.Host, StartLobbyOnInitConnection);
+        _connManager.UnsubscribeFromInit(ConnectionState.Server, StartLobbyOnInitConnection);
 
         _connManager.UnsubscribeFromDispose(ConnectionState.Server, ResetGame);
         _connManager.UnsubscribeFromDispose(ConnectionState.Host, ResetGame);
@@ -66,6 +66,14 @@ public class GameManager : MonoBehaviour
     }
 
     private void StartLobby()
+    {
+        _netGameManager.StartLobby();
+    }
+
+    /// <summary>
+    /// Only used to set initial state just after connection.
+    /// </summary>
+    private void StartLobbyOnInitConnection()
     {
         _gameStateManager.SetState(GameState.Lobby, new GameStateEventArgs(_lobbyManager.playerCount));
     }

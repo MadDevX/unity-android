@@ -23,10 +23,13 @@ public class Finish : NetworkBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         var playerRespawn = collision.GetComponent<PlayerRespawn>();
-        if (_gameStateMachine.State != GameState.Finished && playerRespawn != null)
+        if (playerRespawn != null)
         {
             //playerRespawn.Respawn();
-            _scoreManager.IncrementScore(playerRespawn.GetComponent<NetworkIdentity>().netId);
+            if (_gameStateMachine.State != GameState.Finished)
+            {
+                _scoreManager.IncrementScore(playerRespawn.GetComponent<NetworkIdentity>().netId);
+            }
             _gameManager.FinishGame();
         }
     }

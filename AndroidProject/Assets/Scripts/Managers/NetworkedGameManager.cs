@@ -21,11 +21,7 @@ public class NetworkedGameManager : NetworkBehaviour
 
     public void StartCountdown()
     {
-        if(_connManager.State == ConnectionState.Server)
-        {
-            _gameStateManager.SetState(GameState.Countdown, new GameStateEventArgs(_lobbyManager.playerCount));
-        }
-        if (_connManager.State == ConnectionState.Host || _connManager.State == ConnectionState.Server)
+        if (_connManager.State == ConnectionState.Host)
         {
             RpcStartCountdown();
         }
@@ -33,11 +29,7 @@ public class NetworkedGameManager : NetworkBehaviour
 
     public void StartGame()
     {
-        if (_connManager.State == ConnectionState.Server)
-        {
-            _gameStateManager.SetState(GameState.Started, new GameStateEventArgs(_lobbyManager.playerCount));
-        }
-        if (_connManager.State == ConnectionState.Host || _connManager.State == ConnectionState.Server)
+        if (_connManager.State == ConnectionState.Host)
         {
             RpcStartGame();
         }
@@ -45,14 +37,24 @@ public class NetworkedGameManager : NetworkBehaviour
 
     public void FinishGame()
     {
-        if (_connManager.State == ConnectionState.Server)
-        {
-            _gameStateManager.SetState(GameState.Finished, new GameStateEventArgs(_lobbyManager.playerCount));
-        }
-        if (_connManager.State == ConnectionState.Host || _connManager.State == ConnectionState.Server)
+        if (_connManager.State == ConnectionState.Host)
         {
             RpcFinishGame();
         }
+    }
+
+    public void StartLobby()
+    {
+        if (_connManager.State == ConnectionState.Host)
+        {
+            RpcStartLobby();
+        }
+    }
+
+    [ClientRpc]
+    private void RpcStartLobby()
+    {
+        _gameStateManager.SetState(GameState.Lobby, new GameStateEventArgs(_lobbyManager.playerCount));
     }
 
     [ClientRpc]
