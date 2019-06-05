@@ -1,4 +1,5 @@
 ﻿using Cinemachine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,5 +10,22 @@ public class ServiceProvider : MonoBehaviour
     public CinemachineVirtualCamera vCam;
     public MyNetworkManager networkManager;
     public Transform lobbySpawnPoint;
-    public Player player;
+
+    public event Action<Player> OnLocalPlayerChanged;
+
+    private Player _player;
+
+    public Player Player
+    {
+        get
+        {
+            return _player;
+        }
+
+        set
+        {
+            _player = value;
+            OnLocalPlayerChanged?.Invoke(_player);
+        }
+    }
 }

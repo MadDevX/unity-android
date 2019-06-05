@@ -38,7 +38,7 @@ public class GameFinishedTracker : MonoBehaviour
 
     private void SetFinishText(NetworkInstanceId netId)
     {
-        if(netId.Value == _serviceProvider.player.GetComponent<NetworkIdentity>().netId.Value)
+        if(netId.Value == _serviceProvider.Player.GetComponent<NetworkIdentity>().netId.Value)
         {
             _textBox.text = "Match Finished!\nYou won!";
         }

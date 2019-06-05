@@ -34,7 +34,7 @@ public class Player : NetworkBehaviour
 
     public override void OnStartLocalPlayer()
     {
-        _serviceProvider.player = this;
+        _serviceProvider.Player = this;
         _vCam.Follow = transform;
     }
 
