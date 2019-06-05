@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.StateMachines;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -12,13 +13,15 @@ public class GameFinishedTracker : MonoBehaviour
     private LobbyManager _lobbyManager;
     private ScoreManager _scoreManager;
     private MatchCycleManager _matchCycleManager;
+    private GameStateMachine _gameStateMachine;
 
     [Inject]
-    public void Construct(LobbyManager lobbyManager, ScoreManager scoreManager, MatchCycleManager matchCycleManager)
+    public void Construct(LobbyManager lobbyManager, ScoreManager scoreManager, MatchCycleManager matchCycleManager, GameStateMachine gameStateMachine)
     {
         _lobbyManager = lobbyManager;
         _scoreManager = scoreManager;
         _matchCycleManager = matchCycleManager;
+        _gameStateMachine = gameStateMachine;
     }
 
     private void Awake()
@@ -26,13 +29,13 @@ public class GameFinishedTracker : MonoBehaviour
         _textBox = GetComponent<Text>();
 
         _scoreManager.OnPlayerWon += SetFinishText;
-        _matchCycleManager.OnAllPlayersDied += SetFinishTextAllDied;
+        _gameStateMachine.SubscribeToInit(GameState.Finished, SetFinishTextAllDied);
     }
 
     private void OnDestroy()
     {
         _scoreManager.OnPlayerWon -= SetFinishText;
-        _matchCycleManager.OnAllPlayersDied -= SetFinishTextAllDied;
+        _gameStateMachine.UnsubscribeFromInit(GameState.Finished, SetFinishTextAllDied);
     }
 
     private void SetFinishText(NetworkInstanceId netId)
@@ -54,8 +57,11 @@ public class GameFinishedTracker : MonoBehaviour
         }
     }
 
-    private void SetFinishTextAllDied()
+    private void SetFinishTextAllDied(GameStateEventArgs e)
     {
-        _textBox.text = "Match Finished!\nNo one survived...";
+        if (e.someoneWon == false)
+        {
+            _textBox.text = "Match Finished!\nNo one survived...";
+        }
     }
 }

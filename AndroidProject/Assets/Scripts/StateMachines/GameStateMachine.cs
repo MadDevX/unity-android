@@ -6,10 +6,12 @@ namespace Assets.Scripts.StateMachines
     public class GameStateEventArgs
     {
         public int playerCount;
+        public bool someoneWon;
 
-        public GameStateEventArgs(int playerCount)
+        public GameStateEventArgs(int playerCount, bool someoneWon = false)
         {
             this.playerCount = playerCount;
+            this.someoneWon = someoneWon;
         }
     }
 

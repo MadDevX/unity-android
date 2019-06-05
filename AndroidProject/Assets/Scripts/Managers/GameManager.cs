@@ -84,11 +84,11 @@ public class GameManager : MonoBehaviour
         _gameStateManager.SetState(GameState.Menu, new GameStateEventArgs(_lobbyManager.playerCount));
     }
 
-    public void FinishGame()
+    public void FinishGame(bool someoneWon)
     {
         if(_finishCor == null && _gameStateManager.State != GameState.Finished)
         {
-            _netGameManager.FinishGame();
+            _netGameManager.FinishGame(someoneWon);
             _finishCor = StartCoroutine(FinishCoroutine());
         }
     }

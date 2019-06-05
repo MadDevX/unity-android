@@ -30,7 +30,7 @@ public class Finish : NetworkBehaviour
             {
                 _scoreManager.IncrementScore(playerRespawn.GetComponent<NetworkIdentity>().netId);
             }
-            _gameManager.FinishGame();
+            _gameManager.FinishGame(someoneWon: true);
         }
     }
 }

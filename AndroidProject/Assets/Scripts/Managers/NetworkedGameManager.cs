@@ -35,11 +35,11 @@ public class NetworkedGameManager : NetworkBehaviour
         }
     }
 
-    public void FinishGame()
+    public void FinishGame(bool someoneWon)
     {
         if (_connManager.State == ConnectionState.Host)
         {
-            RpcFinishGame();
+            RpcFinishGame(someoneWon);
         }
     }
 
@@ -71,9 +71,9 @@ public class NetworkedGameManager : NetworkBehaviour
     }
 
     [ClientRpc]
-    private void RpcFinishGame()
+    private void RpcFinishGame(bool someoneWon)
     {
-        _gameStateManager.SetState(GameState.Finished, new GameStateEventArgs(_lobbyManager.playerCount));
+        _gameStateManager.SetState(GameState.Finished, new GameStateEventArgs(_lobbyManager.playerCount, someoneWon));
     }
 
     private void SetPlayersPositionsRpc()

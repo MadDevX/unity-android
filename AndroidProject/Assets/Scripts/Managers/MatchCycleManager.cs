@@ -11,8 +11,6 @@ public class MatchCycleManager : MonoBehaviour
     private GameManager _gameManager;
     private GameStateMachine _gameStateManager;
 
-    public event Action OnAllPlayersDied;
-
     [Inject]
     public void Construct(LobbyManager lobbyManager, GameManager gameManager, GameStateMachine gameStateManager)
     {
@@ -57,7 +55,6 @@ public class MatchCycleManager : MonoBehaviour
         {
             if (player.stateMachine.State != PlayerStates.Dead) return;
         }
-        OnAllPlayersDied?.Invoke();
-        _gameManager.FinishGame();
+        _gameManager.FinishGame(false);
     }
 }
