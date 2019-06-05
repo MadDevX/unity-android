@@ -52,29 +52,57 @@ public class Player : NetworkBehaviour
         {
             OnCountdownStarted();
         }
-        State.Tick();
+        if (State != null)
+        {
+            State.Tick();
+        }
+        else
+        {
+            Debug.Log("PlayerState is null!");
+        }
     }
 
     public void Kill()
     {
         if (!isLocalPlayer) return;
-        stateMachine.SetState(PlayerStates.Dead);
+        //stateMachine.SetState(PlayerStates.Dead);
+        SetPlayerState(PlayerStates.Dead);
         Debug.Log("Player was killed!");
     }
 
     public void TakeDamage()
     {
         if (!isLocalPlayer) return; //check if it is necessary
-        stateMachine.SetState(PlayerStates.Dead);
+        //stateMachine.SetState(PlayerStates.Dead);
+        SetPlayerState(PlayerStates.Dead);
     }
 
     private void OnGameJoined()
     {
-        stateMachine.SetState(PlayerStates.Waiting);
+        //stateMachine.SetState(PlayerStates.Waiting);
+        SetPlayerState(PlayerStates.Waiting);
     }
 
     private void OnCountdownStarted()
     {
-        stateMachine.SetState(PlayerStates.Playing);
+        //stateMachine.SetState(PlayerStates.Playing);
+        SetPlayerState(PlayerStates.Playing);
+    }
+
+    public void SetPlayerState(PlayerStates state)
+    {
+        CmdSetPlayerState(state);
+    }
+
+    [Command]
+    private void CmdSetPlayerState(PlayerStates state)
+    {
+        RpcSetPlayerState(state);
+    }
+
+    [ClientRpc]
+    private void RpcSetPlayerState(PlayerStates state)
+    {
+        stateMachine.SetState(state);
     }
 }

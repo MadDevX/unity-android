@@ -36,7 +36,7 @@ public class PlayerStateWaiting : PlayerState
     {
         if(Input.GetButtonDown("Fire1"))
         {
-            _player.stateMachine.SetState(PlayerStates.Ready);
+            _player.SetPlayerState(PlayerStates.Ready);
         }
     }
 }
