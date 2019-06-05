@@ -33,7 +33,8 @@ public class MatchCycleManager : MonoBehaviour
         if (_gameStateManager.State == GameState.Lobby)
         {
             if (_lobbyManager.playerCount >= 1 && _lobbyManager.playerCount == _lobbyManager.readyPlayerCount)
-            {        
+            {
+                _lobbyManager.InitActivePlayers();
                 _gameManager.StartCountdown();
             }
         }

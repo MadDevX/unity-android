@@ -64,6 +64,7 @@ public class Player : NetworkBehaviour
 
     public void TakeDamage()
     {
+        if (!isLocalPlayer) return; //check if it is necessary
         stateMachine.SetState(PlayerStates.Dead);
     }
 

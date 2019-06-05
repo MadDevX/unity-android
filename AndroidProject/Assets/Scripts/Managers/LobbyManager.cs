@@ -15,17 +15,20 @@ public class LobbyManager : NetworkBehaviour
     public event Action OnReadyPlayerCountChanged;
 
     private List<PlayerNetworkingLobby> _readyPlayers = new List<PlayerNetworkingLobby>();
+    private List<Player> _activePlayers = new List<Player>();
 
     private ConnectionStateMachine _connManager;
     private MyNetworkManager _networkManager;
+    private GameStateMachine _gameStateMachine;
 
     private Coroutine _refreshCor;
 
     [Inject]
-    public void Construct(ConnectionStateMachine connManager, ServiceProvider provider)
+    public void Construct(ConnectionStateMachine connManager, ServiceProvider provider, GameStateMachine gameStateMachine)
     {
         _connManager = connManager;
         _networkManager = provider.networkManager;
+        _gameStateMachine = gameStateMachine;
     }
 
     public void AddReady(PlayerNetworkingLobby player)
@@ -67,6 +70,8 @@ public class LobbyManager : NetworkBehaviour
         _connManager.SubscribeToInit(ConnectionState.Server, ResetLobby);
         _connManager.SubscribeToInit(ConnectionState.Host, ResetLobby);
 
+        _gameStateMachine.SubscribeToInit(GameState.Lobby, ClearActivePlayers);
+
         _networkManager.OnNumPlayersChanged += UpdatePlayerCount;
     }
 
@@ -84,6 +89,8 @@ public class LobbyManager : NetworkBehaviour
     {
         _connManager.UnsubscribeFromInit(ConnectionState.Server, ResetLobby);
         _connManager.UnsubscribeFromInit(ConnectionState.Host, ResetLobby);
+
+        _gameStateMachine.UnsubscribeFromInit(GameState.Lobby, ClearActivePlayers);
 
         _networkManager.OnNumPlayersChanged -= UpdatePlayerCount;
     }
@@ -112,5 +119,18 @@ public class LobbyManager : NetworkBehaviour
             }
             yield return new WaitForSeconds(1.0f);
         }
+    }
+
+    public void InitActivePlayers()
+    {
+        foreach (var rp in _readyPlayers)
+        {
+            _activePlayers.Add(rp.GetComponent<Player>());
+        }
+    }
+
+    private void ClearActivePlayers(GameStateEventArgs e)
+    {
+        _activePlayers.Clear();
     }
 }
