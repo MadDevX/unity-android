@@ -20,7 +20,7 @@ public class TileQueue
         switch(tilingMode)
         {
             case TilingMode.Random:
-                return tiles[Random.Range(0, tiles.Length-1)];
+                return tiles[Random.Range(0, tiles.Length)];
             case TilingMode.Sequential:
                 int retInd = _currentIndex;
                 _currentIndex = (_currentIndex + 1) % tiles.Length;

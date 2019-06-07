@@ -5,6 +5,7 @@ using UnityEngine.Tilemaps;
 public class PrefabManager : MonoBehaviour
 {
     public TileBase finishTile;
+    public TileQueue backgroundTiles;
     public List<TileEntry> obstacles;
     public StaticWidthLane borderLane;
     public DynamicWidthLane trackLane;

@@ -50,6 +50,8 @@ public class Track : MonoBehaviour
 
     void DrawTrack(GameStateEventArgs e)
     {
+        DrawBackground(e);
+
         _offsetVector = _envSettings.baseVector;
 
         _offsetVector.x += _prefabManager.borderLane.SetupLane(_gridManager.tilemapBase, _offsetVector, _envSettings.laneLength);
@@ -61,6 +63,17 @@ public class Track : MonoBehaviour
         _offsetVector.x += _prefabManager.borderLane.SetupLane(_gridManager.tilemapBase, _offsetVector, _envSettings.laneLength);
 
         OnMapGenerated?.Invoke(GameAreaBoundsMin, GameAreaBoundsMax);
+    }
+
+    private void DrawBackground(GameStateEventArgs e)
+    {
+        var startVector = _envSettings.baseVector - _envSettings.backgroundPaddingVector;
+
+        var endVector = _envSettings.baseVector + 
+                        new Vector3Int(_prefabManager.borderLane.Width * 2 + e.playerCount + _envSettings.extraLanes, _envSettings.laneLength, 0) + 
+                        _envSettings.backgroundPaddingVector;
+
+        LaneDrawer.DrawLane(_gridManager.tilemapBase, _prefabManager.backgroundTiles, startVector, endVector.y - startVector.y, endVector.x - startVector.x);
     }
 
     void ClearTrack(GameStateEventArgs e)

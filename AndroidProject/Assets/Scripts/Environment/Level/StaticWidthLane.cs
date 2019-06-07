@@ -4,6 +4,7 @@ using UnityEngine.Tilemaps;
 [CreateAssetMenu(fileName = "NewLane", menuName = "Lanes/Static Width Lane")]
 public class StaticWidthLane : ScriptableObject
 {
+    public int Width { get { return _width; } }
     [SerializeField]
     private int _width;
     [SerializeField]
