@@ -82,6 +82,11 @@ public class PlayerMovement : NetworkBehaviour
         return SwitchLanes(1);
     }
 
+    public Vector2 GetPosition()
+    {
+        return _rigidbody2D.position;
+    }
+
     private Vector2 MovementVector()
     {
         var currentVelocity = Vector2.up * _settings.movementSpeed;

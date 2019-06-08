@@ -7,6 +7,7 @@ using UnityEngine.Networking;
 
 public class ServiceProvider : MonoBehaviour
 {
+    public Camera mainCamera;
     public CinemachineVirtualCamera vCam;
     public MyNetworkManager networkManager;
     public MyNetworkDiscovery networkDiscovery;

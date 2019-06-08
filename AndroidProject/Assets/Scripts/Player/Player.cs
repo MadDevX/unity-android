@@ -22,17 +22,23 @@ public class Player : NetworkBehaviour
     private PlayerMovement _charMovement;
     private PlayerShooting _playerShooting;
     private CinemachineVirtualCamera _vCam;
+    private Camera _mainCamera;
+    private PrefabManager _prefabManager;
     private GameStateMachine _gameStateMachine;
     private ServiceProvider _serviceProvider;
-    private InputField _nickInputField;
+    private UIManager _uiManager;
+
+    private NickLabel _nickLabel = null;
 
     [Inject]
-    public void Construct(ServiceProvider provider, GameStateMachine gameStateMachine, UIManager uiManager)
+    public void Construct(ServiceProvider provider, GameStateMachine gameStateMachine, UIManager uiManager, PrefabManager prefabManager)
     {
         _vCam = provider.vCam;
+        _mainCamera = provider.mainCamera;
         _gameStateMachine = gameStateMachine;
         _serviceProvider = provider;
-        _nickInputField = uiManager.joinPanel.nickInputField;
+        _uiManager = uiManager;
+        _prefabManager = prefabManager;
     }
 
     private void Awake()
@@ -44,13 +50,15 @@ public class Player : NetworkBehaviour
     public override void OnStartLocalPlayer()
     {
         _serviceProvider.Player = this;
-        CmdSetNickname(_nickInputField.text);
+        CmdSetNickname(_uiManager.joinPanel.nickInputField.text);
         _vCam.Follow = transform;
     }
 
     private void Start()
     {
         _serviceProvider.allPlayers.Add(this);
+        _nickLabel = Instantiate(_prefabManager.nickLabel, _uiManager.gamePanel.transform);
+        _nickLabel.Init(this, _mainCamera, _uiManager);
         if (!isLocalPlayer) return;
         OnGameJoined();
     }
@@ -58,6 +66,10 @@ public class Player : NetworkBehaviour
     private void OnDestroy()
     {
         _serviceProvider.allPlayers.Remove(this);
+        if (_nickLabel != null)
+        {
+            Destroy(_nickLabel.gameObject);
+        }
     }
 
     private void Update()

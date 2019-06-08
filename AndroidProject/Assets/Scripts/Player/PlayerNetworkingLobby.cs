@@ -114,7 +114,7 @@ public class PlayerNetworkingLobby : NetworkBehaviour
     {
         if (isLocalPlayer)
         {
-            _playerMovement.MovePosition(_lobbySpawnPoint);
+            _playerMovement.SetPosition(_lobbySpawnPoint);
             _player.SetPlayerState(PlayerStates.Waiting);
         }
     }

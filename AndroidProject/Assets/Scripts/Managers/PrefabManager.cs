@@ -13,6 +13,7 @@ public class PrefabManager : MonoBehaviour
     public GameObject bullet;
     public ScoreListEntry scoreListEntry;
     public JoinGameButton joinGameButton;
+    public NickLabel nickLabel;
 
     [System.Serializable]
     public class TileEntry : IRandomizable
