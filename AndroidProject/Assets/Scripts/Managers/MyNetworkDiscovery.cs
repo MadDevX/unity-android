@@ -14,7 +14,6 @@ public class MyNetworkDiscovery : NetworkDiscovery
     private LobbyManager _lobbyManager;
 
     private Coroutine _listenCor = null;
-    private Coroutine _broadCor = null;
 
     [Inject]
     public void Construct(ConnectionStateMachine connMachine, LobbyManager lobbyManager)

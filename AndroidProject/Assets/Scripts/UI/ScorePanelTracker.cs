@@ -8,43 +8,63 @@ public class ScorePanelTracker : MonoBehaviour
 {
     private ScoreManager _scoreManager;
     private PrefabManager _prefabManager;
+    private ServiceProvider _serviceProvider;
 
     private List<ScoreListEntry> _entries = new List<ScoreListEntry>();
 
+    private Coroutine _cor = null;
+
     [Inject]
-    public void Construct(ScoreManager scoreManager, PrefabManager prefabManager)
+    public void Construct(ScoreManager scoreManager, PrefabManager prefabManager, ServiceProvider serviceProvider)
     {
         _scoreManager = scoreManager;
         _prefabManager = prefabManager;
+        _serviceProvider = serviceProvider;
     }
 
-    private void Awake()
+    private void OnEnable()
     {
-        _scoreManager.OnDictChanged += ResetEntries;
+        _cor = StartCoroutine(ResetEntriesCoroutine());
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
-        _scoreManager.OnDictChanged -= ResetEntries;
+        StopCoroutine(_cor);
+        _cor = null;
     }
 
-    private void ResetEntries()
+    private bool ResetEntriesImmediate()
     {
         ClearEntries();
         var scoreList = _scoreManager.GetScoreList();
         scoreList.Sort((t1, t2) => { return t1.Value.CompareTo(t2.Value); });
-
+        bool success = true;
         foreach (var scoreData in scoreList)
         {
-            AddEntry(scoreData.Key, scoreData.Value);
+            if (success)
+            {
+                success = AddEntry(scoreData.Key, scoreData.Value);
+            }
+            else break;
+        }
+        return success;
+    }
+
+    private IEnumerator ResetEntriesCoroutine()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(1.0f);
+            ResetEntriesImmediate();
         }
     }
 
-    private void AddEntry(NetworkInstanceId netId, int score)
+    private bool AddEntry(NetworkInstanceId netId, int score)
     {
         var scoreEntry = Instantiate(_prefabManager.scoreListEntry, transform);
-        scoreEntry.Init(netId, score, false); //Detect local player
+        var result = scoreEntry.Init(netId, score, _serviceProvider.allPlayers);
         _entries.Add(scoreEntry);
+        return result;
     }
 
     private void ClearEntries()

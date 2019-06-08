@@ -13,15 +13,27 @@ public class ScoreListEntry : MonoBehaviour
         _textBox = GetComponent<Text>();
     }
 
-    public void Init(NetworkInstanceId netId, int score, bool isLocalPlayer)
+    public bool Init(NetworkInstanceId netId, int score, List<Player> players)
     {
-        if (isLocalPlayer)
+        Player player = null;
+        foreach(var p in players)
         {
-            _textBox.text = string.Format("Player {0} (Me): {1}", netId, score);
+            if (p.GetComponent<NetworkIdentity>().netId.Value == netId.Value)
+            {
+                player = p;
+                break;
+            }
         }
-        else
+        if(player == null)
         {
-            _textBox.text = string.Format("Player {0}: {1}", netId, score);
+            Debug.LogError("No player with matching netId!");
+            return false;
         }
+        if (player.isLocalPlayer)
+        {
+            _textBox.color = new Color(0.9f, 0.65f, 0.2f);
+        }
+        _textBox.text = string.Format("{0}: {1}", player.Nickname, score);
+        return true;
     }
 }

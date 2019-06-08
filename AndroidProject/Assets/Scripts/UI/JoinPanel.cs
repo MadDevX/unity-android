@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.StateMachines;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,7 +9,13 @@ using Zenject;
 
 public class JoinPanel : UIPanel
 {
-    public InputField _gameNameInputField;
+    public InputField gameNameInputField;
+    public InputField nickInputField;
+
+    [SerializeField]
+    private Button _findButton;
+    [SerializeField]
+    private Button _hostButton;
 
     private NetworkManager _networkManager;
     private LobbyManager _lobbyManager;
@@ -23,6 +30,47 @@ public class JoinPanel : UIPanel
         _networkManager = provider.networkManager;
         _uiManager = uiManager;
         _lobbyManager = lobbyManager;
+    }
+
+    private void Start()
+    {
+        nickInputField.onValueChanged.AddListener(ValidateNick);
+        gameNameInputField.onValueChanged.AddListener(ValidateGame);
+    }
+
+    private void OnDestroy()
+    {
+        nickInputField.onValueChanged.RemoveListener(ValidateNick);
+        gameNameInputField.onValueChanged.RemoveListener(ValidateGame);
+    }
+
+    private void ValidateNick(string text)
+    {
+        if(text.Length == 0)
+        {
+            _hostButton.interactable = false;
+            _findButton.interactable = false;
+        }
+        else
+        {
+            if (gameNameInputField.text.Length > 0)
+            {
+                _hostButton.interactable = true;
+            }
+            _findButton.interactable = true;
+        }
+    }
+
+    private void ValidateGame(string text)
+    {
+        if (text.Length == 0)
+        {
+            _hostButton.interactable = false;
+        }
+        else if (nickInputField.text.Length > 0)
+        {
+            _hostButton.interactable = true;
+        }
     }
 
     public void OnJoinButton()
@@ -40,7 +88,7 @@ public class JoinPanel : UIPanel
 
     public void OnHostButton()
     {
-        _lobbyManager.GameName = _gameNameInputField.text;
+        _lobbyManager.GameName = gameNameInputField.text;
         if(_connManager.SetState(ConnectionState.Host))
         {
             SwitchPanels();

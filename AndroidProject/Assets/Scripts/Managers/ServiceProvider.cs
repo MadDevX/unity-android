@@ -16,6 +16,8 @@ public class ServiceProvider : MonoBehaviour
 
     private Player _player;
 
+    public List<Player> allPlayers = new List<Player>();
+
     public Player Player
     {
         get

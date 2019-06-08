@@ -102,7 +102,7 @@ public class ScoreManager : NetworkBehaviour
         {
             _scores.Add(netId, score);
         }
-        Debug.Log($"elo dodano sync: {_scores.Keys.Count}");
+        Debug.Log($"Synchronized add: {_scores.Keys.Count}");
         OnDictChanged?.Invoke();
     }
 
