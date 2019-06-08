@@ -11,27 +11,33 @@ public class MyNetworkDiscovery : NetworkDiscovery
     public event Action<string, string> OnReceivedBroadcastEvent;
 
     private ConnectionStateMachine _connMachine;
+    private GameStateMachine _gameStateMachine;
     private LobbyManager _lobbyManager;
 
     private Coroutine _listenCor = null;
 
     [Inject]
-    public void Construct(ConnectionStateMachine connMachine, LobbyManager lobbyManager)
+    public void Construct(ConnectionStateMachine connMachine, GameStateMachine gameStateMachine, LobbyManager lobbyManager)
     {
         _connMachine = connMachine;
+        _gameStateMachine = gameStateMachine;
         _lobbyManager = lobbyManager;
     }
 
     private void Awake()
     {
-        _connMachine.SubscribeToInit(ConnectionState.Host, StartBroadcast);
-        _connMachine.SubscribeToDispose(ConnectionState.Host, StopBroadcast);
+        _connMachine.SubscribeToInit(ConnectionState.Host, StartBroadcastChecked);
+        _connMachine.SubscribeToDispose(ConnectionState.Host, StopBroadcastChecked);
+        _gameStateMachine.SubscribeToInit(GameState.Lobby, StartBroadcastHost);
+        _gameStateMachine.SubscribeToDispose(GameState.Lobby, StopBroadcastHost);
     }
 
     private void OnDestroy()
     {
-        _connMachine.UnsubscribeFromInit(ConnectionState.Host, StartBroadcast);
-        _connMachine.UnsubscribeFromDispose(ConnectionState.Host, StopBroadcast);
+        _connMachine.UnsubscribeFromInit(ConnectionState.Host, StartBroadcastChecked);
+        _connMachine.UnsubscribeFromDispose(ConnectionState.Host, StopBroadcastChecked);
+        _gameStateMachine.UnsubscribeFromInit(GameState.Lobby, StartBroadcastHost);
+        _gameStateMachine.UnsubscribeFromDispose(GameState.Lobby, StopBroadcastHost);
     }
 
     public override void OnReceivedBroadcast(string fromAddress, string data)
@@ -59,6 +65,26 @@ public class MyNetworkDiscovery : NetworkDiscovery
         {
             _listenCor = StartCoroutine(RefreshListenCoroutine());
         }
+    }
+
+    private void StopBroadcastChecked()
+    {
+        if(running) StopBroadcast();
+    }
+
+    private void StartBroadcastChecked()
+    {
+        if (!running) StartBroadcast();
+    }
+
+    private void StartBroadcastHost(GameStateEventArgs e)
+    {
+        if (_connMachine.State == ConnectionState.Host && running == false) StartBroadcast();
+    }
+
+    private void StopBroadcastHost(GameStateEventArgs e)
+    {
+        if (_connMachine.State == ConnectionState.Host && running) StopBroadcast();
     }
 
     private void RefreshBroadcastData()
