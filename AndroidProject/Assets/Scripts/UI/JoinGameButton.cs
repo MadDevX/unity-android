@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -85,7 +86,8 @@ public class JoinGameButton : MonoBehaviour
 
         public override string ToString()
         {
-            return $"{gameName} | IP: {GetIP()}";
+            //This right here was a goddamn joke. 2 hours of debugging string concatenation.
+            return Regex.Replace(gameName, "[^a-zA-Z0-9_.]+", "") + " | at: " + Regex.Replace(GetIP(), "[^a-zA-Z0-9_.]+", "");
         }
     }
 }
