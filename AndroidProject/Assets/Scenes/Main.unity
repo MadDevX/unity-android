@@ -245,6 +245,7 @@ MonoBehaviour:
   maxSpeed: 15
   boostMaxError: 0.5
   boostMaxValue: 5
+  directionStickTime: 0.15
 --- !u!114 &50363323
 MonoBehaviour:
   m_ObjectHideFlags: 0

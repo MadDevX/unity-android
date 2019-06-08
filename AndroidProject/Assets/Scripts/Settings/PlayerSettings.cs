@@ -13,4 +13,5 @@ public class PlayerSettings : MonoBehaviour
     public float maxSpeed;
     public float boostMaxError;
     public float boostMaxValue;
+    public float directionStickTime;
 }

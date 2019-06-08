@@ -6,6 +6,13 @@ using Zenject;
 
 public class PlayerStatePlaying : PlayerState
 {
+    enum Direction
+    {
+        Null,
+        Left,
+        Right
+    }
+
     private PlayerMovement _playerMovement;
     private PlayerShooting _playerShooting;
     private GameStateMachine _gameStateMachine;
@@ -14,6 +21,21 @@ public class PlayerStatePlaying : PlayerState
 
     private bool _startBoost;
     private float _startBoostValue;
+
+    private Direction _pendingTurn = Direction.Null;
+    private Direction PendingTurn
+    {
+        get
+        {
+            return _pendingTurn;
+        }
+        set
+        {
+            _pendingTurn = value;
+            _pendingTimer = 0.0f;
+        }
+    }
+    private float _pendingTimer = 0.0f;
 
     [Inject]
     public void Construct(GameStateMachine gameStateMachine, GameManager gameManager, PlayerSettings playerSettings)
@@ -26,6 +48,9 @@ public class PlayerStatePlaying : PlayerState
     public override void Tick()
     {
         ProcessInput(_playerMovement, _playerShooting, _gameManager.GameStartTime);
+        ExecutePendingTurn(_playerMovement);
+        _pendingTimer += Time.deltaTime;
+        ResetPendingTurn();
     }
 
     protected override void SetupReferences()
@@ -42,6 +67,11 @@ public class PlayerStatePlaying : PlayerState
     protected override PlayerStates GetState()
     {
         return PlayerStates.Playing;
+    }
+
+    private void ResetPendingTurn()
+    {
+        if (_pendingTimer > _playerSettings.directionStickTime) PendingTurn = Direction.Null;
     }
 
     #region PlayerInput
@@ -106,11 +136,43 @@ public class PlayerStatePlaying : PlayerState
     }
     #endregion
 
+    private void ExecutePendingTurn(PlayerMovement charMovement)
+    {
+        if (_gameStateMachine.State == GameState.Started)
+        {
+            switch (PendingTurn)
+            {
+                case Direction.Left:
+                    if (charMovement.TurnLeft())
+                    {
+                        Debug.Log("Left stick");
+                        PendingTurn = Direction.Null;
+                    }
+                    break;
+                case Direction.Right:
+                    if (charMovement.TurnRight())
+                    {
+                        Debug.Log("Right stick");
+                        PendingTurn = Direction.Null;
+                    }
+                    break;
+            }
+        }
+    }
+
     private void SwitchLanes(PlayerMovement charMovement)
     {
 #if UNITY_STANDALONE || UNITY_WEBPLAYER
-        if (Input.GetKeyDown(KeyCode.A)) charMovement.TurnLeft();
-        if (Input.GetKeyDown(KeyCode.D)) charMovement.TurnRight();
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            if (charMovement.TurnLeft()) PendingTurn = Direction.Null;
+            else PendingTurn = Direction.Left;
+        }
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            if (charMovement.TurnRight()) PendingTurn = Direction.Null;
+            else PendingTurn = Direction.Right;
+        }
 #else
         if (Input.touchCount > 0)
         {
@@ -128,8 +190,16 @@ public class PlayerStatePlaying : PlayerState
                 if (Mathf.Abs(x) > Mathf.Abs(y) && Mathf.Abs(x) > Screen.width/15)
                 {
                     Debug.Log(x);
-                    if (x > 0) charMovement.TurnRight();
-                    else charMovement.TurnLeft();
+                    if (x > 0)
+                    {
+                        if (charMovement.TurnRight()) _pendingTurn = Direction.Null;
+                        else _pendingTurn = Direction.Right;
+                    }
+                    else 
+                    {
+                        if (charMovement.TurnLeft()) _pendingTurn = Direction.Null;
+                        else _pendingTurn = Direction.Left;
+                    }
                 }
                 else
                 {
