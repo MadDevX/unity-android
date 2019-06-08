@@ -26,13 +26,20 @@ public class CountdownPanelTracker : MonoBehaviour
         _gameStateMachine.SubscribeToInit(GameState.Countdown, ShowPanel);
         _gameStateMachine.SubscribeToDispose(GameState.Countdown, HidePanel);
 
-        HidePanel(null);
+        gameObject.SetActive(false);
     }
 
     private void Update()
     {
         float remaining = _gameManager.GameStartTime - Time.time;
-        SetText(((int)remaining+1).ToString());
+        if (remaining > 0.0f)
+        {
+            SetText(((int)remaining + 1).ToString());
+        }
+        else
+        {
+            SetText("GO!");
+        }
     }
 
     // Update is called once per frame
@@ -49,6 +56,12 @@ public class CountdownPanelTracker : MonoBehaviour
 
     private void HidePanel(GameStateEventArgs e)
     {
+        StartCoroutine(HidePanelCoroutine());
+    }
+
+    private IEnumerator HidePanelCoroutine()
+    {
+        yield return new WaitForSeconds(1.0f);
         gameObject.SetActive(false);
     }
 
