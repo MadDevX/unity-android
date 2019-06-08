@@ -18,7 +18,17 @@ public class LoadingPanelTracker : MonoBehaviour
     {
         if(_networkManager.ClientIsConnected)
         {
-            gameObject.SetActive(false);
+            HideTracker();
         }
+    }
+
+    public void ShowTracker()
+    {
+        gameObject.SetActive(true);
+    }
+
+    public void HideTracker()
+    {
+        gameObject.SetActive(false);    
     }
 }

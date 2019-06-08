@@ -8,25 +8,26 @@ using Zenject;
 
 public class JoinPanel : UIPanel
 {
-    [SerializeField]
-    private InputField addressInput;
+    public InputField _gameNameInputField;
 
     private NetworkManager _networkManager;
+    private LobbyManager _lobbyManager;
 
     private ConnectionStateMachine _connManager;
-    private UIPanel _exitPanel;
+    private UIManager _uiManager;
 
     [Inject]
-    public void Construct(ConnectionStateMachine connManager, ServiceProvider provider, UIManager uiManager)
+    public void Construct(ConnectionStateMachine connManager, ServiceProvider provider, UIManager uiManager, LobbyManager lobbyManager)
     {
         _connManager = connManager;
         _networkManager = provider.networkManager;
-        _exitPanel = uiManager.exitPanel;
+        _uiManager = uiManager;
+        _lobbyManager = lobbyManager;
     }
 
     public void OnJoinButton()
     {
-        _networkManager.networkAddress = addressInput.text;
+        //_networkManager.networkAddress = addressInput.text;
         if (_connManager.SetState(ConnectionState.Client))
         {
             SwitchPanels();
@@ -39,6 +40,7 @@ public class JoinPanel : UIPanel
 
     public void OnHostButton()
     {
+        _lobbyManager.GameName = _gameNameInputField.text;
         if(_connManager.SetState(ConnectionState.Host))
         {
             SwitchPanels();
@@ -63,7 +65,7 @@ public class JoinPanel : UIPanel
 
     private void SwitchPanels()
     {
-        HidePanel();
-        _exitPanel.ShowPanel();
+        _uiManager.menuPanel.HidePanel();
+        _uiManager.gamePanel.ShowPanel();
     }
 }

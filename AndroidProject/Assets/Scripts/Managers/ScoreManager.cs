@@ -70,7 +70,7 @@ public class ScoreManager : NetworkBehaviour
     private void RpcAddPlayer(NetworkInstanceId netId)
     {
         _scores.Add(netId, 0);
-        Debug.Log($"elo dodano: {_scores.Keys.Count}");
+        Debug.Log($"Added player: {_scores.Keys.Count}");
         OnDictChanged?.Invoke();
     }
 
@@ -78,7 +78,7 @@ public class ScoreManager : NetworkBehaviour
     private void RpcRemovePlayer(NetworkInstanceId netId)
     {
         _scores.Remove(netId);
-        Debug.Log($"elo zabrano: {_scores.Keys.Count}");
+        Debug.Log($"Removed player: {_scores.Keys.Count}");
         OnDictChanged?.Invoke();
     }
 
@@ -86,7 +86,7 @@ public class ScoreManager : NetworkBehaviour
     private void RpcIncrementScore(NetworkInstanceId netId, int add)
     {
         _scores[netId] += add;
-        Debug.Log($"siema siema, punkciki dla: {netId} sa rowne: {_scores[netId]}");
+        Debug.Log($"Player with id {netId} won and has {_scores[netId]} points.");
         OnDictChanged?.Invoke();
         OnPlayerWon?.Invoke(netId);
     }

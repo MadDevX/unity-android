@@ -17,16 +17,6 @@ public class PlayerStateWaiting : PlayerState
         _playerMovement.ResetVelocity();
     }
 
-    protected override void Init()
-    {
-        Debug.Log("Player started waiting.");
-    }
-
-    protected override void Dispose()
-    {
-        Debug.Log("Player stopped waiting.");
-    }
-
     protected override PlayerStates GetState()
     {
         return PlayerStates.Waiting;

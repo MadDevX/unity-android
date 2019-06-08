@@ -5,16 +5,16 @@ using UnityEngine;
 using UnityEngine.Networking;
 using Zenject;
 
-public class ExitPanel : UIPanel
+public class GamePanel : UIPanel
 {
     private ConnectionStateMachine _connManager;
-    private UIPanel _joinPanel;
+    private UIManager _uiManager;
 
     [Inject]
     public void Construct(ConnectionStateMachine connManager, UIManager uiManager)
     {
         _connManager = connManager;
-        _joinPanel = uiManager.joinPanel;
+        _uiManager = uiManager;
     }
 
     public void OnExit()
@@ -26,6 +26,6 @@ public class ExitPanel : UIPanel
     private void SwitchPanels()
     {
         HidePanel();
-        _joinPanel.ShowPanel();
+        _uiManager.menuPanel.ShowPanel();
     }
 }

@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
+    public UIPanel menuPanel;
     public UIPanel joinPanel;
-    public UIPanel exitPanel;
+    public UIPanel gamePanel;
+    public UIPanel gameListPanel;
+    public LoadingPanelTracker loadingTracker;
 }

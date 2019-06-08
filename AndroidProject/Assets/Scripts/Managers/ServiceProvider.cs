@@ -9,6 +9,7 @@ public class ServiceProvider : MonoBehaviour
 {
     public CinemachineVirtualCamera vCam;
     public MyNetworkManager networkManager;
+    public MyNetworkDiscovery networkDiscovery;
     public Transform lobbySpawnPoint;
 
     public event Action<Player> OnLocalPlayerChanged;

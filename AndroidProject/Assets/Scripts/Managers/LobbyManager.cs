@@ -8,6 +8,7 @@ using Zenject;
 
 public class LobbyManager : NetworkBehaviour
 {
+    public string GameName { get; set; }
     [SyncVar]
     public int playerCount;
     [SyncVar]
@@ -22,6 +23,7 @@ public class LobbyManager : NetworkBehaviour
     private GameStateMachine _gameStateMachine;
 
     private Coroutine _refreshCor;
+
 
     [Inject]
     public void Construct(ConnectionStateMachine connManager, ServiceProvider provider, GameStateMachine gameStateMachine)
