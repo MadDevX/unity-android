@@ -7,9 +7,13 @@ using Zenject;
 
 public class CountdownPanelTracker : MonoBehaviour
 {
+    private Text _textBox;
+    private Animator _anim;
+
     private GameStateMachine _gameStateMachine;
     private GameManager _gameManager;
-    private Text _textBox;
+
+    private int _prevTime = -1;
 
     [Inject]
     public void Construct(GameStateMachine gameStateMachine, GameManager gameManager)
@@ -22,6 +26,7 @@ public class CountdownPanelTracker : MonoBehaviour
     void Awake()
     {
         _textBox = GetComponent<Text>();
+        _anim = GetComponent<Animator>();
 
         _gameStateMachine.SubscribeToInit(GameState.Countdown, ShowPanel);
         _gameStateMachine.SubscribeToDispose(GameState.Countdown, HidePanel);
@@ -34,11 +39,20 @@ public class CountdownPanelTracker : MonoBehaviour
         float remaining = _gameManager.GameStartTime - Time.time;
         if (remaining > 0.0f)
         {
-            SetText(((int)remaining + 1).ToString());
+            var time = ((int)remaining + 1);
+            if (time != _prevTime)
+            {
+                SetText(((int)remaining + 1).ToString());
+                _prevTime = time;
+            }
         }
         else
         {
-            SetText("GO!");
+            if (_prevTime != 0)
+            {
+                SetText("GO!");
+                _prevTime = 0;
+            }
         }
     }
 
@@ -51,6 +65,7 @@ public class CountdownPanelTracker : MonoBehaviour
 
     private void ShowPanel(GameStateEventArgs e)
     {
+        _prevTime = -1;
         gameObject.SetActive(true);
     }
 
@@ -68,5 +83,6 @@ public class CountdownPanelTracker : MonoBehaviour
     private void SetText(string text)
     {
         _textBox.text = text;
+        _anim.SetTrigger("Tick");
     }
 }

@@ -7,10 +7,12 @@ public class PlayerNetworkingRenderer : NetworkBehaviour
     public Color _color;
     
     private SpriteRenderer _spriteRenderer;
+    private PlayerNetworkingLobby _playerLobby;
 
     private void Awake()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
+        _playerLobby = GetComponent<PlayerNetworkingLobby>();
     }
 
     public override void OnStartLocalPlayer()
@@ -24,13 +26,29 @@ public class PlayerNetworkingRenderer : NetworkBehaviour
         {
             OnColorChanged(_color);
         }
+        else
+        {
+            _playerLobby.OnPlayerReset += ResetColor;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        _playerLobby.OnPlayerReset -= ResetColor;
     }
 
     public void PaintRandom()
     {
         if (!isLocalPlayer) return;
 
-        CmdPaint();
+        CmdPaint(true);
+    }
+
+    private void ResetColor()
+    {
+        if (!isLocalPlayer) return;
+
+        CmdPaint(false);
     }
 
     private void OnColorChanged(Color color)
@@ -40,8 +58,15 @@ public class PlayerNetworkingRenderer : NetworkBehaviour
     }
 
     [Command]
-    private void CmdPaint()
+    private void CmdPaint(bool random)
     {
-        _color = Random.ColorHSV();
+        if (random)
+        {
+            _color = Random.ColorHSV(0.0f, 1.0f, 0.5f, 0.75f, 1.0f, 1.0f);
+        }
+        else
+        {
+            _color = Color.white;
+        }
     }
 }

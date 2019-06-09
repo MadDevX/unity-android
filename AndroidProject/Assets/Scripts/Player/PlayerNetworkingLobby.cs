@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.StateMachines;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,7 @@ using Zenject;
 
 public class PlayerNetworkingLobby : NetworkBehaviour
 {
+    public event Action OnPlayerReset;
     [SerializeField]
     private GameObject _readyIndicator;
     private Player _player;
@@ -116,6 +118,7 @@ public class PlayerNetworkingLobby : NetworkBehaviour
         {
             _playerMovement.SetPosition(_lobbySpawnPoint);
             _player.SetPlayerState(PlayerStates.Waiting);
+            OnPlayerReset?.Invoke();
         }
     }
 
