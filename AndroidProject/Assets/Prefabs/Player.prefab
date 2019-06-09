@@ -314,6 +314,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24ab889480cf9da47937c2c92d453ce7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Nickname: 
 --- !u!114 &5291399896342199443
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -502,7 +503,7 @@ MonoBehaviour:
   m_SyncSpin: 0
   m_MovementTheshold: 0.001
   m_VelocityThreshold: 0.0001
-  m_SnapThreshold: 2
+  m_SnapThreshold: 3
   m_InterpolateRotation: 1
   m_InterpolateMovement: 1
 --- !u!114 &1628021846123751157
