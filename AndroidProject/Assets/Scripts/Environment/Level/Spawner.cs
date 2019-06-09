@@ -26,38 +26,32 @@ public class Spawner : MonoBehaviour
 
     private void Awake()
     {
-        _connManager.SubscribeToInit(ConnectionState.Server, SubscribeMethods);
-        _connManager.SubscribeToInit(ConnectionState.Host, SubscribeMethods);
-        _connManager.SubscribeToInit(ConnectionState.Client, UnsubscribeMethods);
-        _connManager.SubscribeToInit(ConnectionState.Null, UnsubscribeMethods);
-    }
-
-    private void OnDestroy()
-    {
-        _connManager.UnsubscribeFromInit(ConnectionState.Server, SubscribeMethods);
-        _connManager.UnsubscribeFromInit(ConnectionState.Host, SubscribeMethods);
-        _connManager.UnsubscribeFromInit(ConnectionState.Client, UnsubscribeMethods);
-        _connManager.UnsubscribeFromInit(ConnectionState.Null, UnsubscribeMethods);
-    }
-
-    private void SubscribeMethods()
-    {
         _track.OnMapGenerated += GenerateInteractables;
         _track.OnMapCleared += ClearInteractables;
     }
 
-    private void UnsubscribeMethods()
+    private void OnDestroy()
     {
         _track.OnMapGenerated -= GenerateInteractables;
         _track.OnMapCleared -= ClearInteractables;
     }
 
+    private void SubscribeMethods()
+    {
+    }
+
+    private void UnsubscribeMethods()
+    {
+    }
+
     private void GenerateInteractables(int boundsMin, int boundsMax)
     {
-
-        GenerateObstacles(boundsMin, boundsMax);
-        GenerateFinish(boundsMin, boundsMax);
-        GenerateSpawnPoints(boundsMin, boundsMax);
+        if (_connManager.State == ConnectionState.Host)
+        {
+            GenerateObstacles(boundsMin, boundsMax);
+            GenerateFinish(boundsMin, boundsMax);
+            GenerateSpawnPoints(boundsMin, boundsMax);
+        }
     }
 
     private void GenerateObstacles(int boundsMin, int boundsMax)
@@ -106,8 +100,11 @@ public class Spawner : MonoBehaviour
 
     private void ClearInteractables()
     {
-        _gridManager.tilemapInteractable.ClearAllTiles();
-        ClearSpawnPoints();
+        if (_connManager.State == ConnectionState.Host)
+        {
+            _gridManager.tilemapInteractable.ClearAllTiles();
+            ClearSpawnPoints();
+        }
     }
 
     private void ClearSpawnPoints()
