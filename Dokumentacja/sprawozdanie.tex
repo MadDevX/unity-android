@@ -37,15 +37,15 @@ Głównym pomysłem jest, aby rozgrywki były krótkie i trwały około dwudzies
 \chapter*{Użyte technologie}
 \quad Gra napisana została na silniku \textbf{Unity} w wersji 2018.3.8 w języku \textbf{C\#}. Wykorzystaliśmy następujące biblioteki:
 \begin{itemize}
-	\item UNet - implementacja sieciowości, sprawnego łączenia się dwóch lub więcej urządzeń za pomocą sieci,
-	\item Zenject - pomoc w ustrukturyzowaniu kodu, m. in. umożliwienie sprawnego zaimplementowania wzorca \textit{Dependency Injection}, polegającego na ograniczeniu zależności między poszczególnymi komponentami w projekcie.
+	\item \textbf{UNet} - implementacja sieciowości, sprawnego łączenia się dwóch lub więcej urządzeń przez połączenie lokalne (w tym Wi-Fi Direct),
+	\item \textbf{Zenject} - pomoc w ustrukturyzowaniu kodu, głównie poprzez umożliwienie sprawnego zastosowania \textit{Dependency Injection}, polegającego na ograniczeniu zależności między poszczególnymi komponentami w projekcie.
 \end{itemize}
 
-Łączenie się graczy oparte jest na zasadzie host-klient w obrębie jednej sieci. Gracz hostujący ustawia nazwę gry i zaczyna broadcastować ją po sieci, aby reszta graczy mogła do niego dołączyć. Możliwa jest też rozgrywka za pomocą \textbf{Wi-Fi Direct}. W menu zaimplementowane jest GUI, a w nim dostępne są opcje:
+Łączenie się graczy oparte jest na zasadzie klient-host w obrębie jednej sieci. Gracz hostujący ustawia nazwę gry i zaczyna broadcastować ją po sieci, aby reszta graczy mogła do niego dołączyć. Możliwa jest też rozgrywka za pomocą \textbf{Wi-Fi Direct}. W menu zaimplementowane jest GUI, a w nim dostępne są opcje:
 \begin{itemize}
-	\item Znajdź grę - wyszkiwane są udostępniane gry po sieci lokalnej (lub na Wi-Fi Direct). Wyświetlana jest nazwa gry i jej IP. Istnieje także przycisk \textit{refresh}, który pozwala na odświeżenie wykrywanych gier.
-	\item Hostuj grę - udostępnianie gry za pomocą adresu broadcast. Nazwę, jaka będzie widoczna dla innych graczy, można ustalić na początku w Menu.
-	\item Ustaw nick dla postaci - pozwala graczowi ustawić własną nazwę postaci, która będzie się wyświetlać nad postacią, a także w tabeli wyników (tam będzie podświetlona na pomarańczowo).
+	\item Znajdź grę - wyszkiwane są udostępniane gry po sieci lokalnej (lub na Wi-Fi Direct). Wyświetlana jest nazwa gry i jej IP. Istnieje także przycisk \textit{Refresh}, który pozwala na odświeżenie wykrywanych gier.
+	\item Hostuj grę - rozpoczęcie i udostępnianie gry za pomocą adresu broadcast. Nazwę, jaka będzie widoczna dla innych graczy, można ustalić na początku w Menu.
+	\item Ustaw nick dla postaci - pozwala graczowi ustawić własną nazwę postaci, która będzie się wyświetlać nad postacią, a także w tabeli wyników (nazwa lokalnego gracza jest wyróżniona kolorem pomarańczowym).
 \end{itemize}
 Elementy graficzne (sprite'y) zostały pobrane ze strony: 
 \href{https://assetstore.unity.com/}{https://assetstore.unity.com/} i nadają grze unikalnego klimatu.
@@ -53,7 +53,7 @@ Elementy graficzne (sprite'y) zostały pobrane ze strony:
 \chapter*{Przebieg rozgrywki}
 \quad Gdy za pomocą menu uda nam się połączyć z hostem (lub nim jesteśmy) zaczyna się właściwa rozgrywka. Możemy wyróżnić cztery stany gry:
 \begin{enumerate}
-	\item \textbf{Lobby} - jest to miejsce, w którym przebywają gracze, zanim zacznie się wyścig, a także gdzie trafiają po jego zakończeniu. To właśnie w tej fazie gracze mogą do siebie dołączać. Po dołączeniu zostaje im przydzielony unikalny identyfikator (nick) oraz i pojawia się on też w tablicy wynikowej w prawym dolnym rogu wraz z liczbą punktów (na początku zero). Aby przejść do następnej fazy gry, wszyscy obecni w lobby gracze muszą wyrazić gotowość - kliknąć na ekran. Pojawi się wtedy nad nimi "zielony ptaszek".
+	\item \textbf{Lobby} - jest to miejsce, w którym przebywają gracze, zanim zacznie się wyścig, a także gdzie trafiają po jego zakończeniu. To właśnie w tej fazie gracze mogą do siebie dołączać. Po dołączeniu zostaje im przydzielony unikalny identyfikator oraz nick, który pojawia się też w tablicy wynikowej w prawym dolnym rogu wraz z liczbą punktów (na początku zero). Aby przejść do następnej fazy gry, wszyscy obecni w lobby gracze muszą wyrazić gotowość - kliknąć na ekran. Pojawi się wtedy nad nimi "zielony ptaszek". Jest to jedyny stan, w którym broadcastowana jest informacja o rozgrywce oraz podczas którego inni gracze mogą połączyć się z hostem,
 	\item \textbf{Odliczanie} - faza poprzedzająca każdy wyścig, która trwa dokładnie trzy sekundy i na ekranie wyświetlają się cyfry. Ruszyć z miejsca można wtedy, gdy licznik dojdzie do zera.
 	\item \textbf{Wyścig} - główna faza gry, która jest opisana dokładniej poniżej.
 	\item \textbf{Zakończenie} - każdemu graczowi wyświetlany jest napis z informacją o tym czy wygrał, czy też przegrał daną rundę. Gracz, który zwyciężył, otrzymuje punkt. Suma punktów każdego gracza jest widoczna w tabeli w prawym dolnym rogu. Ten stan gry trwa kilka sekund, po czym wszyscy gracze zostają przeniesieni z powrotem do lobby.
@@ -64,11 +64,11 @@ Wyścig rozpoczyna się wraz z momentem zakończenia odliczania. Zaimplementowan
 Postać porusza się tylko do przodu i nie może się cofać. Prędkość gracza rośnie, gdy dotykamy ekranu. Prędkości nie można samemu zmniejszyć - jest to mechanizm, który ma na celu zachęcić gracza do rozważnego przyspieszania swojej postaci. Nie można też przyspieszać w nieskończoność - istnieje prędkość maksymalna. Aby skręcić, należy zrobić swipe w lewo lub w prawo. Gracze nie mogą wchodzić na siebie, tylko blokują się wzajemnie - jest to forma pewnego utrudnienia, zwiększająca jeszcze bardziej element rywalizacji. Plansza jest ograniczona i na jej końcu znajduje się meta. Dodatkowo na planszy generują się losowo przeszkody:
 \begin{itemize}
 	\item Kamień - zabija gracza. Kończy on wtedy swój bieg i musi czekać, aż runda się zakończy.
-	\item Beczka - zmniejsza prędkość gracza do zera, ale nie zabija go.
+	\item Beczka - zmniejsza prędkość gracza do zera oraz losowo zmienia jego kolor, ale nie zabija.
 \end{itemize}
 Gra kończy się, gdy:
 \begin{itemize}
-	\item któryś gracz dobiegnie do mety - jest mu przyznawany punkt. Gracz, który jako drugi dobiegnie oraz kolejni już nie dostają punktu - liczy się tylko najszybszy z nich,
+	\item jeden z graczy dobiegnie do mety - jest mu przyznawany punkt. Żaden kolejny gracz już nie dostanie punktu w danej rundzie - liczy się tylko najszybszy z nich,
 	\item nikt nie dobiegnie do mety, czyli wszyscy gracze zginą po drodze.
 \end{itemize}
 \begin{center}
