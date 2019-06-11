@@ -15,6 +15,7 @@
 \usepackage{makecell}
 \usepackage{graphicx}
 \usepackage{booktabs}
+\usepackage{hyperref}
 \usepackage{svg}
 \graphicspath{{pics/}{../pics/}}
 
@@ -40,7 +41,14 @@ Głównym pomysłem jest, aby rozgrywki były krótkie i trwały około dwudzies
 	\item Zenject - pomoc w ustrukturyzowaniu kodu, m. in. umożliwienie sprawnego zaimplementowania wzorca \textit{Dependency Injection}, polegającego na ograniczeniu zależności między poszczególnymi komponentami w projekcie.
 \end{itemize}
 
-Łączenie się graczy oparte jest na zasadzie host-klient w obrębie jednej sieci. Gracz hostujący musi podać IP, aby reszta graczy mogła do niego dołączyć. Możliwa jest też rozgrywka za pomocą \textbf{Wi-Fi Direct}. Zaimplementowane jest proste GUI, mające na celu usprawnić proces łączenia się, a w polu adresu IP wyświetlają się dostępne adresy.
+Łączenie się graczy oparte jest na zasadzie host-klient w obrębie jednej sieci. Gracz hostujący ustawia nazwę gry i zaczyna broadcastować ją po sieci, aby reszta graczy mogła do niego dołączyć. Możliwa jest też rozgrywka za pomocą \textbf{Wi-Fi Direct}. W menu zaimplementowane jest GUI, a w nim dostępne są opcje:
+\begin{itemize}
+	\item Znajdź grę - wyszkiwane są udostępniane gry po sieci lokalnej (lub na Wi-Fi Direct). Wyświetlana jest nazwa gry i jej IP. Istnieje także przycisk \textit{refresh}, który pozwala na odświeżenie wykrywanych gier.
+	\item Hostuj grę - udostępnianie gry za pomocą adresu broadcast. Nazwę, jaka będzie widoczna dla innych graczy, można ustalić na początku w Menu.
+	\item Ustaw nick dla postaci - pozwala graczowi ustawić własną nazwę postaci, która będzie się wyświetlać nad postacią, a także w tabeli wyników (tam będzie podświetlona na pomarańczowo).
+\end{itemize}
+Elementy graficzne (sprite'y) zostały pobrane ze strony: 
+\href{https://assetstore.unity.com/}{https://assetstore.unity.com/} i nadają grze unikalnego klimatu.
 
 \chapter*{Przebieg rozgrywki}
 \quad Gdy za pomocą menu uda nam się połączyć z hostem (lub nim jesteśmy) zaczyna się właściwa rozgrywka. Możemy wyróżnić cztery stany gry:
