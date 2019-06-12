@@ -32,7 +32,11 @@
 
 \chapter*{Idea}
 \quad Celem naszego projektu bylo dostarczenie aplikacji-gry, w której można łączyć się za pomocą sieci i rywalizować z przyjaciółmi. \textbf{Mad Mad Race} to gra, która składa się z serii krótkich wyścigów, gdzie zwycięża ten zawodnik, któremu uda się zdobyć najwięcej punktów ze wszystkich graczy. Gracz otrzymuje punkt wtedy i tylko wtedy, gdy ukończy wyścig jako pierwszy. \\
-Głównym pomysłem jest, aby rozgrywki były krótkie i trwały około dwudziestu sekund oraz żeby było ich dużo, co ma nadać grze dynamiki, w odróżnieniu od modelu z jedną, długą rundą.
+Głównym pomysłem jest, aby rozgrywki były krótkie i trwały około dwudziestu sekund oraz żeby było ich dużo, co ma nadać grze dynamiki, w odróżnieniu od modelu z jedną, długą rundą.\\\\
+
+\begin{center}
+	\includegraphics[width=0.28\textwidth]{g2.jpg}
+\end{center}
 
 \chapter*{Użyte technologie}
 \quad Gra napisana została na silniku \textbf{Unity} w wersji 2018.3.8 w języku \textbf{C\#}. Wykorzystaliśmy następujące biblioteki:
@@ -49,8 +53,16 @@ Głównym pomysłem jest, aby rozgrywki były krótkie i trwały około dwudzies
 \end{itemize}
 Elementy graficzne (sprite'y) zostały pobrane ze strony: 
 \href{https://assetstore.unity.com/}{https://assetstore.unity.com/} i nadają grze unikalnego klimatu.
+\bigskip
+\begin{center}
+	\includegraphics[width=0.28\textwidth]{g1.jpg}
+\end{center}
 
 \chapter*{Przebieg rozgrywki}
+\begin{center}
+	\includegraphics[width=0.28\textwidth]{g3.jpg}
+\end{center}
+\bigskip
 \quad Gdy za pomocą menu uda nam się połączyć z hostem (lub nim jesteśmy) zaczyna się właściwa rozgrywka. Możemy wyróżnić cztery stany gry:
 \begin{enumerate}
 	\item \textbf{Lobby} - jest to miejsce, w którym przebywają gracze, zanim zacznie się wyścig, a także gdzie trafiają po jego zakończeniu. To właśnie w tej fazie gracze mogą do siebie dołączać. Po dołączeniu zostaje im przydzielony unikalny identyfikator oraz nick, który pojawia się też w tablicy wynikowej w prawym dolnym rogu wraz z liczbą punktów (na początku zero). Aby przejść do następnej fazy gry, wszyscy obecni w lobby gracze muszą wyrazić gotowość - kliknąć na ekran. Pojawi się wtedy nad nimi "zielony ptaszek". Jest to jedyny stan, w którym broadcastowana jest informacja o rozgrywce oraz podczas którego inni gracze mogą połączyć się z hostem,
